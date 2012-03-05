@@ -26,6 +26,8 @@ namespace Soul
         MenuManager menuManager;
         SpriteBatch spriteBatch;
         Soul game;
+        int timeStarted = 0;
+        bool fulhack = true;
         SpriteFont font;
 
         private Sprite bg1;
@@ -161,15 +163,15 @@ namespace Soul
 
         public void shutdown()
         {
-
+            fulhack = true;
         }
 
         public int Update(GameTime gameTime)
         {
-            checkForDeadLights();
-            if (cleansing == true)
+            if (fulhack)
             {
-                LevelCleansed();
+                timeStarted = (int)gameTime.TotalGameTime.TotalMilliseconds;
+                fulhack = false;
             }
 
             if (screenIsDark == true)
@@ -279,7 +281,7 @@ namespace Soul
             if (bool.Parse(game.config.getValue("Debug", "Timestamp")))
             {
                 spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
-                double time = Math.Round((gameTime.TotalGameTime.TotalMilliseconds + double.Parse(game.config.getValue("Debug", "StartingTime"))) / 1000) ;
+                double time = Math.Round((gameTime.TotalGameTime.TotalMilliseconds - timeStarted + double.Parse(game.config.getValue("Debug", "StartingTime"))) / 1000) ;
                 string output = time.ToString();
                 string ambientInfo = "Ambient Light: " + ambientLight.ToString();
                 string ambientAmplifyInfo = "Ambient Amplifier: " + ambientStrength.ToString();
