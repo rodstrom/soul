@@ -168,6 +168,7 @@ namespace Soul
 
         public int Update(GameTime gameTime)
         {
+            checkForDeadLights();
             if (fulhack)
             {
                 timeStarted = (int)gameTime.TotalGameTime.TotalMilliseconds;
