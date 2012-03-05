@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{D8DB658F-85F2-49B2-9431-A9F2AA386C5C}</ProjectGuid>
+    <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Soul</RootNamespace>
+    <AssemblyName>Soul</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
+    <XnaPlatform>Windows</XnaPlatform>
+    <XnaProfile>HiDef</XnaProfile>
+    <XnaCrossPlatformGroupID>b37166f0-6262-4d7a-82e0-9181b5140989</XnaCrossPlatformGroupID>
+    <XnaOutputType>Game</XnaOutputType>
+    <ApplicationIcon>Game.ico</ApplicationIcon>
+    <Thumbnail>GameThumbnail.png</Thumbnail>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+    <PublishUrl>C:\Downloads\hermanstempshits\Soul\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>0.2.1.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <EnableSecurityDebugging>false</EnableSecurityDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\x86\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>false</XnaCompressContent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\x86\Release</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+    <XnaCompressContent>true</XnaCompressContent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>2AB1F00B4E66F4E9B3EF3B0CEC540CEAFFCB7FC7</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Soul.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.GamerServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Xact, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Video, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Avatar, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Storage, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Net">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Code\Graphics\Animation.cs" />
+    <Compile Include="Code\Managers\AudioManager.cs" />
+    <Compile Include="Code\Backgrounds\Background.cs" />
+    <Compile Include="Code\Backgrounds\BackgroundData.cs" />
+    <Compile Include="Code\Managers\BackgroundManager.cs" />
+    <Compile Include="Code\Backgrounds\BackgroundPillar.cs" />
+    <Compile Include="Code\Backgrounds\BGScanner.cs" />
+    <Compile Include="Code\Backgrounds\PillarBatch.cs" />
+    <Compile Include="Code\Backgrounds\ScrollingBackground.cs" />
+    <Compile Include="Code\Entities\Helpers\Circle.cs" />
+    <Compile Include="Code\Entities\Bloodvessel\BloodVessel.cs" />
+    <Compile Include="Code\Entities\Bloodvessel\BlueBloodvessel.cs" />
+    <Compile Include="Code\Entities\Bloodvessel\PurpleBloodvessel.cs" />
+    <Compile Include="Code\Entities\Bloodvessel\RedBloodvessel.cs" />
+    <Compile Include="Code\Managers\CollisionManager.cs" />
+    <Compile Include="Code\Debug\DEBUG_circleLine.cs" />
+    <Compile Include="Code\Entities\Bullet.cs" />
+    <Compile Include="Code\Constants.cs" />
+    <Compile Include="Code\Entities\DarkThought.cs" />
+    <Compile Include="Code\Entities\DarkWhisper.cs" />
+    <Compile Include="Code\Entities\Helpers\EntityData.cs" />
+    <Compile Include="Code\Entities\GlowParticle.cs" />
+    <Compile Include="Code\Entities\Entity.cs" />
+    <Compile Include="Code\Entities\HealthPowerup.cs" />
+    <Compile Include="Code\Entities\InnerDemon.cs" />
+    <Compile Include="Code\Entities\LesserDemon.cs" />
+    <Compile Include="Code\Entities\Nightmare.cs" />
+    <Compile Include="Code\Managers\EntityManager.cs" />
+    <Compile Include="Code\Entities\Helpers\Path.cs" />
+    <Compile Include="Code\Entities\Player.cs" />
+    <Compile Include="Code\Debug\SpawnEnemies.cs" />
+    <Compile Include="Code\Entities\WeaponPowerup.cs" />
+    <Compile Include="Code\Graphics\PlayerShootAnimation.cs" />
+    <Compile Include="Code\Files\SaveData.cs" />
+    <Compile Include="Code\Graphics\FadeInOut.cs" />
+    <Compile Include="Code\Managers\BrainMapManager.cs" />
+    <Compile Include="Code\Graphics\BrainMapMarker.cs" />
+    <Compile Include="Code\Graphics\ImageButton.cs" />
+    <Compile Include="Code\Graphics\HitFX.cs" />
+    <Compile Include="Code\Files\IniFile.cs" />
+    <Compile Include="Code\Managers\MenuManager.cs" />
+    <Compile Include="Code\Levels\Level.cs" />
+    <Compile Include="Code\Managers\LevelManager.cs" />
+    <Compile Include="Code\Levels\LevelReader.cs" />
+    <Compile Include="Code\Managers\InputManager.cs" />
+    <Compile Include="Code\Graphics\Resolution.cs" />
+    <Compile Include="Code\States\ControlsState.cs" />
+    <Compile Include="Code\States\CreditsState.cs" />
+    <Compile Include="Code\States\IntroState.cs" />
+    <Compile Include="Code\States\MenuState.cs" />
+    <Compile Include="Code\States\OptionsState.cs" />
+    <Compile Include="Code\States\PlayState.cs" />
+    <Compile Include="Code\States\State.cs" />
+    <Compile Include="Code\Managers\StateManager.cs" />
+    <Compile Include="Code\States\WorldMap.cs" />
+    <Compile Include="Code\Weapons\DarkThoughtWeapon.cs" />
+    <Compile Include="Code\Weapons\PlayerWeapon.cs" />
+    <Compile Include="Code\Weapons\Weapon.cs" />
+    <Compile Include="Code\Graphics\Widget.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Code\Program.cs" />
+    <Compile Include="Code\Soul.cs" />
+    <Compile Include="Code\Graphics\Sprite.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Game.ico" />
+    <Content Include="GameThumbnail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SoulContent\SoulContent.contentproj">
+      <Name>SoulContent %28Content%29</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{98B22A0D-694E-4900-82B0-122C000C97D1}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Xna.Framework.4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft XNA Framework Redistributable 4.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sole_TemporaryKey.pfx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
+  <!--
+      To modify your build process, add your task inside one of the targets below and uncomment it. 
+      Other similar extension points exist, see Microsoft.Common.targets.
+      <Target Name="BeforeBuild">
+      </Target>
+      <Target Name="AfterBuild">
+      </Target>
+    -->
+</Project>
