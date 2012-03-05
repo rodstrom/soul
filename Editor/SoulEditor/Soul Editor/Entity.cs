@@ -20,6 +20,12 @@ namespace Soul_Editor
         public TransparentControl picture;
         public int id = 0;
         private bool isDragging = false;
+        public LinkedList<Point> path = new LinkedList<Point>();
+        public int lastPoint = 99;
+        public String pathText;
+        public bool isPath = false;
+        public bool pathLoop = true;
+        public bool pathLoopType = true;
 
         public Entity(Form1 form, String type, int x, int y, int id)
         {
@@ -39,6 +45,12 @@ namespace Soul_Editor
             picture.BringToFront();
             picture.MouseDown += new MouseEventHandler(entity_MouseDown);
             picture.MouseUp += new MouseEventHandler(entity_MouseUp);
+            if (isPath)
+            {
+                path.AddFirst(new Point(1280, pos.Y));
+                path.AddFirst(new Point(0, pos.Y));
+                updatePathText();
+            }
             //picture.MouseMove += new MouseEventHandler(entity_MouseMove);
         }
 
@@ -59,10 +71,12 @@ namespace Soul_Editor
             else if (type.Equals("Dark_Thought"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.DarkThought;
+                isPath = true;
             }
             else if (type.Equals("Dark_Whisper"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.DarkWhisper;
+                isPath = true;
             }
             else if (type.Equals("Nightmare"))
             {
@@ -71,6 +85,15 @@ namespace Soul_Editor
             else if (type.Equals("Inner_Demon"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.InnerDemon;
+                isPath = true;
+            }
+            else if (type.Equals("Health_Powerup"))
+            {
+                picture.Image = global::Soul_Editor.Properties.Resources.Health;
+            }
+            else if (type.Equals("Weapon_Powerup"))
+            {
+                picture.Image = global::Soul_Editor.Properties.Resources.Weapon;
             }
             else
             {
@@ -104,7 +127,7 @@ namespace Soul_Editor
             levelTime = new Point(minutes, milliSeconds);
         }
 
-        public void entity_MouseDown(object sender, MouseEventArgs e)
+        private void entity_MouseDown(object sender, MouseEventArgs e)
         {
             if (!isDragging)
             {
@@ -113,7 +136,7 @@ namespace Soul_Editor
             }
         }
 
-        public void entity_MouseMove(object sender, MouseEventArgs e)
+        private void entity_MouseMove(object sender, MouseEventArgs e)
         {
             if (isDragging)
             {
@@ -121,7 +144,7 @@ namespace Soul_Editor
             }
         }
 
-        public void entity_MouseUp(object sender, MouseEventArgs e)
+        private void entity_MouseUp(object sender, MouseEventArgs e)
         {
             if (isDragging)
             {
@@ -131,5 +154,34 @@ namespace Soul_Editor
             }
         }
 
+        public void addPath(int x, int y)
+        {
+            path.AddLast(new Point(x, y));
+            updatePathText();
+        }
+
+        public void changePath(String p)
+        {
+            pathText = p;
+            path.Clear();
+            String[] ps = p.Split('=');
+            foreach (String s in ps)
+            {
+                if(!s.Equals(""))
+                {
+                    String[] ss = s.Split(',');
+                    path.AddLast(new Point(int.Parse(ss[0]), int.Parse(ss[1])));
+                }
+            }
+        }
+
+        private void updatePathText()
+        {
+            pathText = "";
+            foreach (Point p in path)
+            {
+                pathText += p.X.ToString() + "," + p.Y.ToString() + "=";
+            }
+        }
     }
 }

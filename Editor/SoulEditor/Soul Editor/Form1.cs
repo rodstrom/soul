@@ -38,7 +38,7 @@ namespace Soul_Editor
             _items.Add(e);
             e.id = listBox2.Items.Add(e.name);
             //listBox2.DataSource = _items;
-            listBox2.SelectedIndex = e.id;
+            updatePosition(e.id);
             //listBox2.Update();
         }
 
@@ -77,6 +77,12 @@ namespace Soul_Editor
                 minutes.Text = _items.ElementAt(i).levelTime.X.ToString();
                 milliseconds.Text = _items.ElementAt(i).levelTime.Y.ToString();
                 posY.Text = (_items.ElementAt(i).pos.Y * 2).ToString();
+
+                groupBox5.Enabled = _items.ElementAt(i).isPath;
+                textBox1.Text = _items.ElementAt(i).pathText;
+                checkBox3.Checked = _items.ElementAt(i).pathLoop;
+                checkBox2.Checked = _items.ElementAt(i).pathLoopType;
+                checkBox4.Enabled = _items.ElementAt(listBox2.SelectedIndex).type.Equals("DARK_WHISPER");
             }
         }
 
@@ -136,9 +142,12 @@ namespace Soul_Editor
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _items.ElementAt(listBox2.SelectedIndex).picture.Dispose();
-            _items.RemoveAt(listBox2.SelectedIndex);
-            listBox2.Items.RemoveAt(listBox2.SelectedIndex);
+            if (listBox2.SelectedIndex >= 0)
+            {
+                _items.ElementAt(listBox2.SelectedIndex).picture.Dispose();
+                _items.RemoveAt(listBox2.SelectedIndex);
+                listBox2.Items.RemoveAt(listBox2.SelectedIndex);
+            }
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -149,7 +158,7 @@ namespace Soul_Editor
 
         private void button4_Click(object sender, EventArgs e)
         {
-            WriteFile.Write(this, textBox6.Text.ToString());
+            SoulFile.Write(this, textBox6.Text.ToString());
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -179,6 +188,87 @@ namespace Soul_Editor
         private void updateLevelTimeLabel()
         {
             this.label5.Text = startTime + " - " + (this.panel2.Width / 500 + startTime).ToString() + " seconds";
+        }
+
+        private void path_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                _items.ElementAt(listBox2.SelectedIndex).changePath(textBox1.Text); 
+                panel3_Update(_items.ElementAt(listBox2.SelectedIndex));
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            setPath(true);
+        }
+
+        private void setPath(bool set)
+        {
+            panel3.Enabled = set;
+            panel3.Visible = set;
+
+            panel3_Update(_items.ElementAt(listBox2.SelectedIndex));
+
+            panel1.Enabled = !set;
+            panel1.Visible = !set;
+        }
+
+        private void panel3_Update(Entity e)
+        {
+            panel3.CreateGraphics().Clear(Color.Black);
+            System.Drawing.Pen myPen;
+            myPen = new System.Drawing.Pen(System.Drawing.Color.Red);
+            System.Drawing.Graphics g = panel3.CreateGraphics();
+
+            Point prevPath = new Point(0, e.pos.Y);
+            foreach (Point p in e.path)
+            {
+                g.DrawLine(myPen, prevPath, p);
+                prevPath = p;
+            }
+
+            myPen.Dispose();
+            g.Dispose();
+        }
+
+        private void panel3_MouseClick(object sender, MouseEventArgs e)
+        {
+            //Point pos = panel3.PointToClient(e.Location);
+            _items.ElementAt(listBox2.SelectedIndex).addPath(e.X, e.Y);
+            updatePosition(listBox2.SelectedIndex);
+
+            panel3_Update(_items.ElementAt(listBox2.SelectedIndex));
+            //setPath(false);
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            _items.ElementAt(listBox2.SelectedIndex).isPath = checkBox4.Checked;
+            updatePosition(listBox2.SelectedIndex);
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            _items.ElementAt(listBox2.SelectedIndex).pathLoop = checkBox3.Checked;
+            updatePosition(listBox2.SelectedIndex);
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            _items.ElementAt(listBox2.SelectedIndex).pathLoopType = checkBox2.Checked;
+            updatePosition(listBox2.SelectedIndex);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            setPath(false);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SoulFile.Read(_items, textBox6.Text.ToString());
         }
     }
 }

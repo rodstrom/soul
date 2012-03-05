@@ -95,6 +95,13 @@ namespace Soul_Editor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Health {
+            get {
+                object obj = ResourceManager.GetObject("Health", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap InnerDemon {
             get {
                 object obj = ResourceManager.GetObject("InnerDemon", resourceCulture);
@@ -119,6 +126,13 @@ namespace Soul_Editor.Properties {
         internal static System.Drawing.Bitmap RedBloodvessel {
             get {
                 object obj = ResourceManager.GetObject("RedBloodvessel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Weapon {
+            get {
+                object obj = ResourceManager.GetObject("Weapon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

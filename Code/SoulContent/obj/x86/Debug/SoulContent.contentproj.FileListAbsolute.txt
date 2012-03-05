@@ -1,0 +1,2 @@
+C:\SVN\Soul - Sooth Your Mind\branches\herman\Code\SoulContent\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\SVN\Soul - Sooth Your Mind\trunk\ sole-sooth-your-mind\Code\SoulContent\obj\x86\Debug\ResolveAssemblyReference.cache
