@@ -36,7 +36,7 @@ namespace Soul
 
         private List<Light> lights = new List<Light>();
         private Color ambientLight = new Color(1f, 1f, 1f, 1f);
-        private float specularStrenght = 1.0f;
+        private float specularStrenght = 0.5f;
         private float ambientStrength = 1f;
         private float ambientStrenghtScalar = 0.025f;
 
@@ -64,6 +64,9 @@ namespace Soul
         private bool darkenScreen = false;
         private bool brightenScreen = false;
         private bool screenIsDark = false;
+
+        private bool fulhack = true;
+        private int timeStarted;
 
         private double ambientTimer = 0.0;
 
@@ -143,11 +146,17 @@ namespace Soul
 
         public void shutdown()
         {
-
+            fulhack = true;
         }
 
         public int Update(GameTime gameTime)
         {
+            if (fulhack)
+            {
+                timeStarted = (int)gameTime.TotalGameTime.TotalMilliseconds;
+                fulhack = false;
+            }
+
             if (cleansing == true)
             {
                 LevelCleansed();
@@ -260,7 +269,7 @@ namespace Soul
             {
                 spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
                 SpriteFont font = game.Content.Load<SpriteFont>("GUI\\Extrafine");
-                double time = Math.Round((gameTime.TotalGameTime.TotalMilliseconds + double.Parse(game.config.getValue("Debug", "StartingTime"))) / 1000) ;
+                double time = Math.Round((gameTime.TotalGameTime.TotalMilliseconds - timeStarted + double.Parse(game.config.getValue("Debug", "StartingTime"))) / 1000) ;
                 string output = time.ToString();
                 spriteBatch.DrawString(font, output, new Vector2(10f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.End();
