@@ -53,11 +53,19 @@ namespace Soul.Manager
             }
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw()
         {
             foreach (Background background in backgrounds)
             {
                 background.Draw();
+            }
+        }
+
+        public void DrawNormalMap()
+        {
+            foreach (Background background in backgrounds)
+            {
+                background.DrawNormalMap();
             }
         }
 

@@ -29,17 +29,17 @@ namespace Soul
             entityManager.initialize();
 
             levelManager = new LevelManager();
-            Level level = new Level(spriteBatch, game, entityManager, controls, Constants.LEVEL01, "level01");
+            Level level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL01, "level01");
             levelManager.AddLevel(level);
-            level = new Level(spriteBatch, game, entityManager, controls, Constants.LEVEL02, "level02");
+            level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL02, "level02");
             levelManager.AddLevel(level);
-            level = new Level(spriteBatch, game, entityManager, controls, Constants.LEVEL03, "level03");
+            level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL03, "level03");
             levelManager.AddLevel(level);
-            level = new Level(spriteBatch, game, entityManager, controls, Constants.LEVEL04, "level04");
+            level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL04, "level04");
             levelManager.AddLevel(level);
-            level = new Level(spriteBatch, game, entityManager, controls, Constants.LEVEL05, "level05");
+            level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL05, "level05");
             levelManager.AddLevel(level);
-            level = new Level(spriteBatch, game, entityManager, controls, Constants.LEVEL06, "level06");
+            level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL06, "level06");
             levelManager.AddLevel(level);
 
             levelManager.setLevel(data);

@@ -42,6 +42,17 @@ namespace Soul
             {
                 velocity.Y = NextFloat(random, -1.0f, 0.0f);
             }
+
+
+            pointLight = new PointLight()
+            {
+                Color = new Vector4(0f, 0f, 0f, 1f),
+                Power = 1f,
+                LightDecay = 90,
+                Position = new Vector3(0f, 0f, 50f),
+                IsEnabled = true
+            };
+           
         }
 
         public GlowParticle(SpriteBatch spriteBatch, Soul game, string alias, Vector2 position)
@@ -62,6 +73,7 @@ namespace Soul
             if (decrease == true)
             {
                 glowScale -= glowScalePercentage;
+                pointLight.LightDecay = pointLight.LightDecay - 1;
                 if (glowScale <= 0.6f)
                 {
                     decrease = false;
@@ -70,6 +82,7 @@ namespace Soul
             else
             {
                 glowScale += glowScalePercentage;
+                pointLight.LightDecay = pointLight.LightDecay + 1;
                 if (glowScale >= 1.0f)
                 {
                     decrease = true;

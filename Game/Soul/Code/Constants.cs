@@ -33,7 +33,7 @@ namespace Soul
         public const float PLAYER_HEIGHT = 128.0f;
         public const float PLAYER_RADIUS = 128.0f;
         public const float PLAYER_DEACCELERATION = 0.5f;
-        public const int PLAYER_NUMBER_OF_DEATH_GLOWS = 80;
+        public const int PLAYER_NUMBER_OF_DEATH_GLOWS = 10;
         public const string PLAYER_FILENAME = "SpriteSheets\\Avatar move animation B";
         public const string PLAYER_SHOOT_ANIM = "SpriteSheets\\avatar_shoot_anim_A-1";
         public const string PLAYER_GLOW_FILENAME = "Particles\\Heroine Glow Final_2";
@@ -131,8 +131,13 @@ namespace Soul
 
         public const string NORMAL_MAP_FILENAME = "Shaders\\normalmap";
         public const string FLASH_EFFECT_FILENAME = "Shaders\\hit";
+        public const string FLASH_EFFECT_GREEN_FILENAME = "Shaders\\hitGreen";
+        public const string FLASH_EFFECT_RED_FILENAME = "Shaders\\hitRed";
 
         public const string BRAIN_MAP_BG = "BrainMap\\brain_map_base";
+        public const string BRAIN_MAP_STATUS = "BrainMap\\status";
+        public const string BRAIN_MAP_INFECTED = "BrainMap\\infected";
+        public const string BRAIN_MAP_CLEANSED = "BrainMap\\cleansed";
 
         public const string AUDIO_INTRO = "backgroundSound0";
         public const string AUDIO_MENU = "backgroundSound0";
@@ -162,6 +167,42 @@ namespace Soul
         public const string LEVEL04 = "Content\\Levels\\level04.map";
         public const string LEVEL05 = "Content\\Levels\\level05.map";
         public const string LEVEL06 = "Content\\Levels\\level06.map";
+
+        public const string GUI_SLIDER = "GUI\\options_Slider";
+        public const string GUI_SLIDER_MARKER = "GUI\\options_SliderMarker";
+        public const string GUI_EFFECTS_VOLUME = "GUI\\options_EffectsVolume";
+        public const string GUI_MUSIC_VOLUME = "GUI\\options_MusicVolume";
+        public const string GUI_FULLSCREEN = "GUI\\options_Fullscreen";
+        public const string GUI_WINDOWED = "GUI\\options_Windowed";
+        public const string GUI_ARROW_LEFT = "GUI\\arrow_Left";
+        public const string GUI_ARROW_RIGHT = "GUI\\arrow_Right";
+        public const string GUI_BACK = "GUI\\menu_Back";
+        public const string GUI_OPTIONS = "GUI\\menu_Options";
+        public const string GUI_LOGO = "GUI\\logo_SOUL";
+        public const string GUI_MARKER = "GUI\\menu_Marker";
+        public const string GUI_CONTROLS = "GUI\\menu_Controls";
+        public const string GUI_GRAPHICS = "GUI\\gui_graphics";
+        public const string GUI_SOUND = "GUI\\gui_sound";
+        public const string GUI_START = "GUI\\menu_start";
+        public const string GUI_CREDITS = "GUI\\menu_credits";
+        public const string GUI_QUIT = "GUI\\menu_Quit";
+        public const string GUI_DYNAMIC_LIGHTING = "GUI\\gui_dynamicLighting";
+        public const string GUI_HIGH = "GUI\\gui_high";
+        public const string GUI_MEDIUM = "GUI\\gui_medium";
+        public const string GUI_LOW = "GUI\\gui_low";
+        public const string GUI_ON = "GUI\\gui_on";
+        public const string GUI_OFF = "GUI\\gui_off";
+        public const string GUI_SPECULAR = "GUI\\gui_specular";
+        public const string GUI_SCREEN_MODE = "GUI\\gui_screenMode";
+        public const string GUI_RESOLUTION = "GUI\\gui_resolution";
+        public const string GUI_SHOOT = "GUI\\controls_Shoot";
+        public const string GUI_UP = "GUI\\controls_up";
+        public const string GUI_DOWN = "GUI\\controls_down";
+        public const string GUI_LEFT = "GUI\\controls_Left";
+        public const string GUI_RIGHT = "GUI\\controls_Right";
+
+        public const string GUI_FONT = "GUI\\Extrafine";
+
 
     }
 }

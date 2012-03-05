@@ -19,10 +19,14 @@
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <SccProjectName>Svn</SccProjectName>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccAuxPath>Svn</SccAuxPath>
-    <SccProvider>SubversionScc</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <PublishUrl>C:\Downloads\hermanstempshits\Soul\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -52,6 +56,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>false</XnaCompressContent>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -129,7 +134,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Backgrounds\Memory.cs" />
     <Compile Include="Code\Graphics\Animation.cs" />
+    <Compile Include="Code\Graphics\GlowFX.cs" />
+    <Compile Include="Code\Graphics\Label.cs" />
+    <Compile Include="Code\Graphics\Light\Light.cs" />
+    <Compile Include="Code\Graphics\Light\PointLight.cs" />
+    <Compile Include="Code\Graphics\Selection.cs" />
+    <Compile Include="Code\Graphics\VolumeSlider.cs" />
     <Compile Include="Code\Managers\AudioManager.cs" />
     <Compile Include="Code\Backgrounds\Background.cs" />
     <Compile Include="Code\Backgrounds\BackgroundData.cs" />
@@ -175,6 +187,8 @@
     <Compile Include="Code\Levels\LevelReader.cs" />
     <Compile Include="Code\Managers\InputManager.cs" />
     <Compile Include="Code\Graphics\Resolution.cs" />
+    <Compile Include="Code\Managers\MenuManagerOptions.cs" />
+    <Compile Include="Code\Managers\MenuStateManager.cs" />
     <Compile Include="Code\States\ControlsState.cs" />
     <Compile Include="Code\States\CreditsState.cs" />
     <Compile Include="Code\States\IntroState.cs" />

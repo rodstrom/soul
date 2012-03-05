@@ -44,6 +44,7 @@ namespace Soul
         protected SpriteBatch spriteBatch;
         protected Soul game;
         protected AudioManager audio;
+        protected PointLight pointLight = null;
 
         protected string alias;
         protected float scale = 1.0f;
@@ -288,6 +289,26 @@ namespace Soul
         public virtual void Update(GameTime gameTime)
         {
             sprite.Update(gameTime);
+        }
+
+        public PointLight PointLight
+        {
+            get
+            {
+                if (pointLight != null)
+                {
+                    return pointLight;
+                }
+                return null;
+            }
+        }
+
+        public void RemoveLight()
+        {
+            if (pointLight != null)
+            {
+                pointLight.dead = true;
+            }
         }
 
         public abstract void onCollision(Entity entity);

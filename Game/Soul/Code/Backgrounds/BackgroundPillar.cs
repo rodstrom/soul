@@ -11,6 +11,7 @@ namespace Soul
     {
         
         private Sprite sprite = null;
+        private Sprite normal = null;
         private uint timer = 0;
         private uint appearTime = 0;
         private Rectangle screenSize;
@@ -18,6 +19,8 @@ namespace Soul
         public BackgroundPillar(SpriteBatch spriteBatch, Soul game, string filename, uint appearTime, float scrollSpeed, float layer)
         {
             sprite = new Sprite(spriteBatch, game, filename);
+            filename += "_depth";
+            normal = new Sprite(spriteBatch, game, filename);
             this.layer = layer;
             this.scrollSpeed = scrollSpeed;
             if (scrollSpeed > 0.0f)
@@ -66,6 +69,14 @@ namespace Soul
             if (visible == true)
             {
                 sprite.Draw(position, Color.White, 0f, new Vector2(0f), 1f, SpriteEffects.None, layer);
+            }
+        }
+
+        public override void DrawNormalMap()
+        {
+            if (visible == true)
+            {
+                normal.Draw(position, Color.White, 0f, new Vector2(0f), 1f, SpriteEffects.None, layer);
             }
         }
 

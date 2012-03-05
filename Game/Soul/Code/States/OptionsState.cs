@@ -34,6 +34,11 @@ namespace Soul
         Texture2D textSoul;
         Texture2D marker;
         Texture2D textControls;
+
+        VolumeSlider volumeSlider = null;
+        Selection selectionTest = null;
+
+        string fullScreenSel = "Fullscreen";
         //IniFile config;
 
         public OptionsState(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, GraphicsDeviceManager graphics, LinkedList<DisplayMode> displayModes, InputManager controls, string id) : base(spriteBatch, game, audioManager, controls, id) 
@@ -71,6 +76,10 @@ namespace Soul
             options.Add("effects");
             options.Add("fullscreen");
             options.Add("resolution");
+            volumeSlider = new VolumeSlider(spriteBatch, game, audio, new Vector2((float)game.Window.ClientBounds.Width * 0.5f, 100f), "test");
+            selectionTest = new Selection(spriteBatch, game, new Vector2(game.Window.ClientBounds.Width * 0.5f, 250f), "testing");
+            selectionTest.AddSelection("Fullscreen", Constants.GUI_FULLSCREEN);
+            selectionTest.AddSelection("Windowed", Constants.GUI_WINDOWED);
             fade.FadeIn();
         }
 
@@ -89,6 +98,13 @@ namespace Soul
 
         public override bool Update(GameTime gameTime)
         {
+            //volumeSlider.UpdateVolume(MediaPlayer.Volume);
+
+            if (controls.Debug)
+            {
+                fullScreenSel = "Windowed";
+            }
+
             if (controls.Pause)
             {
                 nextState = "MenuState";
@@ -156,7 +172,8 @@ namespace Soul
             bg.Draw(Vector2.Zero, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
             OptionsMenu();
-
+            volumeSlider.Draw();
+            //selectionTest.Draw();
             fade.Draw();
             spriteBatch.End();
         }

@@ -47,6 +47,7 @@ namespace Soul
             mapManager.initialize();
             fadeInOut.Reset();
             fadeInOut.FadeIn();
+            
         }
 
         public override void shutdown()

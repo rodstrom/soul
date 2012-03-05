@@ -18,6 +18,17 @@ namespace Soul
             this.velocity = velocity;
             this.damage = damage;
             this.hitRadius = Constants.BULLET_RADIUS;
+            if (type == EntityType.PLAYER_BULLET)
+            {
+                pointLight = new PointLight()
+                {
+                    Color = new Vector4(1f, 1f, 1f, 1f),
+                    Power = 1f,
+                    LightDecay = 90,
+                    Position = new Vector3(0f, 0f, 50f),
+                    IsEnabled = true
+                };
+            }
         }
 
         public override void Draw()
@@ -28,10 +39,20 @@ namespace Soul
         public override void Update(GameTime gameTime)
         {
             position += velocity;
+            if (pointLight != null)
+            {
+                pointLight.Position = new Vector3(position.X, position.Y, pointLight.Position.Z);
+            }
 
             if (decrease == true)
             {
                 scale -= scalePercentage;
+
+                if (pointLight != null)
+                {
+                    pointLight.LightDecay = pointLight.LightDecay - 1;
+                }
+
                 if (scale <= 0.6f)
                 {
                     decrease = false;
@@ -40,6 +61,12 @@ namespace Soul
             else
             {
                 scale += scalePercentage;
+
+                if (pointLight != null)
+                {
+                    pointLight.LightDecay = pointLight.LightDecay + 1;
+                }
+
                 if (scale >= 1.0f)
                 {
                     decrease = true;

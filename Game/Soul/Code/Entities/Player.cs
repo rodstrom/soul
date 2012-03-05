@@ -20,6 +20,9 @@ namespace Soul
             MOVING_BACKWARDS
         };
 
+        public delegate void NightmareHit();
+        public event NightmareHit nightmareHit = null; 
+
         private List<Entity> lesserDemonList = new List<Entity>();
 
         private PlayerWeapon weapon;
@@ -39,7 +42,6 @@ namespace Soul
         private float dieScaleMax = 1.5f;
         private float dieScalePercentage = 0.08f;
 
-        private int lives = 3;
         private bool movingForward = false;
         private bool movingBackwards = false;
         private bool lesserDemonStuck = false;
@@ -68,7 +70,15 @@ namespace Soul
             this.animation.FrameRate = 30;
 
             playerAnimShoot = new PlayerShootAnimation(spriteBatch, game);
-
+            
+            pointLight = new PointLight()
+            {
+                Color = new Vector4(1f, 1f, 1f, 1f),
+                Power = 1f,
+                LightDecay = 300,
+                Position = new Vector3(0f, 0f, 100f),
+                IsEnabled = true
+            }; 
         }
 
         public override void Draw()
@@ -130,6 +140,7 @@ namespace Soul
                 if (decrease == true)
                 {
                     glowScale -= glowScalePercentage;
+                    pointLight.LightDecay = pointLight.LightDecay - 1;
                     if (glowScale <= 0.7f)
                     {
                         decrease = false;
@@ -138,6 +149,7 @@ namespace Soul
                 else
                 {
                     glowScale += glowScalePercentage;
+                    pointLight.LightDecay = pointLight.LightDecay + 1;
                     if (glowScale >= 1.0f)
                     {
                         decrease = true;
@@ -146,6 +158,11 @@ namespace Soul
 
                 animation.Animate(gameTime);
                 Move(gameTime);
+                /*pointLight.Position = new Vector3(
+                ((float)Math.Sin(gameTime.TotalGameTime.TotalSeconds * 2) * 200) + 450,
+                ((float)Math.Cos(gameTime.TotalGameTime.TotalSeconds * 2) * 200) + 350,
+                pointLight.Position.Z);*/
+                pointLight.Position = new Vector3(position.X, position.Y, pointLight.Position.Z);
                 
             }
             else
@@ -169,11 +186,12 @@ namespace Soul
                         {
                             glowParticle = new GlowParticle(spriteBatch, game, "glow_death" + i.ToString(), position, random);
                             entityManager.addEntity(glowParticle);
+                            entityManager.AddPointLight(glowParticle.PointLight);
                         }
                             killMe = true;
                     }
                 }
-            }  
+            }
         }
 
         #region move
@@ -391,6 +409,13 @@ namespace Soul
             {
                 health -= entity.getDamage();
                 hitFx.Hit();
+                if (entity.Type == EntityType.NIGHTMARE)
+                {
+                    if (nightmareHit != null)
+                    {
+                        nightmareHit();
+                    }
+                }
             }
 
             if (entity.Type == EntityType.HEALTH_POWERUP)

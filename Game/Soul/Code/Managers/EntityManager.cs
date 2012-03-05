@@ -14,6 +14,7 @@ namespace Soul.Manager
         private List<Entity> killList = new List<Entity>();
         private List<Bullet> bulletList = new List<Bullet>();
         private List<EntityData> queueList = new List<EntityData>();
+        private List<Light> lights;
 
         private CollisionManager collisionManager = null;
         private Random random;
@@ -41,6 +42,16 @@ namespace Soul.Manager
         public void AddEntityDataList(List<EntityData> queueList)
         {
             this.queueList = queueList;
+        }
+
+        public void AddLightList(List<Light> lights)
+        {
+            this.lights = lights;
+        }
+
+        public void AddPointLight(PointLight light)
+        {
+            lights.Add(light);
         }
 
         public void initialize()
@@ -272,6 +283,10 @@ namespace Soul.Manager
         public void addBullet(Bullet bullet)
         {
             bulletList.Add(bullet);
+            if (bullet.Type == EntityType.PLAYER_BULLET)
+            {
+                lights.Add(bullet.PointLight);
+            }
         }
 
         public Entity findPlayer()
@@ -404,6 +419,16 @@ namespace Soul.Manager
                 darkWhisper.position = entityData.Position;
                 addEntity(darkWhisper);
             }
+            else if (entityData.Type == EntityType.WEAPON_POWERUP)
+            {
+                WeaponPowerup wpnPowerup = new WeaponPowerup(spriteBatch, game, "wpnPowerup" + enemySpawnCounter.ToString(), entityData.Position);
+                addEntity(wpnPowerup);
+            }
+            else if (entityData.Type == EntityType.HEALTH_POWERUP)
+            {
+                HealthPowerup healthPowerup = new HealthPowerup(spriteBatch, game, "healthPowerup" + enemySpawnCounter.ToString(), entityData.Position);
+                addEntity(healthPowerup);
+            }
 
             enemySpawnCounter++;
         }
@@ -416,6 +441,54 @@ namespace Soul.Manager
             killList.Clear();
             bulletList.Clear();
             queueList.Clear();
+        }
+
+        public int BulletListSize { get { return bulletList.Count; } }
+        public int EntityListSize { get { return entityList.Count; } }
+
+        public PointLight getGlowLight(int i)
+        {
+            if (i < 0 || i > entityList.Count)
+            {
+                return null;
+            }
+
+            if (entityList[i].Type != EntityType.DIE_PARTICLE)
+            {
+                return null;
+            }
+
+            return entityList[i].PointLight;
+        }
+
+        public Bullet BulletPosition(int i)
+        {
+            if (i < 0 || i > bulletList.Count)
+            {
+                return null;
+            }
+
+            if (bulletList[i].Type != EntityType.PLAYER_BULLET)
+            {
+                return null;
+            }
+
+            return bulletList[i];
+        }
+
+        public PointLight PlayerPointLight()
+        {
+            return player.PointLight;
+        }
+
+        public PointLight BulletPointLight(int i)
+        {
+            if (i < 0 || i > bulletList.Count)
+            {
+                return null;
+            }
+
+            return bulletList[i].PointLight;
         }
     }
 }

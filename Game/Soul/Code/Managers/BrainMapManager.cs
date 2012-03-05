@@ -10,7 +10,7 @@ namespace Soul.Manager
     class BrainMapManager
     {
         public delegate void ButtonEventHandler(bool value);
-        public event ButtonEventHandler onClick = null;
+        //public event ButtonEventHandler onClick = null;
         private Sprite bg = null;
         private Vector2 offset = Vector2.Zero;
         private Vector2 position = Vector2.Zero;
@@ -118,6 +118,7 @@ namespace Soul.Manager
             currentLevel = brainMapMarker.ID;
             fadeinOut.Reset();
             fadeinOut.FadeOut();
+            menuManager.FadeIn();
             showMenu = true;
         }
 
@@ -132,6 +133,7 @@ namespace Soul.Manager
                 showMenu = false;
                 fadeinOut.FadeIn();
                 mapList[_x][_y].Deselect();
+                menuManager.FadeOut();
                 menuManager.Reset();
             }
         }

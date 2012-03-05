@@ -11,12 +11,20 @@ namespace Soul
     class MenuState : State
     {
         MenuManager menuManager;
+        MenuStateManager menuStateManager = null; 
         Sprite bg;
         Sprite logo;
         FadeInOut fade;
+        GlowFX glowFX;
+        GraphicsDeviceManager graphics  =  null;
+        LinkedList<DisplayMode> displayModes;
         private bool quit = false;
 
-        public MenuState(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, InputManager controls, string id) : base(spriteBatch, game, audioManager, controls, id) { }
+        public MenuState(SpriteBatch spriteBatch, Soul game, GraphicsDeviceManager graphics, LinkedList<DisplayMode> displayModes, AudioManager audioManager, InputManager controls, string id) : base(spriteBatch, game, audioManager, controls, id)
+        {
+            this.graphics = graphics;
+            this.displayModes = displayModes;
+        }
 
         public override void initialize(string data)
         {
@@ -39,6 +47,9 @@ namespace Soul
             menuManager.AddButton(button);
             menuManager.initialize();
             audio.playMusic(Constants.AUDIO_MENU);
+            glowFX = new GlowFX(game);
+            menuStateManager = new MenuStateManager(spriteBatch, game, graphics, displayModes, controls, audio);
+            menuStateManager.Initialize();
             fade.FadeIn();
         }
 
@@ -60,9 +71,29 @@ namespace Soul
             {
                 fade.FadeOut();
                 quit = true;
-            } 
-            
-            menuManager.Update(gameTime);
+            }
+
+            int value = menuStateManager.Update(gameTime);
+            if (value == -1)
+            {
+                quit = true;
+                fade.FadeOut();
+            }
+            else if (value == 1)
+            {
+                nextState = "WorldMapState";
+                glowFX.glowMax = .9f;
+                glowFX.glowFx = .9f;
+                glowFX.glowScalar = 0.005f;
+                fade.FadeOut();
+            }
+            else if (value == 3)
+            {
+                nextState = "ControlsState";
+                fade.FadeOut();
+            }
+
+            /*menuManager.Update(gameTime);
             if (controls.MoveDownOnce == true)
             {
                 menuManager.increment();
@@ -70,7 +101,8 @@ namespace Soul
             else if (controls.MoveUpOnce == true)
             {
                 menuManager.decrement();
-            }
+            }*/
+
 
             if (fade.FadeOutDone == true)
             {
@@ -86,19 +118,27 @@ namespace Soul
             else if (fade.IsFading == true)
             {
                 fade.Update(gameTime);
+                
             }
-
+            glowFX.Update();
             return changeState;
         }
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin(0, null, null, null, null, null, Resolution.getTransformationMatrix());
-            bg.Draw(new Vector2(0f, 0f), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            logo.Draw(new Vector2(50f, 0f), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            menuManager.Draw();
-            fade.Draw();
-            spriteBatch.End();
+                spriteBatch.Begin(0, null, null, null, null, null, Resolution.getTransformationMatrix());
+                bg.Draw(new Vector2(0f, 0f), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                spriteBatch.End();
+
+                spriteBatch.Begin(0, null, null, null, null, glowFX.Effect, Resolution.getTransformationMatrix());
+                logo.Draw(new Vector2(50f, 0f), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                spriteBatch.End();
+
+                spriteBatch.Begin(0, null, null, null, null, null, Resolution.getTransformationMatrix());
+                //menuManager.Draw();
+                menuStateManager.Draw();
+                fade.Draw();
+                spriteBatch.End();
         }
 
         private void OnButtonPress(ImageButton button)
@@ -106,6 +146,9 @@ namespace Soul
             if (button.ID == "start")
             {
                 nextState = "WorldMapState";
+                glowFX.glowMax = .9f;
+                glowFX.glowFx = .9f;
+                glowFX.glowScalar = 0.005f;
                 fade.FadeOut();
             }
             else if (button.ID == "options")

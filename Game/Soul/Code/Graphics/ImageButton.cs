@@ -90,15 +90,16 @@ namespace Soul
                     onClick(this);
                 }
             }
+            base.Update(gameTime);
         }
 
         public override void Draw()
         {
             if (show == true)
             {
-                hover.Draw(position, Color.White, 0.0f, glowOffset, glowScale, SpriteEffects.None, 0.0f);
+                hover.Draw(position, new Color(alpha, alpha, alpha, alpha), 0.0f, glowOffset, glowScale, SpriteEffects.None, 0.0f);
             }
-            button.Draw(position, Color.White, 0.0f, offset, 1.0f, SpriteEffects.None, 0.0f);
+            button.Draw(position, new Color(alpha, alpha, alpha, alpha), 0.0f, offset, 1.0f, SpriteEffects.None, 0.0f);
         }
 
         public Vector2 ActualPosition

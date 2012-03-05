@@ -67,7 +67,7 @@ namespace Soul
             controls = new InputManager(this);
             State state = new IntroState(spriteBatch, this, audioManager, controls, "IntroState");
             stateManager.AddState(state);
-            state = new MenuState(spriteBatch, this, audioManager, controls, "MenuState");
+            state = new MenuState(spriteBatch, this, graphics, displayModes, audioManager, controls, "MenuState");
             stateManager.AddState(state);
             state = new OptionsState(spriteBatch, this, audioManager, graphics, displayModes, controls, "OptionsState");
             stateManager.AddState(state);

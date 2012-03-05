@@ -16,6 +16,7 @@ namespace Soul
         private bool wait = false;
         private BGScanner scanner;
         private Sprite sprite;
+        private Sprite normal; 
 
         public ScrollingBackground(SpriteBatch spriteBatch, Soul game, string filename, string id, uint startTime, uint deleteTime, float scrollSpeed, float layer)
         {
@@ -31,6 +32,8 @@ namespace Soul
             this.id = id;
             this.layer = layer;
             sprite = new Sprite(spriteBatch, game, filename);
+            filename += "_depth";
+            normal = new Sprite(spriteBatch, game, filename);
             if (startTime != 0)
             {
                 scanner = new BGScanner(game, new Vector2(sprite.X, sprite.Y), scrollSpeed, false);
@@ -71,6 +74,15 @@ namespace Soul
             {
                 sprite.Draw(scanner.Position2, scanner.Rect2, Color.White, 0f, new Vector2(0f), 1f, SpriteEffects.None, layer);
                 sprite.Draw(scanner.Position1, scanner.Rect1, Color.White, 0f, new Vector2(0f), 1f, SpriteEffects.None, layer);
+            }
+        }
+
+        public override void DrawNormalMap()
+        {
+            if (visible == true)
+            {
+                normal.Draw(scanner.Position2, scanner.Rect2, Color.White, 0f, new Vector2(0f), 1f, SpriteEffects.None, layer);
+                normal.Draw(scanner.Position1, scanner.Rect1, Color.White, 0f, new Vector2(0f), 1f, SpriteEffects.None, layer);
             }
         }
 
