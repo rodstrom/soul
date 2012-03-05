@@ -148,6 +148,17 @@ namespace Soul
             return false;
         }
 
+        public override void DrawNormalMap()
+        {
+            if (pillarList.Count > 0)
+            {
+                foreach (BackgroundPillar bg in pillarList)
+                {
+                    bg.DrawNormalMap();
+                }
+            }
+        }
+
         private void CreateFileNameList()
         {
             fileNameList.Add(Constants.PILLAR_1);

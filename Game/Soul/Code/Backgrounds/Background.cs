@@ -40,8 +40,14 @@ namespace Soul
             disposed = true;
         }
 
+        public virtual void initialize()
+        {
+
+        }
+
         public abstract void Update(GameTime gameTime);
         public abstract void Draw();
+        public abstract void DrawNormalMap();
 
         public float Layer { get { return layer; } }
         public bool Visible { get { return visible; } }

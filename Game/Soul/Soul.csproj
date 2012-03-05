@@ -19,10 +19,14 @@
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <SccProjectName>Svn</SccProjectName>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccAuxPath>Svn</SccAuxPath>
-    <SccProvider>SubversionScc</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <PublishUrl>C:\Downloads\hermanstempshits\Soul\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -129,7 +133,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Backgrounds\Memory.cs" />
     <Compile Include="Code\Graphics\Animation.cs" />
+    <Compile Include="Code\Graphics\GlowFX.cs" />
+    <Compile Include="Code\Graphics\Light\Light.cs" />
+    <Compile Include="Code\Graphics\Light\PointLight.cs" />
     <Compile Include="Code\Managers\AudioManager.cs" />
     <Compile Include="Code\Backgrounds\Background.cs" />
     <Compile Include="Code\Backgrounds\BackgroundData.cs" />

@@ -17,17 +17,17 @@ namespace Soul
         private Sprite status = null;
         private Sprite statusSecond = null;
         private InputManager controls = null;
-        private Effect glow = null;
-        private float glowMax = 0.8f;
-        private float glowValue = 0.3f;
-        private float glowScaler = 0.008f;
+        private GlowFX glowFX = null;
+        //private float glowMax = 0.8f;
+        //private float glowValue = 0.3f;
+        //private float glowScaler = 0.008f;
         private float scale = 1f;
         private float scaleProcent = 0.008f;
         private bool scaleUp = false;
         private bool scaleDown = false;
-        private bool glowing = false;
+        //private bool glowing = false;
         public int alpha = 0;
-        public int sAlpha = 0;
+        public int sAlpha = 1;
         public bool scaleStatusUp = false;
         public bool scaleStatusDown = false;
         private int alphaScaler = 10;
@@ -42,22 +42,24 @@ namespace Soul
             marker = new Sprite(spriteBatch, game, filename);
             this.controls = controls;
             this.position = position;
-            glow = game.Content.Load<Effect>("Shaders\\hit");
             offset = new Vector2((float)marker.X * 0.5f, (float)marker.Y * 0.5f);
-            status = new Sprite(spriteBatch, game, "BrainMap\\status");
+            status = new Sprite(spriteBatch, game, Constants.BRAIN_MAP_STATUS);
             if (cleansed == true)
             {
-                statusSecond = new Sprite(spriteBatch, game, "BrainMap\\cleansed");
+                statusSecond = new Sprite(spriteBatch, game, Constants.BRAIN_MAP_CLEANSED);
+                glowFX = new GlowFX(game, Constants.FLASH_EFFECT_GREEN_FILENAME, 0.01f, .4f, .8f);
             }
             else
             {
-                statusSecond = new Sprite(spriteBatch, game, "BrainMap\\infected");
+                statusSecond = new Sprite(spriteBatch, game, Constants.BRAIN_MAP_INFECTED);
+                glowFX = new GlowFX(game, Constants.FLASH_EFFECT_RED_FILENAME, 0.01f, .4f, .8f);
             }
 
         }
 
         public override void Update(GameTime gameTime)
         {
+            
             if (scaleStatusUp == true)
             {
                 sAlpha += (alphaScaler);
@@ -79,7 +81,7 @@ namespace Soul
 
             if (hasFocus == true && disappearing == false)
             {
-                GlowControl();
+                glowFX.Update();
             }
 
             if (disappearing == true || appearing == true)
@@ -120,7 +122,7 @@ namespace Soul
                 }
                 else
                 {
-                    marker.Draw(position, new Color(alpha, alpha, alpha, alpha), 0f, offset, scale, SpriteEffects.None, 0f, glow);
+                    marker.Draw(position, new Color(alpha, alpha, alpha, alpha), 0f, offset, scale, SpriteEffects.None, 0f, glowFX.Effect);
                     if (sAlpha > 0)
                     {
                         status.Draw(new Vector2(50f, 50f), new Color(sAlpha, sAlpha, sAlpha, sAlpha), 0f, new Vector2(0f), 1f, SpriteEffects.None, 0f);
@@ -143,7 +145,7 @@ namespace Soul
             disappearing = true; 
         }
 
-        private void GlowControl()
+        /*private void GlowControl()
         {
             if (glowValue > glowMax)
             {
@@ -164,7 +166,7 @@ namespace Soul
                 glowValue -= glowScaler;
                 glow.Parameters["Percentage"].SetValue(glowValue);
             }
-        }
+        }*/
 
         private void FadeInOut()
         {

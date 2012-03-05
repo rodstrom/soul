@@ -417,5 +417,37 @@ namespace Soul.Manager
             bulletList.Clear();
             queueList.Clear();
         }
+
+        public int BulletListSize { get { return bulletList.Count; } }
+
+        public Bullet BulletPosition(int i)
+        {
+            if (i < 0 || i > bulletList.Count)
+            {
+                return null;
+            }
+
+            if (bulletList[i].Type != EntityType.PLAYER_BULLET)
+            {
+                return null;
+            }
+
+            return bulletList[i];
+        }
+
+        public PointLight PlayerPointLight()
+        {
+            return player.PointLight;
+        }
+
+        public PointLight BulletPointLight(int i)
+        {
+            if (i < 0 || i > bulletList.Count)
+            {
+                return null;
+            }
+
+            return bulletList[i].PointLight;
+        }
     }
 }

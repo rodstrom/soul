@@ -131,8 +131,13 @@ namespace Soul
 
         public const string NORMAL_MAP_FILENAME = "Shaders\\normalmap";
         public const string FLASH_EFFECT_FILENAME = "Shaders\\hit";
+        public const string FLASH_EFFECT_GREEN_FILENAME = "Shaders\\hitGreen";
+        public const string FLASH_EFFECT_RED_FILENAME = "Shaders\\hitRed";
 
         public const string BRAIN_MAP_BG = "BrainMap\\brain_map_base";
+        public const string BRAIN_MAP_STATUS = "BrainMap\\status";
+        public const string BRAIN_MAP_INFECTED = "BrainMap\\infected";
+        public const string BRAIN_MAP_CLEANSED = "BrainMap\\cleansed";
 
         public const string AUDIO_INTRO = "backgroundSound0";
         public const string AUDIO_MENU = "backgroundSound0";

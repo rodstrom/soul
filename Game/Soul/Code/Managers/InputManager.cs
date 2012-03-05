@@ -22,6 +22,7 @@ namespace Soul.Manager
         private bool moveDownOnce = false;
         private bool shootingOnce = false;
         private bool pauseOnce = false;
+        private bool debugOnce = false;
         //private IniFile config;
 
         public Keys up;
@@ -30,6 +31,7 @@ namespace Soul.Manager
         public Keys left;
         public Keys shoot;
         public Keys pause;
+        public Keys debug;
 
         Soul game;
 
@@ -44,6 +46,7 @@ namespace Soul.Manager
             left = setKey(game.config.getValue("Controls", "Left"));
             shoot = setKey(game.config.getValue("Controls", "Shoot"));
             pause = setKey(game.config.getValue("Controls", "Pause"));
+            debug = Keys.P;
         }
 
         private Keys setKey(String newKey)
@@ -218,6 +221,17 @@ namespace Soul.Manager
                 pauseOnce = false;
             }
 
+            if (keyState.IsKeyUp(debug) == true && oldKeyState.IsKeyDown(debug) == true)
+            {
+                debugOnce = true;
+            }
+            else
+            {
+                debugOnce = false;
+            }
+
+
+
             keyProblems();
 
             oldKeyState = keyState;
@@ -333,6 +347,11 @@ namespace Soul.Manager
         public bool Pause
         {
             get { return pauseOnce; }
+        }
+
+        public bool Debug
+        {
+            get { return debugOnce; }
         }
         #endregion getKeys
     }

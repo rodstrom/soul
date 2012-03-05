@@ -61,6 +61,14 @@ namespace Soul.Manager
             }
         }
 
+        public void DrawNormalMap(GameTime gameTime)
+        {
+            foreach (Background background in backgrounds)
+            {
+                background.DrawNormalMap();
+            }
+        }
+
         private void checkQueueList()
         {
             if (queueList.Count > 10)
