@@ -370,7 +370,13 @@ namespace Soul.Manager
 
         private void SpawnEnemy(EntityData entityData, GameTime gameTime)
         {
-            if (entityData.Type == EntityType.NIGHTMARE)
+            if (entityData.Type == EntityType.BOSS)
+            {
+                Boss boss = new Boss(spriteBatch, game, gameTime, "boss" + enemySpawnCounter.ToString(), this);
+                boss.position = entityData.Position;
+                addEntity(boss);
+            }
+            else if (entityData.Type == EntityType.NIGHTMARE)
             {
                 Nightmare nightmare = new Nightmare(spriteBatch, game, this, "nightmare" + enemySpawnCounter.ToString());
                 nightmare.onDie += new Nightmare.PowerupReleaseHandle(ReleasePowerup);

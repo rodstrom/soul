@@ -22,11 +22,11 @@ namespace Soul
         private float scaleProcent = 0.008f;
         private bool scaleUp = false;
         private bool scaleDown = false;
-        public int alpha = 0;
+        public new int alpha = 0;
         public int sAlpha = 1;
         public bool scaleStatusUp = false;
         public bool scaleStatusDown = false;
-        private int alphaScaler = 10;
+        private new int alphaScaler = 10;
         private bool selected = false;
         private bool appearing = false;
         private bool disappearing = false;

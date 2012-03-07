@@ -21,7 +21,8 @@ namespace Soul
         WEAPON_POWERUP,
         HEALTH_POWERUP,
         DARK_WHISPER,
-        DARK_WHISPER_SPIKE
+        DARK_WHISPER_SPIKE,
+        BOSS
     };
 
     static class Program

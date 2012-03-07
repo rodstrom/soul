@@ -11,6 +11,11 @@ namespace Soul
         public const int RESOLUTION_VIRTUAL_WIDTH = 1280;
         public const int RESOLUTION_VIRTUAL_HEIGHT = 720;
 
+        public const int BOSS_WIDTH = 155;
+        public const int BOSS_HEIGHT = 720;
+        public const int BOSS_MAX_HEALTH = 200;
+        public const string BOSS_FILENAME = "Spritesheets\\Boss";
+
         public const int WEAPON_LEVEL_LOWEST = 0;
         public const int WEAPON_LEVEL_HIGHEST = 5;
         public const float WEAPON_DIMENSION = 50.0f;

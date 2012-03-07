@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Backgrounds\Memory.cs" />
+    <Compile Include="Code\Entities\Boss.cs" />
     <Compile Include="Code\Graphics\Animation.cs" />
     <Compile Include="Code\Graphics\GlowFX.cs" />
     <Compile Include="Code\Graphics\Label.cs" />
