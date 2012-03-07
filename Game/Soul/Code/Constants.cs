@@ -14,7 +14,9 @@ namespace Soul
         public const int BOSS_WIDTH = 155;
         public const int BOSS_HEIGHT = 720;
         public const int BOSS_MAX_HEALTH = 200;
+        public const int BOSS_DAMAGE = 20;
         public const string BOSS_FILENAME = "Spritesheets\\Boss";
+        public const string BOSS_BULLET_FILENAME = "Particles\\bullet_glow_dark";
 
         public const int WEAPON_LEVEL_LOWEST = 0;
         public const int WEAPON_LEVEL_HIGHEST = 5;

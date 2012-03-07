@@ -199,6 +199,7 @@
     <Compile Include="Code\States\State.cs" />
     <Compile Include="Code\Managers\StateManager.cs" />
     <Compile Include="Code\States\WorldMap.cs" />
+    <Compile Include="Code\Weapons\BossWeapon.cs" />
     <Compile Include="Code\Weapons\DarkThoughtWeapon.cs" />
     <Compile Include="Code\Weapons\PlayerWeapon.cs" />
     <Compile Include="Code\Weapons\Weapon.cs" />

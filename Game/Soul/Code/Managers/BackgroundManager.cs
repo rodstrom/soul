@@ -15,6 +15,7 @@ namespace Soul.Manager
         private List<Background> killList = null;
         private List<BackgroundData> queueList = null;
         private uint timer = 0;
+        public bool active = true;
 
         public BackgroundManager(SpriteBatch spriteBatch, Soul game)
         {
@@ -39,7 +40,11 @@ namespace Soul.Manager
         public void Update(GameTime gameTime)
         {
             timer += (uint)gameTime.ElapsedGameTime.Milliseconds;
-            checkQueueList();
+            if (active)
+            {
+                checkQueueList();
+            }
+
             for (int i = 0; i < backgrounds.Count; i++ )
             {
                 if (backgrounds[i].Dead == true)
@@ -79,17 +84,17 @@ namespace Soul.Manager
                     {
                         if (queueList[i].Type == "Scrolling")
                         {
-                            ScrollingBackground bg = new ScrollingBackground(spriteBatch, game, queueList[i].Filename, "bg" + i.ToString(), queueList[i].SpawnTime, queueList[i].DeleteTime, queueList[i].Direction, queueList[i].Layer);
+                            ScrollingBackground bg = new ScrollingBackground(spriteBatch, game, queueList[i].Filename, "bg" + i.ToString(), queueList[i].SpawnTime, queueList[i].DeleteTime, queueList[i].Direction, queueList[i].Layer, queueList[i].PersistScroll);
                             addBackground(bg);
                         }
                         else if (queueList[i].Type == "Pillar")
                         {
-                            BackgroundPillar bg = new BackgroundPillar(spriteBatch, game, getPillarFileName(queueList[i].Filename), queueList[i].SpawnTime, queueList[i].Direction, queueList[i].Layer);
+                            BackgroundPillar bg = new BackgroundPillar(spriteBatch, game, getPillarFileName(queueList[i].Filename), queueList[i].SpawnTime, queueList[i].Direction, queueList[i].Layer, queueList[i].PersistScroll);
                             addBackground(bg);
                         }
                         else if (queueList[i].Type == "Batch")
                         {
-                            PillarBatch bg = new PillarBatch(spriteBatch, game, queueList[i].LowestSpawnRate, queueList[i].HighestSpawnRate, (int)queueList[i].DeleteTime, queueList[i].Direction, queueList[i].RandomDirection, queueList[i].RandomSpeed, queueList[i].Layer);
+                            PillarBatch bg = new PillarBatch(this, spriteBatch, game, queueList[i].LowestSpawnRate, queueList[i].HighestSpawnRate, (int)queueList[i].DeleteTime, queueList[i].Direction, queueList[i].RandomDirection, queueList[i].RandomSpeed, queueList[i].Layer, queueList[i].PersistScroll);
                             addBackground(bg);
                         }
                         queueList.RemoveAt(i);
@@ -105,12 +110,12 @@ namespace Soul.Manager
                     {
                         if (queueList[i].Type == "Scrolling")
                         {
-                            ScrollingBackground bg = new ScrollingBackground(spriteBatch, game, queueList[i].Filename, "bg" + i.ToString(), queueList[i].SpawnTime, queueList[i].DeleteTime, queueList[i].Direction, queueList[i].Layer);
+                            ScrollingBackground bg = new ScrollingBackground(spriteBatch, game, queueList[i].Filename, "bg" + i.ToString(), queueList[i].SpawnTime, queueList[i].DeleteTime, queueList[i].Direction, queueList[i].Layer, queueList[i].PersistScroll);
                             addBackground(bg);
                         }
                         else if (queueList[i].Type == "Pillar")
                         {
-                            BackgroundPillar bg = new BackgroundPillar(spriteBatch, game, getPillarFileName(queueList[i].Filename), queueList[i].SpawnTime, queueList[i].Direction, queueList[i].Layer);
+                            BackgroundPillar bg = new BackgroundPillar(spriteBatch, game, getPillarFileName(queueList[i].Filename), queueList[i].SpawnTime, queueList[i].Direction, queueList[i].Layer, queueList[i].PersistScroll);
                             addBackground(bg);
                         }
                         queueList.RemoveAt(i);
@@ -118,6 +123,15 @@ namespace Soul.Manager
                     }
                 }
             }
+        }
+
+        public void stopScroll()
+        {
+            foreach (Background b in backgrounds)
+            {
+                b.slowDown();
+            }
+            active = false;
         }
 
         public int ListSize { get { return backgrounds.Count; } }

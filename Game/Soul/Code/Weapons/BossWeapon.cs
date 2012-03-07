@@ -12,7 +12,7 @@ namespace Soul
         public BossWeapon(SpriteBatch spriteBatch, Soul game, int spriteHeight)
             : base(spriteBatch, game, spriteHeight)
         {
-            damage = Constants.DARK_THOUGHT_WEAPON_DAMAGE;
+            damage = Constants.BOSS_DAMAGE;
         }
 
         public override void Update(GameTime gameTime)
@@ -22,7 +22,13 @@ namespace Soul
 
         public override Bullet Shoot(Vector2 position)
         {
-            Bullet bullet = new Bullet(spriteBatch, game, position, new Vector2(15.0f, 0.0f), Constants.DARK_THOUGHT_BULLET_FILENAME, "DarkThought_bullet", EntityType.DARK_THOUGHT_BULLET, damage);
+            Bullet bullet = new Bullet(spriteBatch, game, position, new Vector2(15.0f, 0.0f), Constants.BOSS_BULLET_FILENAME, "Boss_bullet", EntityType.BOSS_BULLET, damage);
+            return bullet;
+        }
+
+        public Bullet Shoot(Vector2 position, float angle)
+        {
+            Bullet bullet = new Bullet(spriteBatch, game, position, new Vector2(15.0f, angle * 20f), Constants.BOSS_BULLET_FILENAME, "Boss_bullet", EntityType.BOSS_BULLET, damage);
             return bullet;
         }
 

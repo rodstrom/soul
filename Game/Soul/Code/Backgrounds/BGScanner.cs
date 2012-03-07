@@ -23,10 +23,15 @@ namespace Soul
 
         private Vector2 dimension;
 
-        private float scrollSpeed = 0.0f;
+        public float scrollSpeed = 0.0f;
         private bool startedScrollingLeft = false;
         public bool show = true;
         public bool lateStart = false;
+
+        public BGScanner()
+        {
+            scrollSpeed = 0f;
+        }
 
         public BGScanner(Soul game, Vector2 dimension, float scrollSpeed, bool show)
         {

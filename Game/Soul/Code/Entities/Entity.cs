@@ -92,6 +92,7 @@ namespace Soul
             varyingEntities.Add("LESSER_DEMON");
             varyingEntities.Add("NIGHTMARE");
             varyingEntities.Add("PLAYER");
+            varyingEntities.Add("BOSS");
             foreach (String entityType in varyingEntities)
             {
                 if (type.ToString().Equals(entityType))
@@ -105,13 +106,16 @@ namespace Soul
                 //IniFile ini = new IniFile("Content\\Config\\constants.ini");
                 //ini.parse();
                 health = int.Parse(game.constants.getValue(type.ToString(), "HEALTH"));
-                hitRadius = int.Parse(game.constants.getValue(type.ToString(), "RADIUS"));
-                maxVelocity = new Vector2(float.Parse(game.constants.getValue(type.ToString(), "SPEED")), float.Parse(game.constants.getValue(type.ToString(), "SPEED")));
+                if (!type.ToString().Equals("BOSS"))
+                {
+                    hitRadius = int.Parse(game.constants.getValue(type.ToString(), "RADIUS"));
+                    maxVelocity = new Vector2(float.Parse(game.constants.getValue(type.ToString(), "SPEED")), float.Parse(game.constants.getValue(type.ToString(), "SPEED")));
+                }
                 if (!type.ToString().Equals("INNER_DEMON") && !type.ToString().Equals("LESSER_DEMON"))
                 {
                     damage = int.Parse(game.constants.getValue(type.ToString(), "DAMAGE"));
                 }
-                if (type.ToString().Equals("DARK_THOUGHT") || type.ToString().Equals("PLAYER"))
+                if (type.ToString().Equals("DARK_THOUGHT") || type.ToString().Equals("PLAYER") || type.ToString().Equals("BOSS"))
                 {
                     fireRate = int.Parse(game.constants.getValue(type.ToString(), "RATE"));
                 } 
@@ -119,7 +123,7 @@ namespace Soul
                 {
                     burst = int.Parse(game.constants.getValue(type.ToString(), "BURSTPERIOD"));
                 }
-                if (type.ToString().Equals("INNER_DEMON"))
+                if (type.ToString().Equals("INNER_DEMON") || type.ToString().Equals("BOSS"))
                 {
                     minSpawn = int.Parse(game.constants.getValue(type.ToString(), "MINSPAWN"));
                     maxSpawn = int.Parse(game.constants.getValue(type.ToString(), "MAXSPAWN"));

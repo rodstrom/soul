@@ -12,7 +12,8 @@ namespace Soul
         private float scalePercentage = 0.03f;
         private bool decrease = true;
 
-        public Bullet(SpriteBatch spriteBatch, Soul game, Vector2 position, Vector2 velocity, string filename, string alias, EntityType type, int damage) : base(spriteBatch, game, filename, new Vector2(20.0f, 20.0f), alias, type)
+        public Bullet(SpriteBatch spriteBatch, Soul game, Vector2 position, Vector2 velocity, string filename, string alias, EntityType type, int damage)
+            : base(spriteBatch, game, filename, new Vector2(20.0f, 20.0f), alias, type)
         {
             this.position = position;
             this.velocity = velocity;

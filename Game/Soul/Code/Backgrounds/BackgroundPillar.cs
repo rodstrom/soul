@@ -16,13 +16,14 @@ namespace Soul
         private uint appearTime = 0;
         private Rectangle screenSize;
 
-        public BackgroundPillar(SpriteBatch spriteBatch, Soul game, string filename, uint appearTime, float scrollSpeed, float layer)
+        public BackgroundPillar(SpriteBatch spriteBatch, Soul game, string filename, uint appearTime, float scrollSpeed, float layer, bool persistScroll)
         {
             sprite = new Sprite(spriteBatch, game, filename);
             filename += "_depth";
             normal = new Sprite(spriteBatch, game, filename);
             this.layer = layer;
             this.scrollSpeed = scrollSpeed;
+            this.persistScroll = persistScroll;
             if (scrollSpeed > 0.0f)
             {
                 position.X = 0.0f - (float)sprite.X;

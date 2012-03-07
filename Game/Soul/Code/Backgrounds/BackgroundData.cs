@@ -18,6 +18,7 @@ namespace Soul
         private int highestSpawn = 0;
         private bool randomDirection = false;
         private bool randomSpeed = false;
+        private bool persistScroll = false;
 
         public BackgroundData(uint spawnTime, uint deleteTime, string type, string filename, float direction, float layer)
         {
@@ -43,6 +44,21 @@ namespace Soul
             this.randomSpeed = randomSpeed;
         }
 
+        public BackgroundData(uint spawnTime, uint deleteTime, int lowestSpawn, int highestSpawn, string type, string filename, float direction, bool randomDirection, bool randomSpeed, float layer, bool persistScroll)
+        {
+            this.filename = filename;
+            this.spawnTime = spawnTime;
+            this.deleteTime = deleteTime;
+            this.type = type;
+            this.direction = direction;
+            this.layer = layer;
+            this.lowestSpawn = lowestSpawn;
+            this.highestSpawn = highestSpawn;
+            this.randomDirection = randomDirection;
+            this.randomSpeed = randomSpeed;
+            this.persistScroll = persistScroll;
+        }
+
         public uint SpawnTime { get { return spawnTime; } }
         public uint DeleteTime { get { return deleteTime; } }
         public string Type { get { return type; } }
@@ -53,6 +69,6 @@ namespace Soul
         public int HighestSpawnRate { get { return highestSpawn; } }
         public bool RandomDirection { get { return randomDirection; } }
         public bool RandomSpeed { get { return randomSpeed; } }
-
+        public bool PersistScroll { get { return persistScroll; } }
     }
 }

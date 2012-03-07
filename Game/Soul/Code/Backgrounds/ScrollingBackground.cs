@@ -14,11 +14,10 @@ namespace Soul
         private uint deleteTime = 0;
         private uint timer = 0;
         private bool wait = false;
-        private BGScanner scanner;
         private Sprite sprite;
         private Sprite normal; 
 
-        public ScrollingBackground(SpriteBatch spriteBatch, Soul game, string filename, string id, uint startTime, uint deleteTime, float scrollSpeed, float layer)
+        public ScrollingBackground(SpriteBatch spriteBatch, Soul game, string filename, string id, uint startTime, uint deleteTime, float scrollSpeed, float layer, bool persistScroll)
         {
             this.startTime = startTime;
             if (deleteTime == 0)
@@ -31,6 +30,7 @@ namespace Soul
             }
             this.id = id;
             this.layer = layer;
+            this.persistScroll = persistScroll;
             sprite = new Sprite(spriteBatch, game, filename);
             filename += "_depth";
             normal = new Sprite(spriteBatch, game, filename);

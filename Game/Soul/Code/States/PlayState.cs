@@ -21,14 +21,15 @@ namespace Soul
 
         public override void initialize(string data)
         {
-            entityManager = new EntityManager(spriteBatch, game);
+            levelManager = new LevelManager();
+            entityManager = new EntityManager(spriteBatch, game, levelManager); 
+            
             player = new Player(spriteBatch, game, audio, "player", entityManager, controls);
             Vector2 newPlayerPos = new Vector2((float)game.Window.ClientBounds.Width * 0.5f, (float)game.Window.ClientBounds.Height * 0.5f);
             player.Position = newPlayerPos;
             entityManager.addEntity(player);
             entityManager.initialize();
 
-            levelManager = new LevelManager();
             Level level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL01, "level01");
             levelManager.AddLevel(level);
             level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL02, "level02");

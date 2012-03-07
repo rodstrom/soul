@@ -157,6 +157,7 @@ namespace Soul
             int highestSpawn = 0;
             bool randomDirection = false;
             bool randomSpeed = false;
+            bool scrollAfterBoss = false;
 
             for (int i = 0; i < line.Length; i++)
             {
@@ -240,15 +241,21 @@ namespace Soul
                     read = "";
                     pass++;
                 }
+                else if (pass == 6)
+                {
+                    scrollAfterBoss = Convert.ToBoolean(read);
+                    read = "";
+                    pass++;
+                }
             }
             if (bgLayer == 0)
             {
-                BackgroundData data = new BackgroundData(spawnTime, deleteTime, lowestSpawn, highestSpawn, type, filename, direction, randomDirection, randomSpeed, layer);
+                BackgroundData data = new BackgroundData(spawnTime, deleteTime, lowestSpawn, highestSpawn, type, filename, direction, randomDirection, randomSpeed, layer, scrollAfterBoss);
                 bgData_back.Add(data);
             }
             else if (bgLayer == 1)
             {
-                BackgroundData data = new BackgroundData(spawnTime, deleteTime, lowestSpawn, highestSpawn, type, filename, direction, randomDirection, randomSpeed, layer);
+                BackgroundData data = new BackgroundData(spawnTime, deleteTime, lowestSpawn, highestSpawn, type, filename, direction, randomDirection, randomSpeed, layer, scrollAfterBoss);
                 bgData_front.Add(data);
             }
             return true;

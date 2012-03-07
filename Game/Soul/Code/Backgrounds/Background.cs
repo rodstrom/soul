@@ -14,8 +14,10 @@ namespace Soul
         protected float layer = 0.0f;
         protected float spriteWidth = 0f;
         protected float scrollSpeed = 0f;
+        protected bool persistScroll = false;
         protected Vector2 position = Vector2.Zero;
         protected bool disposed = false;
+        protected BGScanner scanner = new BGScanner();
 
         public Background()
         {
@@ -26,6 +28,24 @@ namespace Soul
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void slowDown()
+        {
+            if ((scrollSpeed >= 1f || scanner.scrollSpeed >= 1f) && persistScroll)
+            {
+                scrollSpeed -= 1f;
+                scrollSpeed *= 0.5f;
+                scrollSpeed += 1f;
+                scanner.scrollSpeed -= 1f;
+                scanner.scrollSpeed *= 0.5f;
+                scanner.scrollSpeed += 1f;
+            }
+            else
+            {
+                scrollSpeed = 0f;
+                scanner.scrollSpeed = 0f;
+            }
         }
 
         public virtual void Dispose(bool disposing)
