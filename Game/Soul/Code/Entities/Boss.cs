@@ -54,7 +54,7 @@ namespace Soul
         {
             hitFx.Update();
 
-            //fireTimer += gameTime.ElapsedGameTime.Milliseconds;
+            fireTimer += gameTime.ElapsedGameTime.Milliseconds;
             if (fireTimer >= fireRate)
             {
                 directionToPlayer = (target - bulletOrigin);
@@ -64,7 +64,7 @@ namespace Soul
                 fireTimer = 0;
             }
             
-            //spawnTimer += gameTime.ElapsedGameTime.Milliseconds;
+            spawnTimer += gameTime.ElapsedGameTime.Milliseconds;
             if (spawnTimer >= spawnRate)
             {
                 SpawnEntity();
