@@ -13,9 +13,11 @@ namespace Soul
         private string id;
         private bool pause = false;
         private bool quit = false;
-        private bool cleansing = false;
+        public bool cleansing = false;
         private int cleansPass = 1;
         private bool useDynamicLights = true;
+        private double wait = -1;
+        private bool doWait = false;
 
         BackgroundManager backgroundManager_back;
         BackgroundManager backgroundManager_front;
@@ -215,6 +217,12 @@ namespace Soul
             {
                 return 1;
             }
+
+            if (cleansing)
+            {
+                LevelCleansed(gameTime);
+            }
+
             return 0;
         }
 
@@ -549,12 +557,29 @@ namespace Soul
             }
         }
 
-        private void LevelCleansed()
+        private void LevelCleansed(GameTime gameTime)
         {
             IncreaseLightSource();
             if (ambientLight.B > 100)
             {
                 decreaseAmbientB(1);
+            }
+
+            if (ambientLight.B == 100)
+            {
+                wait = (int)gameTime.ElapsedGameTime.Milliseconds;
+                doWait = true;
+                decreaseAmbientB(1);
+            }
+            
+            if (ambientLight.B == 99)
+            {
+                wait += gameTime.ElapsedGameTime.Milliseconds;
+            }
+
+            if (doWait && wait > 2000)
+            {
+                quit = true;
             }
         }
 

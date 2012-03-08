@@ -89,5 +89,10 @@ namespace Soul.Manager
         {
             currentLevel.stopBgScroll();
         }
+
+        public void cleansedLevel()
+        {
+            currentLevel.cleansing = true;
+        }
     }
 }

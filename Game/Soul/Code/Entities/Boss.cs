@@ -22,17 +22,30 @@ namespace Soul
         private int spawnTimer = 0;
         private Random random;
         private HitFX hitFx = null;
+        private bool waitingToDie = false;
+
+        private Sprite spriteIdle;
+        private Sprite spriteShoot;
+        private Sprite spriteSpawn;
+        private Sprite spriteDeath;
 
         public Boss(SpriteBatch spriteBatch, Soul game, GameTime gameTime, string alias, EntityManager entityManager)
-            : base(spriteBatch, game, Constants.BOSS_FILENAME, new Vector2(Constants.BOSS_WIDTH, Constants.BOSS_HEIGHT), alias, EntityType.BOSS)
+            : base(spriteBatch, game, Constants.BOSS_IDLE_FILENAME, new Vector2(Constants.BOSS_WIDTH, Constants.BOSS_HEIGHT), alias, EntityType.BOSS)
         {
+            spriteIdle = new Sprite(spriteBatch, game, Constants.BOSS_IDLE_FILENAME);
+            //spriteShoot = new Sprite(spriteBatch, game, Constants.BOSS_SHOOT_FILENAME);
+            //spriteSpawn = new Sprite(spriteBatch, game, Constants.BOSS_SPAWN_FILENAME);
+            spriteDeath = new Sprite(spriteBatch, game, Constants.BOSS_DEATH_FILENAME);
+
+            this.sprite = spriteIdle;
+            this.animation.MaxFrames = 0;
+
             this.entityManager = entityManager;
             weapon = new BossWeapon(spriteBatch, game, sprite.Y);
             weapon.Damage = damage;
             offset = Vector2.Zero;
 
             this.random = new Random();
-            //this.animation.MaxFrames = 1;
             hitFx = new HitFX(game);
             velocity.X = 5;
         }
@@ -54,26 +67,62 @@ namespace Soul
         {
             hitFx.Update();
 
-            fireTimer += gameTime.ElapsedGameTime.Milliseconds;
-            if (fireTimer >= fireRate)
+            if (!waitingToDie && !killMe)
             {
-                directionToPlayer = (target - bulletOrigin);
-                directionToPlayer.Normalize();
+                Move(gameTime);
 
-                entityManager.addBullet(weapon.Shoot(bulletOrigin, directionToPlayer.Y));
-                fireTimer = 0;
+                fireTimer += gameTime.ElapsedGameTime.Milliseconds;
+                if (fireTimer >= fireRate)
+                {
+                    directionToPlayer = (target - bulletOrigin);
+                    directionToPlayer.Normalize();
+
+                    entityManager.addBullet(weapon.Shoot(bulletOrigin, directionToPlayer.Y));
+                    fireTimer = 0;
+                }
+
+                spawnTimer += gameTime.ElapsedGameTime.Milliseconds;
+                if (spawnTimer >= spawnRate)
+                {
+                    SpawnEntity();
+                    spawnTimer = 0;
+                    spawnRate = random.Next(minSpawn, maxSpawn);
+                }
+
+                if (health <= 0)
+                {
+                    die();
+                }
             }
-            
-            spawnTimer += gameTime.ElapsedGameTime.Milliseconds;
-            if (spawnTimer >= spawnRate)
+
+            if (waitingToDie && !killMe)
             {
-                SpawnEntity();
-                spawnTimer = 0;
-                spawnRate = random.Next(minSpawn, maxSpawn);
+                if (animation.CurrentFrame >= animation.MaxFrames)
+                {
+                    if (animationState <= 2)
+                    {
+                        animationState++;
+                        animation.CurrentFrame = 0;
+                    }
+                    else if (animationState == 3)
+                    {
+                        animationState++;
+                        animation.CurrentFrame = 0;
+                        animation.MaxFrames = 2;
+                    }
+                    else if (animationState == 4)
+                    {
+                        //animationState = 0;           //loop for debug
+                        //animation.CurrentFrame = 0;
+                        //animation.MaxFrames = 6;
+                        killMe = true;
+                        entityManager.killAllEntities();
+                        entityManager.cleansedLevel();
+                    }
+                }
             }
 
-            Move(gameTime);
-            //animation.Animate(gameTime);
+            animation.Animate(gameTime);
         }
 
         public void SpawnEntity()
@@ -102,10 +151,6 @@ namespace Soul
             {
                 health -= entity.getDamage();
                 hitFx.Hit(0.5f);
-                if (health <= 0)
-                {
-                    KillMe = true;
-                }
             }
         }
 
@@ -117,11 +162,6 @@ namespace Soul
         public override void takeDamage(int value)
         {
             health -= value;
-            if (health <= 0)
-            {
-
-                killMe = true;
-            }
         }
 
         public override void Dispose(bool disposing)
@@ -137,5 +177,14 @@ namespace Soul
             disposed = true;
         }
 
+        private void die()
+        {
+            waitingToDie = true;
+            dimension.X = Constants.BOSS_DEATH_WIDTH;
+            sprite = spriteDeath;
+            animation.MaxFrames = 5;
+            animation.CurrentFrame = 0;
+            animationState = 0;
+        }
     }
 }

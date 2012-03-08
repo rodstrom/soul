@@ -370,6 +370,23 @@ namespace Soul.Manager
             }
         }
 
+        public void cleansedLevel()
+        {
+            levelManager.cleansedLevel();
+        }
+
+        public void killAllEntities()
+        {
+            foreach (Entity e in entityList)
+            {
+                e.KillMe = true;
+                if (e.Type == EntityType.PLAYER)
+                {
+                    e.KillMe = false;
+                }
+            }
+        }
+
         private void SpawnEnemy(EntityData entityData, GameTime gameTime)
         {
             if (entityData.Type == EntityType.BOSS)

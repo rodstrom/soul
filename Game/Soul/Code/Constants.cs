@@ -11,11 +11,15 @@ namespace Soul
         public const int RESOLUTION_VIRTUAL_WIDTH = 1280;
         public const int RESOLUTION_VIRTUAL_HEIGHT = 720;
 
-        public const int BOSS_WIDTH = 155;
-        public const int BOSS_HEIGHT = 720;
+        public const int BOSS_WIDTH = 150;
+        public const int BOSS_HEIGHT = 700;
+        public const int BOSS_DEATH_WIDTH = 640;
         public const int BOSS_MAX_HEALTH = 200;
         public const int BOSS_DAMAGE = 20;
-        public const string BOSS_FILENAME = "Spritesheets\\Boss";
+        public const string BOSS_IDLE_FILENAME = "SpriteSheets\\Boss";
+        public const string BOSS_SHOOT_FILENAME = "SpriteSheets\\Boss_Shoot";
+        public const string BOSS_SPAWN_FILENAME = "SpriteSheets\\Boss_Spawn";
+        public const string BOSS_DEATH_FILENAME = "SpriteSheets\\Boss_Death";
         public const string BOSS_BULLET_FILENAME = "Particles\\bullet_glow_dark";
 
         public const int WEAPON_LEVEL_LOWEST = 0;
