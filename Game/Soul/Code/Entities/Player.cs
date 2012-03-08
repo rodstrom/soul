@@ -35,17 +35,12 @@ namespace Soul
         private float glowScale = 1.0f;
         private float glowScalePercentage = 0.005f;
         private bool decrease = true;
-        private PlayerShootAnimation playerAnimShoot = null;
-
-        private bool dieMin = false;
-        private float dieScaleMin = 0.2f;
-        private float dieScaleMax = 1.5f;
-        private float dieScalePercentage = 0.08f;
 
         private bool movingForward = false;
         private bool movingBackwards = false;
         private bool lesserDemonStuck = false;
         private double timeSinceLastShot = 0;
+        private bool showPlayer = true;
 
         private EntityManager entityManager;
 
@@ -68,38 +63,48 @@ namespace Soul
             hitFx = new HitFX(game);
             //this.hitRadius = Constants.PLAYER_RADIUS;
             this.animation.FrameRate = 30;
-
-            playerAnimShoot = new PlayerShootAnimation(spriteBatch, game);
             
             pointLight = new PointLight()
             {
                 Color = new Vector4(1f, 1f, 1f, 1f),
-                Power = 1f,
-                LightDecay = 300,
-                Position = new Vector3(0f, 0f, 100f),
+                Power = 8f,
+                LightDecay = 200,
+                Position = new Vector3(0f, 0f, 50f),
                 IsEnabled = true
             }; 
         }
 
         public override void Draw()
         {
-            if (hitFx.IsHit == true)
+            /*if (hitFx.IsHit == true)
             {
-                glow.Draw(GlowPosition, Color.White, rotation, origin, glowScale, SpriteEffects.None, layer, hitFx.Effect);
+                sprite.Draw(GlowPosition, Color.White, rotation, origin, glowScale, SpriteEffects.None, layer, hitFx.Effect);
             }
             else
             {
                 glow.Draw(GlowPosition, Color.White, rotation, origin, glowScale, SpriteEffects.None, layer);
+            }*/
+
+            //base.Draw();
+
+            if (showPlayer == true)
+            {
+                if (hitFx.IsHit == true)
+                {
+                    Rectangle rect = new Rectangle(animation.CurrentFrame * (int)dimension.X, (int)animationState * (int)dimension.Y, (int)dimension.X, (int)dimension.Y);
+                    sprite.Draw(position, rect, Color.White, rotation, offset, scale, SpriteEffects.None, layer, hitFx.Effect);
+                }
+                else
+                {
+                    base.Draw();
+                }
             }
-            playerAnimShoot.Draw(ShootAnimPosition);
-            base.Draw();
         }
 
         public override void Update(GameTime gameTime)
         {
             weapon.Update(gameTime);
             hitFx.Update();
-            playerAnimShoot.Update(gameTime, controls);
             if (waitingtoDie == false)
             {
                 checkHealthStatus();
@@ -108,7 +113,7 @@ namespace Soul
                     if (gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastShot > fireRate)
                     {
                         Shoot();
-                        playerAnimShoot.Shoot();
+
                         timeSinceLastShot = gameTime.TotalGameTime.TotalMilliseconds;
                     }
                 }
@@ -158,38 +163,40 @@ namespace Soul
 
                 animation.Animate(gameTime);
                 Move(gameTime);
-                /*pointLight.Position = new Vector3(
-                ((float)Math.Sin(gameTime.TotalGameTime.TotalSeconds * 2) * 200) + 450,
-                ((float)Math.Cos(gameTime.TotalGameTime.TotalSeconds * 2) * 200) + 350,
-                pointLight.Position.Z);*/
                 pointLight.Position = new Vector3(position.X, position.Y, pointLight.Position.Z);
                 
             }
             else
             {
-                if (glowScale >= dieScaleMin && dieMin == false)
+                if (showPlayer == true)
                 {
-                    glowScale -= dieScalePercentage;
-                    if (glowScale <= dieScaleMin)
-                    {
-                        dieMin = true;
-                    }
+                    pointLight.LightDecay = pointLight.LightDecay + 20;
+                    pointLight.Power = pointLight.Power + 0.01f;
                 }
-                else if (glowScale <= dieScaleMax && dieMin == true)
+
+                if (pointLight.LightDecay >= 1500f && showPlayer == true)
                 {
-                    glowScale += dieScalePercentage;
-                    if (glowScale >= dieScaleMax)
-                    {
                         GlowParticle glowParticle;
                         Random random = new Random();
                         for (int i = 0; i < Constants.PLAYER_NUMBER_OF_DEATH_GLOWS; i++)
                         {
                             glowParticle = new GlowParticle(spriteBatch, game, "glow_death" + i.ToString(), position, random);
                             entityManager.addEntity(glowParticle);
-                            entityManager.AddPointLight(glowParticle.PointLight);
+                            //entityManager.AddPointLight(glowParticle.PointLight);
+
                         }
-                            killMe = true;
-                    }
+                        showPlayer = false;
+                }
+
+                if (showPlayer == false)
+                {
+                    pointLight.LightDecay = pointLight.LightDecay - 40;
+                    pointLight.Power = pointLight.Power - 0.04f;
+                }
+
+                if (pointLight.Power <= 0.0f && pointLight.LightDecay <= 0.0f)
+                {
+                    killMe = true;
                 }
             }
         }
@@ -389,7 +396,7 @@ namespace Soul
             {
                 entityManager.addBullet(bullet);
             }
-            audio.playSound(Constants.AUDIO_PLAYER_FIRE);
+            audio.playSound("player_shoot");
         }
 
         public override void onCollision(Entity entity)
@@ -405,7 +412,7 @@ namespace Soul
                 lesserDemonStuck = true;
             }
 
-            if (entity.Type == EntityType.DARK_THOUGHT_BULLET || entity.Type == EntityType.BLUE_BLOOD_VESSEL || entity.Type == EntityType.NIGHTMARE || entity.Type == EntityType.DARK_WHISPER || entity.Type == EntityType.DARK_WHISPER_SPIKE)
+            if (entity.Type == EntityType.DARK_THOUGHT_BULLET || entity.Type == EntityType.BLUE_BLOOD_VESSEL || entity.Type == EntityType.PURPLE_BLOOD_VESSEL || entity.Type == EntityType.RED_BLOOD_VESSEL || entity.Type == EntityType.NIGHTMARE || entity.Type == EntityType.DARK_WHISPER || entity.Type == EntityType.DARK_WHISPER_SPIKE)
             {
                 health -= entity.getDamage();
                 hitFx.Hit();
@@ -425,16 +432,20 @@ namespace Soul
                 {
                     health = Constants.PLAYER_MAX_HEALTH;
                 }
+                audio.playSound("player_powerup_pickup");
             }
 
             if (entity.Type == EntityType.WEAPON_POWERUP)
             {
                 weapon.IncreaseWeaponLevel();
+                audio.playSound("player_powerup_pickup");
+                fireRate -= fireRate * 0.05f;
             }
 
             if (waitingtoDie == false && health <= 0)
             {
                 waitingtoDie = true;
+                audio.playSound("player_die");
             }
         }
 
@@ -465,19 +476,20 @@ namespace Soul
 
         private void checkHealthStatus()
         {
-            if (health > 80)
+            float percentage = (float)health / (float)maxHealth;
+            if (percentage > 0.8f)
             {
                 glowScalePercentage = 0.005f;
             }
-            else if (health < 80 && health > 50)
+            else if (percentage < 0.8f && percentage > 0.5f)
             {
                 glowScalePercentage = 0.015f;
             }
-            else if (health < 50 && health > 20)
+            else if (percentage < 0.5f && percentage > 0.2f)
             {
                 glowScalePercentage = 0.03f;
             }
-            else if (health < 20)
+            else if (percentage < 0.2f)
             {
                 glowScalePercentage = 0.05f;
             }

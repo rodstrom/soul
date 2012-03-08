@@ -21,10 +21,12 @@ namespace Soul
         private Vector2 directionToWaypoint = Vector2.Zero;
         public event PowerupReleaseHandle onDie = null;
         private HitFX hitFx = null;
+        private bool waitingToDie = false;
 
-        public DarkThought(SpriteBatch spriteBatch, Soul game, GameTime gameTime, string alias, EntityManager entityManager, Path path)
+        public DarkThought(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, GameTime gameTime, string alias, EntityManager entityManager, Path path)
             : base(spriteBatch, game, Constants.DARK_THOUGHT_FILENAME, new Vector2(Constants.DARK_THOUGHT_WIDTH, Constants.DARK_THOUGHT_HEIGHT), alias, EntityType.DARK_THOUGHT)
         {
+            this.audio = audioManager;
             this.entityManager = entityManager;
             weapon = new DarkThoughtWeapon(spriteBatch, game, sprite.Y);
             weapon.Damage = damage;
@@ -55,25 +57,38 @@ namespace Soul
         public override void Update(GameTime gameTime)
         {
             hitFx.Update();
-            path.Update(gameTime, Position);
 
-            if (attack && gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastBullet > fireRate)
+            if (waitingToDie == false)
             {
-                entityManager.addBullet(weapon.Shoot(position));
-                timeSinceLastBullet = gameTime.TotalGameTime.TotalMilliseconds;
-            }
+                path.Update(gameTime, Position);
 
-            if (attack && gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastBurst > burst)
-            {
-                attack = false;
-                timeSinceLastBurst = gameTime.TotalGameTime.TotalMilliseconds;
-            }
-            else if (!attack && gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastBurst > burst * 2)
-            {
-                attack = true;
-                timeSinceLastBurst = gameTime.TotalGameTime.TotalMilliseconds;
-            }
+                if (attack && gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastBullet > fireRate)
+                {
+                    entityManager.addBullet(weapon.Shoot(position));
+                    audio.playSound("dark_thought_shoot");
+                    timeSinceLastBullet = gameTime.TotalGameTime.TotalMilliseconds;
+                }
 
+                if (attack && gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastBurst > burst)
+                {
+                    attack = false;
+                    timeSinceLastBurst = gameTime.TotalGameTime.TotalMilliseconds;
+                }
+                else if (!attack && gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastBurst > burst * 2)
+                {
+                    attack = true;
+                    timeSinceLastBurst = gameTime.TotalGameTime.TotalMilliseconds;
+                }
+
+                
+            }
+            else
+            {
+                if (animation.CurrentFrame >= animation.MaxFrames)
+                {
+                    killMe = true;
+                }
+            }
             Move(gameTime);
             animation.Animate(gameTime);
         }
@@ -107,7 +122,8 @@ namespace Soul
                     {
                         onDie(this);
                     }
-                    KillMe = true;
+                    OnDeath();
+                    audio.playSound("dark_thought_die");
                 }
             }
         }
@@ -123,7 +139,7 @@ namespace Soul
             if (health <= 0)
             {
 
-                killMe = true;
+                OnDeath();
             }
         }
 
@@ -149,6 +165,16 @@ namespace Soul
                 }
             }
             disposed = true;
+        }
+
+        private void OnDeath()
+        {
+            waitingToDie = true;
+            ghost = true;
+            animation.MaxFrames = 16;
+            animation.CurrentFrame = 0;
+            animationState = 1;
+            animation.FrameRate = 30;
         }
 
     }

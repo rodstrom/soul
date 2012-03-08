@@ -88,6 +88,7 @@ namespace Soul
         {
             BackgroundPillar bg = new BackgroundPillar(spriteBatch, game, getRandomFileName(), 0, ScrollDirection(), layer);
             pillarList.Add(bg);
+            layer += 0.0001f;
         }
 
         private string getRandomFileName()

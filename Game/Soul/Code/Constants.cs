@@ -53,7 +53,7 @@ namespace Soul
         public const float NIGHTMARE_HEIGHT = 128.0f;
         public const float NIGHTMARE_RADIUS = 128.0f;        
         public const int NIGHTMARE_DAMAGE = 10;
-        public const string NIGHTMARE_FILENAME = "SpriteSheets\\Nightmare-Move-anim-B";
+        public const string NIGHTMARE_FILENAME = "SpriteSheets\\Nightmare-Animation_A";
         
         public const float BLUE_BLOOD_VESSEL_MAX_SPEED = 8.0f;
         public const float BLUE_BLOOD_VESSEL_ACCELERATION = 0.5f;
@@ -62,7 +62,7 @@ namespace Soul
         public const float BLUE_BLOOD_VESSEL_HEIGHT = 64.0f;
         public const float BLUE_BLOOD_VESSEL_RADIUS = 64.0f;
         public const int BLUE_BLOOD_VESSEL_DAMAGE = 10;
-        public const string BLUE_BLOOD_VESSEL_FILENAME = "SpriteSheets\\Bloodvessel1_fixed";
+        public const string BLUE_BLOOD_VESSEL_FILENAME = "SpriteSheets\\Blood-Vessel-Death-Anim-Blue";
 
         public const float RED_BLOOD_VESSEL_MAX_SPEED = 8.0f;
         public const float RED_BLOOD_VESSEL_ACCELERATION = 0.5f;
@@ -71,7 +71,7 @@ namespace Soul
         public const float RED_BLOOD_VESSEL_HEIGHT = 64.0f;
         public const float RED_BLOOD_VESSEL_RADIUS = 64.0f;
         public const int RED_BLOOD_VESSEL_DAMAGE = 10;
-        public const string RED_BLOOD_VESSEL_FILENAME = "SpriteSheets\\Bloodvessel2";
+        public const string RED_BLOOD_VESSEL_FILENAME = "SpriteSheets\\BloodVesselDeathAnimRed";
 
         public const float PURPLE_BLOOD_VESSEL_MAX_SPEED = 8.0f;
         public const float PURPLE_BLOOD_VESSEL_ACCELERATION = 0.5f;
@@ -80,7 +80,7 @@ namespace Soul
         public const float PURPLE_BLOOD_VESSEL_HEIGHT = 64.0f;
         public const float PURPLE_BLOOD_VESSEL_RADIUS = 64.0f;
         public const int PURPLE_BLOOD_VESSEL_DAMAGE = 10;
-        public const string PURPLE_BLOOD_VESSEL_FILENAME = "SpriteSheets\\Bloodvessel3";
+        public const string PURPLE_BLOOD_VESSEL_FILENAME = "SpriteSheets\\BloodVesselDeathAnimPurple";
 
         public const int DARK_THOUGHT_WEAPON_DAMAGE = 10;
         public const float DARK_THOUGHT_ATTACK_DELAY = 800.0f;
@@ -90,7 +90,7 @@ namespace Soul
         public const int DARK_THOUGHT_MAX_HEALTH = 100;
         public const float DARK_THOUGHT_WIDTH = 128.0f;
         public const float DARK_THOUGHT_HEIGHT = 128.0f;
-        public const string DARK_THOUGHT_FILENAME = "SpriteSheets\\Dark-Thought-Animation-A";
+        public const string DARK_THOUGHT_FILENAME = "SpriteSheets\\Dark-Thought-Animation";
         public const float DARK_THOUGHT_RADIUS = 128.0f;
         public const string DARK_THOUGHT_BULLET_FILENAME = "Particles\\bullet_glow_dark";
 
@@ -118,9 +118,9 @@ namespace Soul
         public const float INNER_DEMON_MAX_SPEED = 5.0f;
         public const float INNER_DEMON_ACCELERATION = 0.4f;
         public const int INNER_DEMON_MAX_HEALTH = 100;
-        public const float INNER_DEMON_WIDTH = 132.0f;
-        public const float INNER_DEMON_HEIGHT = 88.0f;
-        public const string INNER_DEMON_FILENAME = "SpriteSheets\\InnerDemon1";
+        public const float INNER_DEMON_WIDTH = 128.0f;
+        public const float INNER_DEMON_HEIGHT = 128.0f;
+        public const string INNER_DEMON_FILENAME = "SpriteSheets\\InnerDemonDeathAnim";
         public const string INNER_DEMON_FILENAME2 = "SpriteSheets\\InnerDemon2";
         public const float INNER_DEMON_RADIUS = 120.0f;
 
@@ -145,21 +145,23 @@ namespace Soul
 
         public const string SAVE_DATA_FILENAME = "Content\\Saves\\savedata.dat";
 
-        public const string PILLAR_1 = "Backgrounds\\Pillars\\Pillar1__0001_Normal";
-        public const string PILLAR_2 = "Backgrounds\\Pillars\\Pillar2__0001_Normal";
-        public const string PILLAR_3 = "Backgrounds\\Pillars\\Pillar3__0001_Normal";
-        public const string PILLAR_4 = "Backgrounds\\Pillars\\Pillar4__0001_Normal";
-        public const string PILLAR_5 = "Backgrounds\\Pillars\\Pillar5__0001_Normal";
-        public const string PILLAR_6 = "Backgrounds\\Pillars\\Pillar6__0001_Normal";
-        public const string PILLAR_7 = "Backgrounds\\Pillars\\Pillar7__0001_Normal";
-        public const string PILLAR_8 = "Backgrounds\\Pillars\\Pillar8__0001_Normal";
-        public const string PILLAR_9 = "Backgrounds\\Pillars\\Pillar9__0001_Normal";
-        public const string PILLAR_10 = "Backgrounds\\Pillars\\Pillar10__0001_Normal";
-        public const string PILLAR_11 = "Backgrounds\\Pillars\\Pillar11__0001_Normal";
-        public const string PILLAR_12 = "Backgrounds\\Pillars\\Pillar12__0001_Normal";
-        public const string PILLAR_13 = "Backgrounds\\Pillars\\Pillar13__0001_Normal";
-        public const string PILLAR_14 = "Backgrounds\\Pillars\\Pillar14__0001_Normal";
-        public const string PILLAR_15 = "Backgrounds\\Pillars\\Pillar15__0001_Normal";
+        public const string PILLAR_1 = "Backgrounds\\Pillars\\Pillar01";
+        public const string PILLAR_2 = "Backgrounds\\Pillars\\Pillar02";
+        public const string PILLAR_3 = "Backgrounds\\Pillars\\Pillar03";
+        public const string PILLAR_4 = "Backgrounds\\Pillars\\Pillar04";
+        public const string PILLAR_5 = "Backgrounds\\Pillars\\Pillar05";
+        public const string PILLAR_6 = "Backgrounds\\Pillars\\Pillar06";
+        public const string PILLAR_7 = "Backgrounds\\Pillars\\Pillar07";
+        public const string PILLAR_8 = "Backgrounds\\Pillars\\Pillar08";
+        public const string PILLAR_9 = "Backgrounds\\Pillars\\Pillar09";
+        public const string PILLAR_10 = "Backgrounds\\Pillars\\Pillar10";
+        public const string PILLAR_11 = "Backgrounds\\Pillars\\Pillar11";
+        public const string PILLAR_12 = "Backgrounds\\Pillars\\Pillar12";
+        public const string PILLAR_13 = "Backgrounds\\Pillars\\Pillar13";
+        public const string PILLAR_14 = "Backgrounds\\Pillars\\Pillar14";
+        public const string PILLAR_15 = "Backgrounds\\Pillars\\Pillar15";
+
+        public const string BACKGROUND_FOG = "Backgrounds\\background__0002s_0001_Layer-8";
 
         public const string LEVEL01 = "Content\\Levels\\level01.map";
         public const string LEVEL02 = "Content\\Levels\\level02.map";
@@ -200,9 +202,19 @@ namespace Soul
         public const string GUI_DOWN = "GUI\\controls_down";
         public const string GUI_LEFT = "GUI\\controls_Left";
         public const string GUI_RIGHT = "GUI\\controls_Right";
+        public const string GUI_DEVELOPERS_CREDITS = "GUI\\text_Developers";
+        public const string GUI_YES = "GUI\\gui_yes";
+        public const string GUI_NO = "GUI\\gui_no";
+        public const string GUI_CLEANSE = "GUI\\gui_cleanse";
+        public const string GUI_CONTINUE = "GUI\\Continue";
 
         public const string GUI_FONT = "GUI\\Extrafine";
 
+        public const string MENU_COMBINED_BG_COLORMAP = "Backgrounds\\background__0002s_0008_Layer-1_combined";
+        public const string MENU_COMBINED_BG_NORMALMAP = "Backgrounds\\background__0002s_0008_Layer-1_combined_depth";
+        public const string MENU_FRONT_BG_COLORMAP = "Backgrounds\\bg_colorMap";
+        public const string MENU_FRONT_BG_NORMALMAP = "Backgrounds\\bg_normalMap";
+        public const string MENU_SPIKES_BG_COLORMAP = "Backgrounds\\bg2_color_map";
 
     }
 }

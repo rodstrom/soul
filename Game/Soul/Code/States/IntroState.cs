@@ -20,7 +20,8 @@ namespace Soul
         {
             bg = new Sprite(spriteBatch, game, Constants.SPLASH_SCREEN_FILENAME);
             fade = new FadeInOut(spriteBatch, game);
-            audio.playMusic(Constants.AUDIO_INTRO);
+            //audio.playMusic(Constants.AUDIO_INTRO);
+            audio.playSound("intro_startup");
             fade.FadeIn();
         }
 

@@ -20,6 +20,7 @@ namespace Soul
         EntityManager entityManager;
         BackgroundManager backgroundManager_back;
         BackgroundManager backgroundManager_front;
+        AudioManager audioManager;
         Player player;
         InputManager controls;
         LevelReader levelReader;
@@ -30,8 +31,9 @@ namespace Soul
         bool fulhack = true;
         SpriteFont font;
 
-        private Sprite bg1;
-        private Sprite bg1_normal;
+        private Sprite bg1 = null;
+        private Sprite bg1_normal = null;
+        private Sprite fog = null;
 
 
         private RenderTarget2D colorMap_back;
@@ -79,7 +81,7 @@ namespace Soul
         public VertexPositionColorTexture[] Vertices;
         public VertexBuffer VertexBuffer;
 
-        public Level(SpriteBatch spriteBatch, Soul game, EntityManager entityManager, Player player, InputManager controls, string filename, string id)
+        public Level(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, EntityManager entityManager, Player player, InputManager controls, string filename, string id)
         {
             this.spriteBatch = spriteBatch;
             this.game = game;
@@ -89,6 +91,7 @@ namespace Soul
             levelReader = new LevelReader(filename, game);
             this.player = player;
             font = game.Content.Load<SpriteFont>("GUI\\Extrafine");
+            this.audioManager = audioManager;
         }
 
         public void initialize()
@@ -99,10 +102,10 @@ namespace Soul
             entityManager.initialize();
             CreateBackgrounds();
             menuManager = new MenuManager(controls);
-            ImageButton button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f - 150, (float)game.Window.ClientBounds.Height * 0.5f), "GUI\\button_continue", "continue");
+            ImageButton button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f - 150, (float)game.Window.ClientBounds.Height * 0.5f), Constants.GUI_CONTINUE, "continue");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
-            button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f + 150, (float)game.Window.ClientBounds.Height * 0.5f), "GUI\\button_quit_pause", "quit");
+            button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f + 150, (float)game.Window.ClientBounds.Height * 0.5f), Constants.GUI_QUIT, "quit");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
             menuManager.initialize();
@@ -150,6 +153,7 @@ namespace Soul
 
             bg1 = new Sprite(spriteBatch, game, "Backgrounds\\background__0002s_0008_Layer-1_combined");
             bg1_normal = new Sprite(spriteBatch, game, "Backgrounds\\background__0002s_0008_Layer-1_combined_depth");
+            fog = new Sprite(spriteBatch, game, Constants.BACKGROUND_FOG);
             
 
 
@@ -191,10 +195,12 @@ namespace Soul
                 if (controls.MoveLeftOnce == true)
                 {
                     menuManager.decrement();
+                    audioManager.playSound("menu_move");
                 }
                 else if (controls.MoveRightOnce == true)
                 {
                     menuManager.increment();
+                    audioManager.playSound("menu_move");
                 }
                 menuManager.Update(gameTime);
             }
@@ -209,6 +215,7 @@ namespace Soul
             {
                 pause = true;
                 menuManager.FadeIn();
+                audioManager.playSound("pause_appear");
             }
 
             if (quit == true)
@@ -226,7 +233,7 @@ namespace Soul
             game.GraphicsDevice.SetRenderTarget(null);
             game.GraphicsDevice.SetRenderTarget(colorMap_back);
             game.GraphicsDevice.Clear(Color.Transparent);
-            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, Resolution.getTransformationMatrix());
             bg1.Draw(Vector2.Zero, new Rectangle(0,0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             backgroundManager_back.Draw();
             spriteBatch.End();
@@ -235,7 +242,7 @@ namespace Soul
             game.GraphicsDevice.SetRenderTarget(null);
             game.GraphicsDevice.SetRenderTarget(normalMap_back);
             game.GraphicsDevice.Clear(Color.Transparent);
-            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, Resolution.getTransformationMatrix());
             bg1_normal.Draw(Vector2.Zero, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             backgroundManager_back.DrawNormalMap();
             spriteBatch.End();
@@ -243,26 +250,17 @@ namespace Soul
             game.GraphicsDevice.SetRenderTarget(null);
             game.GraphicsDevice.SetRenderTarget(entityLayer);
             game.GraphicsDevice.Clear(Color.Transparent);
-            spriteBatch.Begin(0, null, null, null, null, null, Resolution.getTransformationMatrix());
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Resolution.getTransformationMatrix());
             entityManager.Draw();
             spriteBatch.End();
-
-            // Draw Color Map Back Layer
-            /*game.GraphicsDevice.SetRenderTarget(null);
+            
+            // Draw Color Map Front Layer
+            game.GraphicsDevice.SetRenderTarget(null);
             game.GraphicsDevice.SetRenderTarget(colorMap_front);
             game.GraphicsDevice.Clear(Color.Transparent);
             spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
-            backgroundManager_front.Draw(gameTime);
+            backgroundManager_front.Draw();
             spriteBatch.End();
-
-            // Draw Normal Map Back Layer
-            game.GraphicsDevice.SetRenderTarget(null);
-            game.GraphicsDevice.SetRenderTarget(normalMap_front);
-            game.GraphicsDevice.Clear(Color.Transparent);
-            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
-            backgroundManager_front.DrawNormalMap(gameTime);
-            spriteBatch.End();*/
-
 
             game.GraphicsDevice.SetRenderTarget(null);
             GenerateShadowMap();
@@ -274,14 +272,14 @@ namespace Soul
 
             if (pause)
             {
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
+                spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Resolution.getTransformationMatrix());
                 menuManager.Draw();
                 spriteBatch.End();
             }
 
             if (bool.Parse(game.config.getValue("Debug", "Timestamp")))
             {
-                spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
+                spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Resolution.getTransformationMatrix());
                 double time = Math.Round((gameTime.TotalGameTime.TotalMilliseconds - timeStarted + double.Parse(game.config.getValue("Debug", "StartingTime"))) / 1000) ;
                 string output = time.ToString();
                 string ambientInfo = "Ambient Light: " + ambientLight.ToString();
@@ -358,11 +356,13 @@ namespace Soul
             {
                 pause = false;
                 menuManager.FadeOut();
+                audioManager.playSound("menu_select");
             }
             else if (button.ID == "quit")
             {
                 quit = true;
                 menuManager.FadeOut();
+                audioManager.playSound("menu_select");
             }
         }
 
@@ -379,25 +379,14 @@ namespace Soul
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, lightCombinedEffect, Resolution.getTransformationMatrix());
             spriteBatch.Draw(colorMap_back, Vector2.Zero, Color.White);
+            fog.Draw(Vector2.Zero, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(entityLayer, Vector2.Zero, Color.White);
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Resolution.getTransformationMatrix());
-            spriteBatch.Draw(entityLayer, Vector2.Zero, Color.White);
-            backgroundManager_front.Draw();
-            spriteBatch.End();
-
-           /* lightCombinedEffect.CurrentTechnique = lightCombinedEffectTechnique;
-            lightCombinedEffectParamAmbient.SetValue(ambientStrength);
-            lightCombinedEffectParamLightAmbient.SetValue(4);
-            lightCombinedEffectParamAmbientColor.SetValue(ambientLight.ToVector4());
-            lightCombinedEffectParamColorMap.SetValue(colorMap_front);
-            lightCombinedEffectParamShadowMap.SetValue(shadowMap_front);
-            lightCombinedEffectParamNormalMap.SetValue(normalMap_front);
-            lightCombinedEffect.CurrentTechnique.Passes[0].Apply();
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, lightCombinedEffect, Resolution.getTransformationMatrix());
+            player.Draw();
             spriteBatch.Draw(colorMap_front, Vector2.Zero, Color.White);
-            spriteBatch.End();*/
+            spriteBatch.End();
 
         }
 
@@ -439,41 +428,6 @@ namespace Soul
                 }
             }
             game.GraphicsDevice.SetRenderTarget(null);
-
-            //game.GraphicsDevice.SetRenderTarget(shadowMap_front);
-            //game.GraphicsDevice.Clear(Color.Transparent);
-
-            /*foreach (var light in lights)
-            {
-                if (!light.IsEnabled) continue;
-
-                game.GraphicsDevice.SetVertexBuffer(VertexBuffer);
-
-                // Draw all light sources
-                lightEffectParameterStrenght.SetValue(light.ActualPower);
-                lightEffectParameterPosition.SetValue(light.Position);
-                lightEffectParameterLightColor.SetValue(light.Color);
-                lightEffectParameterLightDecay.SetValue(light.LightDecay);
-                lightEffect.Parameters["specularStrength"].SetValue(specularStrenght);
-
-                if (light.LightType == LightType.Point)
-                {
-                    lightEffect.CurrentTechnique = lightEffectTechniquePointLight;
-                }
-
-                lightEffectParameterScreenWidth.SetValue(game.GraphicsDevice.Viewport.Width);
-                lightEffectParameterScreenHeight.SetValue(game.GraphicsDevice.Viewport.Height);
-                lightEffect.Parameters["ambientColor"].SetValue(ambientLight.ToVector4());
-                lightEffectParameterNormalMap.SetValue(normalMap_front);
-                lightEffect.Parameters["ColorMap"].SetValue(colorMap_front);
-                lightEffect.CurrentTechnique.Passes[0].Apply();
-
-                game.GraphicsDevice.BlendState = BlendBlack;
-
-                game.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, Vertices, 0, 2);
-            }*/
-
-            //game.GraphicsDevice.SetRenderTarget(null);
 
             return shadowMap_back;
         }

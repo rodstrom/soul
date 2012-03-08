@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Soul.Manager;
 
 namespace Soul
 {
@@ -13,7 +14,7 @@ namespace Soul
         private Vector2 hitPosition = Vector2.Zero;
         private HitFX hitFx = null;
 
-         public LesserDemon(SpriteBatch spriteBatch, Soul game, string alias, Vector2 target)
+         public LesserDemon(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, string alias, Vector2 target)
             : base(spriteBatch, game, Constants.LESSER_DEMON_FILENAME, new Vector2(Constants.LESSER_DEMON_WIDTH, Constants.LESSER_DEMON_HEIGHT), alias, EntityType.LESSER_DEMON)
         {
             //maxVelocity = new Vector2 (Constants.LESSER_DEMON_MAX_SPEED, Constants.LESSER_DEMON_MAX_SPEED);
@@ -21,6 +22,7 @@ namespace Soul
             //this.health = Constants.LESSER_DEMON_MAX_HEALTH;
             hitFx = new HitFX(game);
             //this.hitRadius = Constants.LESSER_DEMON_RADIUS;
+            this.audio = audioManager;
         }
 
          public override void Draw()
@@ -41,9 +43,9 @@ namespace Soul
              hitFx.Update();
              //base.Update(gameTime);
              Move(gameTime);
-             if (position.X > screenBoundaries.Width)
+             if (position.X > screenBoundaries.Width + 100)
              {
-                 killMe = false;
+                 killMe = true;
              }
          }
 
@@ -94,6 +96,7 @@ namespace Soul
                      if (health <= 0)
                      {
                          killMe = true;
+                         audio.playSound("lesser_demon_die");
                      }
                  }
                  else if (entity.Type == EntityType.PLAYER && playerHit == false)
@@ -112,6 +115,7 @@ namespace Soul
              if (health <= 0)
              {
                  killMe = true;
+                 audio.playSound("lesser_demon_die");
              }
          }
 

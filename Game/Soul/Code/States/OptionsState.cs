@@ -38,7 +38,7 @@ namespace Soul
         VolumeSlider volumeSlider = null;
         Selection selectionTest = null;
 
-        string fullScreenSel = "Fullscreen";
+        //string fullScreenSel = "Fullscreen";
         //IniFile config;
 
         public OptionsState(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, GraphicsDeviceManager graphics, LinkedList<DisplayMode> displayModes, InputManager controls, string id) : base(spriteBatch, game, audioManager, controls, id) 
@@ -99,11 +99,6 @@ namespace Soul
         public override bool Update(GameTime gameTime)
         {
             //volumeSlider.UpdateVolume(MediaPlayer.Volume);
-
-            if (controls.Debug)
-            {
-                fullScreenSel = "Windowed";
-            }
 
             if (controls.Pause)
             {

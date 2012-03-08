@@ -32,6 +32,8 @@ namespace Soul
             return _options[group][key];
         }
 
+        //public string getKey(string group)
+
         public void addModify(string group, string key, string value)
         {
             if (_options.ContainsKey(group) == false)

@@ -54,13 +54,14 @@ namespace Soul
         protected bool ghost = false;
         protected bool disposed = false;
         protected int health = 0;
+        protected int maxHealth = 0;
         protected int damage = 0;
         protected int animationState = 0;
         protected float hitRadius = 0;
         protected int spikeDamage = 0;
         protected int spikeSpeed = 0;
         protected int spikeRange = 0;
-        protected int fireRate = 0;
+        protected float fireRate = 0;
         protected int minSpawn = 0;
         protected int maxSpawn = 0;
         protected int burst = 0;
@@ -85,7 +86,9 @@ namespace Soul
             
             bool varyingEntity = false;
             List<String> varyingEntities = new List<string>();
-            varyingEntities.Add("BLOOD_VESSEL");
+            varyingEntities.Add("BLUE_BLOOD_VESSEL");
+            varyingEntities.Add("RED_BLOOD_VESSEL");
+            varyingEntities.Add("PURPLE_BLOOD_VESSEL");
             varyingEntities.Add("DARK_THOUGHT");
             varyingEntities.Add("DARK_WHISPER");
             varyingEntities.Add("INNER_DEMON");
@@ -105,6 +108,7 @@ namespace Soul
                 //IniFile ini = new IniFile("Content\\Config\\constants.ini");
                 //ini.parse();
                 health = int.Parse(game.constants.getValue(type.ToString(), "HEALTH"));
+                maxHealth = int.Parse(game.constants.getValue(type.ToString(), "HEALTH"));
                 hitRadius = int.Parse(game.constants.getValue(type.ToString(), "RADIUS"));
                 maxVelocity = new Vector2(float.Parse(game.constants.getValue(type.ToString(), "SPEED")), float.Parse(game.constants.getValue(type.ToString(), "SPEED")));
                 if (!type.ToString().Equals("INNER_DEMON") && !type.ToString().Equals("LESSER_DEMON"))
@@ -113,7 +117,7 @@ namespace Soul
                 }
                 if (type.ToString().Equals("DARK_THOUGHT") || type.ToString().Equals("PLAYER"))
                 {
-                    fireRate = int.Parse(game.constants.getValue(type.ToString(), "RATE"));
+                    fireRate = float.Parse(game.constants.getValue(type.ToString(), "RATE"));
                 } 
                 if (type.ToString().Equals("DARK_THOUGHT"))
                 {
@@ -315,8 +319,9 @@ namespace Soul
         public abstract int getDamage();
         public abstract void takeDamage(int value);
 
-        public float FX { get { return FX; } }
+        //public float FX { get { return FX; } }
         public bool Ghost { get { return ghost; } }
+        public int MaxHealth { get { return maxHealth; } }
 
 
         

@@ -141,6 +141,15 @@ namespace Soul.Manager
             return false;
         }
 
+        public bool FadeInDone()
+        {
+            if (buttons[0].Key.IsAlphaMax == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public string SelectionID()
         {
             return buttons[currentPosition].Key.ID;

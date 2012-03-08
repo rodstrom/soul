@@ -23,6 +23,7 @@ namespace Soul
         InputManager controls;
         public IniFile config;
         public IniFile constants;
+        public IniFile audioList;
 
         public Soul()
         {
@@ -36,6 +37,8 @@ namespace Soul
             config.parse();
             constants = new IniFile("Content\\Config\\constants.ini");
             constants.parse();
+            audioList = new IniFile("Content\\Config\\audiolist.ini");
+            audioList.parse();
             this.IsMouseVisible = bool.Parse(config.getValue("General", "ShowMouse"));
             audioManager = new AudioManager(Content, this);
             displayModes = new LinkedList<DisplayMode>();
@@ -59,10 +62,45 @@ namespace Soul
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            stateManager = new StateManager();
 
-            levelReader = new LevelReader("Content\\Levels\\level01.map", this);
-            levelReader.Parse();
+            // Intro sounds
+            audioManager.addEffect(audioList.getValue("Intro", "startup"), "intro_startup");
+
+            // Main Menu Sounds
+            audioManager.addEffect(audioList.getValue("MainMenu", "move"), "menu_move");
+            audioManager.addEffect(audioList.getValue("MainMenu", "select"), "menu_select");
+            audioManager.addEffect(audioList.getValue("MainMenu", "start"), "menu_start");
+            audioManager.addSong(audioList.getValue("MainMenu", "music"), "menu_music");
+
+            // World Map Sounds
+            audioManager.addEffect(audioList.getValue("WorldMap", "select"), "map_select");
+            audioManager.addEffect(audioList.getValue("WorldMap", "move"), "map_move");
+            audioManager.addEffect(audioList.getValue("WorldMap", "selectMap"), "map_select_map");
+            audioManager.addEffect(audioList.getValue("WorldMap", "back"), "map_back");
+            audioManager.addSong(audioList.getValue("WorldMap", "music"), "map_music");
+
+            // In Game Sounds
+            audioManager.addEffect(audioList.getValue("InGame", "player_shoot"), "player_shoot");
+            audioManager.addEffect(audioList.getValue("InGame", "player_die"), "player_die");
+            audioManager.addEffect(audioList.getValue("InGame", "player_powerup_pickup"), "player_powerup_pickup");
+            audioManager.addEffect(audioList.getValue("InGame", "dark_thought_shoot"), "dark_thought_shoot");
+            audioManager.addEffect(audioList.getValue("InGame", "dark_thought_die"), "dark_thought_die");
+            audioManager.addEffect(audioList.getValue("InGame", "red_bloodvessel_die"), "red_bloodvessel_die");
+            audioManager.addEffect(audioList.getValue("InGame", "blue_bloodvessel_die"), "blue_bloodvessel_die");
+            audioManager.addEffect(audioList.getValue("InGame", "purple_bloodvessel_die"), "purple_bloodvessel_die");
+            audioManager.addEffect(audioList.getValue("InGame", "nightmare_die"), "nightmare_die");
+            audioManager.addEffect(audioList.getValue("InGame", "nightmare_hit"), "nightmare_hit");
+            audioManager.addEffect(audioList.getValue("InGame", "inner_demon_die"), "inner_demon_die");
+            audioManager.addEffect(audioList.getValue("InGame", "lesser_demon_spawn"), "lesser_demon_spawn");
+            audioManager.addEffect(audioList.getValue("InGame", "lesser_demon_die"), "lesser_demon_die");
+            audioManager.addEffect(audioList.getValue("InGame", "dark_whisper_die"), "dark_whisper_die");
+            audioManager.addEffect(audioList.getValue("InGame", "dark_whisper_release_spikes"), "release_spikes");
+            audioManager.addEffect(audioList.getValue("InGame", "pause_appear"), "pause_appear");
+            audioManager.addSong(audioList.getValue("InGame", "music"), "main_music");
+            audioManager.addSong(audioList.getValue("InGame", "music_secondary"), "secondary_music");
+
+
+            stateManager = new StateManager();
 
             controls = new InputManager(this);
             State state = new IntroState(spriteBatch, this, audioManager, controls, "IntroState");
@@ -80,7 +118,6 @@ namespace Soul
             state = new PlayState(spriteBatch, this, audioManager, controls, "PlayState");
             stateManager.AddState(state);
             stateManager.SetState(config.getValue("General", "StartState"));
-
         }
 
         protected override void UnloadContent()

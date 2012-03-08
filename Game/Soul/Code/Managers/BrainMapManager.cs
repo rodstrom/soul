@@ -10,7 +10,6 @@ namespace Soul.Manager
     class BrainMapManager
     {
         public delegate void ButtonEventHandler(bool value);
-        //public event ButtonEventHandler onClick = null;
         private Sprite bg = null;
         private Vector2 offset = Vector2.Zero;
         private Vector2 position = Vector2.Zero;
@@ -22,10 +21,13 @@ namespace Soul.Manager
         private MenuManager menuManager = null;
         private FadeInOut fadeinOut = null;
         private InputManager controls = null;
+        private AudioManager audioManager = null;
         private bool changeState = false;
+        private int returnValue = 0;
 
-        public BrainMapManager(SpriteBatch spriteBatch, Soul game, InputManager controls, Vector2 position)
+        public BrainMapManager(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, InputManager controls, Vector2 position)
         {
+            this.audioManager = audioManager;
             bg = new Sprite(spriteBatch, game, Constants.BRAIN_MAP_BG);
             mapList = new List<List<BrainMapMarker>>();
 
@@ -37,10 +39,10 @@ namespace Soul.Manager
             mapList.Add(tmpList);
 
             menuManager = new MenuManager(controls);
-            ImageButton button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f - 150, (float)game.Window.ClientBounds.Height * 0.5f + 200), "GUI\\button_continue", "cleanse");
+            ImageButton button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f - 150, (float)game.Window.ClientBounds.Height * 0.5f + 200), Constants.GUI_CLEANSE, "cleanse");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
-            button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f + 150, (float)game.Window.ClientBounds.Height * 0.5f + 200), "GUI\\button_quit_pause", "back");
+            button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f + 150, (float)game.Window.ClientBounds.Height * 0.5f + 200), Constants.GUI_BACK, "back");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
             menuManager.initialize();
@@ -57,8 +59,23 @@ namespace Soul.Manager
             changeState = false;
         }
 
-        public bool Update(GameTime gameTime)
+        public int Update(GameTime gameTime)
         {
+            returnValue = 0;
+            if (showMenu == true && controls.Pause == true)
+            {
+                showMenu = false;
+                fadeinOut.FadeIn();
+                mapList[_x][_y].Deselect();
+                menuManager.FadeOut();
+                menuManager.Reset();
+                audioManager.playSound("map_back");
+            }
+            else if (showMenu == false && controls.Pause == true)
+            {
+                returnValue = -1;
+            }
+
             fadeinOut.Update(gameTime);
 
             if (mapList[_x][_y].Selected == false)
@@ -82,7 +99,7 @@ namespace Soul.Manager
                 MenuInput();
                 menuManager.Update(gameTime);
             }
-            return changeState;
+            return returnValue;
         }
 
         public void Draw()
@@ -120,6 +137,7 @@ namespace Soul.Manager
             fadeinOut.FadeOut();
             menuManager.FadeIn();
             showMenu = true;
+            audioManager.playSound("map_select");
         }
 
         private void OnButtonPress(ImageButton button)
@@ -127,6 +145,8 @@ namespace Soul.Manager
             if (button.ID == "cleanse")
             {
                 changeState = true;
+                audioManager.playSound("map_select_map");
+                returnValue = 1;
             }
             else if (button.ID == "back")
             {
@@ -135,6 +155,7 @@ namespace Soul.Manager
                 mapList[_x][_y].Deselect();
                 menuManager.FadeOut();
                 menuManager.Reset();
+                audioManager.playSound("map_back");
             }
         }
 
@@ -150,6 +171,7 @@ namespace Soul.Manager
             _y++;
             mapList[_x][_y].Focus = true;
             mapList[_x][_y].Appear();
+            audioManager.playSound("map_move");
 
         }
 
@@ -164,6 +186,7 @@ namespace Soul.Manager
             _y--;
             mapList[_x][_y].Focus = true;
             mapList[_x][_y].Appear();
+            audioManager.playSound("map_move");
         }
 
         public void moveLeft()
@@ -177,6 +200,7 @@ namespace Soul.Manager
             _x++;
             mapList[_x][_y].Focus = true;
             mapList[_x][_y].Appear();
+            audioManager.playSound("map_move");
         }
 
         public void moveRight()
@@ -190,6 +214,7 @@ namespace Soul.Manager
             _x--;
             mapList[_x][_y].Focus = true;
             mapList[_x][_y].Appear();
+            audioManager.playSound("map_move");
         }
 #endregion MenuMovement
 
@@ -219,10 +244,12 @@ namespace Soul.Manager
             if (controls.MoveLeftOnce == true)
             {
                 menuManager.decrement();
+                audioManager.playSound("menu_move");
             }
             else if (controls.MoveRightOnce == true)
             {
                 menuManager.increment();
+                audioManager.playSound("menu_move");
             }
         }
 

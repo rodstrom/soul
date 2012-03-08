@@ -15,8 +15,9 @@ namespace Soul
         private EntityManager entityManager;
         private Vector2 directionToPlayer = Vector2.Zero;
         private HitFX hitFx = null;
+        private bool waitingToDie = false;
 
-        public Nightmare(SpriteBatch spriteBatch, Soul game, EntityManager entityManager, string alias)
+        public Nightmare(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, EntityManager entityManager, string alias)
             : base(spriteBatch, game, Constants.NIGHTMARE_FILENAME, new Vector2(Constants.NIGHTMARE_WIDTH, Constants.NIGHTMARE_HEIGHT), alias, EntityType.NIGHTMARE)
         {
             this.entityManager = entityManager;
@@ -24,9 +25,10 @@ namespace Soul
             this.acceleration = new Vector2 (Constants.NIGHTMARE_ACCELERATION, Constants.NIGHTMARE_ACCELERATION);
             //this.health = Constants.NIGHTMARE_MAX_HEALTH;
             //this.damage = Constants.NIGHTMARE_DAMAGE;
-            //this.animation.MaxFrames = 13;
+            this.animation.MaxFrames = 12;
             hitFx = new HitFX(game);
             //this.hitRadius = Constants.NIGHTMARE_RADIUS;
+            this.audio = audioManager;
         }
 
         public override void Draw()
@@ -48,6 +50,13 @@ namespace Soul
             Move(gameTime);
             animation.Animate(gameTime);
             base.Update(gameTime);
+            if (waitingToDie == true)
+            {
+                if (animation.CurrentFrame >= animation.MaxFrames)
+                {
+                    killMe = true;
+                }
+            }
         }
 
         #region move
@@ -111,12 +120,14 @@ namespace Soul
                     {
                         onDie(this);
                     }
-                    killMe = true;
+                    OnDie();
+                    audio.playSound("nightmare_die");
                 }
             }
             else if (entity.Type == EntityType.PLAYER)
             {
-                killMe = true;
+                OnDie();
+                audio.playSound("nightmare_hit");
             }
         }
 
@@ -130,8 +141,19 @@ namespace Soul
             health -= value;
             if (health <= 0)
             {
-                killMe = true;
+                OnDie();
+                audio.playSound("nightmare_die");
             }
+        }
+
+        private void OnDie()
+        {
+            animation.MaxFrames = 14;
+            ghost = true;
+            animation.FrameRate = 50;
+            animation.CurrentFrame = 0;
+            waitingToDie = true;
+            animationState = 1;
         }
     }
     

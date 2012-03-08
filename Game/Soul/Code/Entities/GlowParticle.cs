@@ -52,7 +52,6 @@ namespace Soul
                 Position = new Vector3(0f, 0f, 50f),
                 IsEnabled = true
             };
-           
         }
 
         public GlowParticle(SpriteBatch spriteBatch, Soul game, string alias, Vector2 position)
@@ -63,6 +62,20 @@ namespace Soul
             this.ghost = true;
         }
 
+        public GlowParticle(SpriteBatch spriteBatch, Soul game, string alias, Vector2 position, Vector2 velocity)
+            : base(spriteBatch, game, Constants.GLOW_PARTICLE_FILENAME, new Vector2(Constants.GLOW_PARTICLE_DIMENSION), alias, EntityType.DIE_PARTICLE)
+        {
+            this.velocity = velocity;
+            this.position = position;
+            pointLight = new PointLight()
+            {
+                Color = new Vector4(0f, 0f, 0f, 1f),
+                Power = 1f,
+                LightDecay = 90,
+                Position = new Vector3(0f, 0f, 50f),
+                IsEnabled = true
+            };
+        }
         private float NextFloat(Random random, float min, float max)
         {
             return (float)random.NextDouble() * (max - min) + min;
@@ -70,6 +83,11 @@ namespace Soul
 
         public override void Update(GameTime gameTime)
         {
+            if (pointLight != null)
+            {
+                pointLight.Position = new Vector3(position.X, position.Y, pointLight.Position.Z);
+            }
+
             if (decrease == true)
             {
                 glowScale -= glowScalePercentage;

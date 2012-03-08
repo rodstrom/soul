@@ -15,8 +15,9 @@ namespace Soul
         private Sprite rightArrow = null;
         private Vector2 leftArrowOffset = Vector2.Zero;
         private Vector2 rightArrowOffset = Vector2.Zero;
+        private bool showArrows = true;
 
-        public Label(SpriteBatch spriteBatch, Soul game, Vector2 position, string id, string text)
+        public Label(SpriteBatch spriteBatch, Soul game, Vector2 position, string id, string text, bool showArrows = true)
             : base(id)
         {
             this.spriteBatch = spriteBatch;
@@ -27,6 +28,7 @@ namespace Soul
             rightArrowOffset = rightArrow.Dimension * 0.5f;
             this.selection = text;
             this.position = position;
+            this.showArrows = showArrows;
         }
 
         public override void Update(GameTime gameTime)
@@ -38,8 +40,11 @@ namespace Soul
         {
             Vector2 FontOrigin = spriteFont.MeasureString(selection) / 2;
             spriteBatch.DrawString(spriteFont, selection, position, new Color(alpha, alpha, alpha, alpha), 0f, FontOrigin, 1f, SpriteEffects.None, 0f);
-            leftArrow.Draw(new Vector2(position.X - 100f, position.Y), new Color(alpha, alpha, alpha, alpha), 0f, leftArrowOffset, 1f, SpriteEffects.None, 0f);
-            rightArrow.Draw(new Vector2(position.X + 100f, position.Y), new Color(alpha, alpha, alpha, alpha), 0f, rightArrowOffset, 1f, SpriteEffects.None, 0f);
+            if (showArrows == true)
+            {
+                leftArrow.Draw(new Vector2(position.X - 100f, position.Y), new Color(alpha, alpha, alpha, alpha), 0f, leftArrowOffset, 1f, SpriteEffects.None, 0f);
+                rightArrow.Draw(new Vector2(position.X + 100f, position.Y), new Color(alpha, alpha, alpha, alpha), 0f, rightArrowOffset, 1f, SpriteEffects.None, 0f);
+            }
         }
 
 

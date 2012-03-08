@@ -13,7 +13,7 @@ namespace Soul
         public bool hasFocus = false;
         protected string id;
         protected string selection = null;
-        protected int alpha = 0;
+        public int alpha = 0;
         protected int alphaScaler = 5;
         protected bool fadeIn = false;
         protected bool fadeOut = false;
@@ -94,6 +94,18 @@ namespace Soul
             get
             {
                 if (alpha <= 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public bool IsAlphaMax
+        {
+            get
+            {
+                if (alpha >= 255)
                 {
                     return true;
                 }

@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Soul.Manager
 {
@@ -22,6 +24,16 @@ namespace Soul.Manager
         private bool transition = false;
         private string nextMenu = "";
         private int currentmode = -1;
+        private int active = 5;
+        private string alert = "";
+        private bool wait = false;
+        private long waitTime = 0;
+        private long keyWaitTime = 5000;
+        private Stopwatch timer = Stopwatch.StartNew();
+        private Stopwatch keyWaitTimer = Stopwatch.StartNew();
+        private bool changeKey = false;
+        private Vector2 keyChangeWarning = Vector2.Zero;
+        private SpriteFont spriteFont = null;
 
         public MenuStateManager(SpriteBatch spriteBatch, Soul game, GraphicsDeviceManager graphics, LinkedList<DisplayMode> displayModes, InputManager inputManager, AudioManager audioManager)
         {
@@ -140,24 +152,40 @@ namespace Soul.Manager
             // Creating Controls Options Menu
             menuManager = new MenuManager(inputManager, "Controls");
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 50.0f), Constants.GUI_SHOOT, "controls_shoot");
-            menuManager.AddButton(button);
+            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 50.0f), "shoot_string", inputManager.shoot.ToString());
+            menuManager.AddButton(button, label);
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 100.0f), Constants.GUI_UP, "controls_up");
-            menuManager.AddButton(button);
+            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 100.0f), "up_string", inputManager.up.ToString());
+            menuManager.AddButton(button, label);
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_DOWN, "controls_down");
-            menuManager.AddButton(button);
+            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), "down_string", inputManager.down.ToString());
+            menuManager.AddButton(button, label);
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), Constants.GUI_LEFT, "controls_left");
-            menuManager.AddButton(button);
+            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), "left_string", inputManager.left.ToString());
+            menuManager.AddButton(button, label);
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), Constants.GUI_RIGHT, "controls_right");
-            menuManager.AddButton(button);
+            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), "right_string", inputManager.right.ToString());
+            menuManager.AddButton(button, label);
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 300.0f), Constants.GUI_BACK, "controls_back");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
             menuManager.initialize();
             menu["Controls"] = menuManager;
 
+            // Creating Credits Options Menu
+            menuManager = new MenuManager(inputManager, "Credits");
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), Constants.GUI_BACK, "credits_back");
+            button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
+            MenuImage menuImage = new MenuImage(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_DEVELOPERS_CREDITS, "dev_text");
+            menuManager.AddButton(button, menuImage);
+            menuManager.initialize();
+            menu["Credits"] = menuManager;
+
             currentMenuManager = menu["MainMenu"];
             currentMenuManager.FadeIn();
 
+            keyChangeWarning = new Vector2(game.Window.ClientBounds.Width * 0.5f, game.Window.ClientBounds.Height * 0.5f);
+            spriteFont = game.Content.Load<SpriteFont>(Constants.GUI_FONT);
         }
 
         public void AddMenu(string id, MenuManager mm)
@@ -168,8 +196,6 @@ namespace Soul.Manager
         public int Update(GameTime gameTime)
         {
             returnValue = 0;
-            if (inputManager.MoveUpOnce == true) currentMenuManager.decrement();
-            if (inputManager.MoveDownOnce == true) currentMenuManager.increment();
 
             if (transition == true)
             {
@@ -182,6 +208,46 @@ namespace Soul.Manager
             }
 
             currentMenuManager.Update(gameTime);
+
+            if (wait == false && changeKey == false)
+            {
+                if (inputManager.MoveUpOnce == true)
+                {
+                    audioManager.playSound("menu_move");
+                    currentMenuManager.decrement();
+                }
+                else if (inputManager.MoveDownOnce == true)
+                {
+                    audioManager.playSound("menu_move");
+                    currentMenuManager.increment();
+                }
+
+                if (inputManager.ShootingOnce == true && currentMenuManager.SelectionID() != "start")
+                {
+                    audioManager.playSound("menu_select");
+                }
+                else if (inputManager.ShootingOnce == true && currentMenuManager.SelectionID() == "start")
+                {
+                    audioManager.playSound("menu_start");
+                }
+            }
+
+            if (changeKey == true)
+            {
+                if (keyWaitTimer.ElapsedMilliseconds > keyWaitTime)
+                {
+                    changeKey = false;
+                    if (wait == true) wait = false;
+                }
+            }
+            else if (wait == true)
+            {
+                if (timer.ElapsedMilliseconds > waitTime)
+                {
+                    wait = false;
+                }
+            }
+
 
             if (currentMenuManager.ID == "Sound")
             {
@@ -203,6 +269,10 @@ namespace Soul.Manager
         public void Draw()
         {
             currentMenuManager.Draw();
+            if (changeKey == true)
+            {
+                spriteBatch.DrawString(spriteFont, alert, keyChangeWarning, Color.Red);
+            }
         }
 
         public void ChangeMenuState(string text)
@@ -314,7 +384,52 @@ namespace Soul.Manager
 
         private void ControlsMenu()
         {
+            if (currentMenuManager.SelectionID() != "controls_back" && inputManager.ShootingOnce == true && changeKey == false && wait == false)
+            {
+                changeKey = true;
+                keyWaitTimer.Reset();
+                keyWaitTimer.Start();
+            }
 
+            if (changeKey == true && wait == false)
+            {
+                alert = "Please select new key";
+
+                if (inputManager.keyState.GetPressedKeys().Length > 0)
+                {
+                    wait = true;
+                    changeKey = false;
+                    alert = "";
+                    waitTime = 250;
+                    timer.Reset();
+                    timer.Start();
+                    Keys newKey = inputManager.keyState.GetPressedKeys().First();
+                    inputManager.setKey(active, newKey);
+                    currentMenuManager.SetCurrentSelection(newKey.ToString());
+                    alert = "";
+                }
+            }
+
+            if (currentMenuManager.SelectionID() == "controls_shoot")
+            {
+                active = 0;
+            }
+            else if (currentMenuManager.SelectionID() == "controls_up")
+            {
+                active = 1;
+            }
+            else if (currentMenuManager.SelectionID() == "controls_down")
+            {
+                active = 2;
+            }
+            else if (currentMenuManager.SelectionID() == "controls_left")
+            {
+                active = 3;
+            }
+            else if (currentMenuManager.SelectionID() == "controls_right")
+            {
+                active = 4;
+            }
         }
 
         private void OnButtonPress(ImageButton button)
@@ -339,6 +454,10 @@ namespace Soul.Manager
             {
                 ControlsControl(button);
             }
+            else if (currentMenuManager.ID == "Credits")
+            {
+                CreditsControl(button);
+            }
         }
 
         public void MainMenuControl(ImageButton button)
@@ -353,7 +472,7 @@ namespace Soul.Manager
             }
             else if (button.ID == "credits")
             {
-                returnValue = 3;
+                ChangeMenuState("Credits");
             }
             else if (button.ID == "quit")
             {
@@ -402,6 +521,14 @@ namespace Soul.Manager
             if (button.ID == "controls_back")
             {
                 ChangeMenuState("Options");
+            }
+        }
+
+        public void CreditsControl(ImageButton button)
+        {
+            if (button.ID == "credits_back")
+            {
+                ChangeMenuState("MainMenu");
             }
         }
 
@@ -535,6 +662,34 @@ namespace Soul.Manager
             game.config.addModify("Video", "Height", displayModes.ElementAt(currentmode).Height.ToString());
             game.config.save();
             currentMenuManager.SetSelection(game.config.getValue("Video", "Width") + " x " + game.config.getValue("Video", "Height"));
+        }
+
+        public void FadeInMenu()
+        {
+            currentMenuManager.FadeIn();
+        }
+
+        public void FadeOutMenu()
+        {
+            currentMenuManager.FadeOut();
+        }
+
+        public bool IsMenuFadingDone()
+        {
+            if (currentMenuManager.FadeOutDone() == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool IsMenuFadingInDone()
+        {
+            if (currentMenuManager.FadeInDone() == true)
+            {
+                return true;
+            }
+            return false;
         }
 
 

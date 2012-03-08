@@ -11,21 +11,7 @@
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
     <ContentRootDirectory>Content</ContentRootDirectory>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>
@@ -42,6 +28,20 @@
     <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -77,6 +77,7 @@
       <Name>comic010</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +85,7 @@
       <Name>iron-man</Name>
       <Importer>WmaImporter</Importer>
       <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -196,11 +198,6 @@
     </Compile>
     <Compile Include="SpriteSheets\Bloodvessel1_fixed.png">
       <Name>Bloodvessel1_fixed</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\Dark-Thought-Animation-A.png">
-      <Name>Dark-Thought-Animation-A</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -380,6 +377,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config\audiolist.ini">
+      <Name>audiolist</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Levels\Level01.map">
       <Name>Level01</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -484,78 +485,78 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backgrounds\Pillars\Pillar10__0001_Normal.png">
-      <Name>Pillar10__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar10.png">
+      <Name>Pillar10</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar11__0001_Normal.png">
-      <Name>Pillar11__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar11.png">
+      <Name>Pillar11</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar12__0001_Normal.png">
-      <Name>Pillar12__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar12.png">
+      <Name>Pillar12</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar13__0001_Normal.png">
-      <Name>Pillar13__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar13.png">
+      <Name>Pillar13</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar14__0001_Normal.png">
-      <Name>Pillar14__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar14.png">
+      <Name>Pillar14</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar15__0001_Normal.png">
-      <Name>Pillar15__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar15.png">
+      <Name>Pillar15</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar1__0001_Normal.png">
-      <Name>Pillar1__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar01.png">
+      <Name>Pillar01</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar2__0001_Normal.png">
-      <Name>Pillar2__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar02.png">
+      <Name>Pillar02</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar3__0001_Normal.png">
-      <Name>Pillar3__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar03.png">
+      <Name>Pillar03</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar4__0001_Normal.png">
-      <Name>Pillar4__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar04.png">
+      <Name>Pillar04</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar5__0001_Normal.png">
-      <Name>Pillar5__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar05.png">
+      <Name>Pillar05</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar6__0001_Normal.png">
-      <Name>Pillar6__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar06.png">
+      <Name>Pillar06</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar7__0001_Normal.png">
-      <Name>Pillar7__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar07.png">
+      <Name>Pillar07</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar8__0001_Normal.png">
-      <Name>Pillar8__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar08.png">
+      <Name>Pillar08</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar9__0001_Normal.png">
-      <Name>Pillar9__0001_Normal</Name>
+    <Compile Include="Backgrounds\Pillars\Pillar09.png">
+      <Name>Pillar09</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -578,11 +579,6 @@
     </Compile>
     <Compile Include="SpriteSheets\Bloodvessel3.png">
       <Name>Bloodvessel3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\Nightmare-Move-anim-B.png">
-      <Name>Nightmare-Move-anim-B</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -641,78 +637,6 @@
     </Compile>
     <Compile Include="GUI\text_Developers.png">
       <Name>text_Developers</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Backgrounds\Pillars\Pillar10__0001_Normal_depth.png">
-      <Name>Pillar10__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar11__0001_Normal_depth.png">
-      <Name>Pillar11__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar12__0001_Normal_depth.png">
-      <Name>Pillar12__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar13__0001_Normal_depth.png">
-      <Name>Pillar13__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar14__0001_Normal_depth.png">
-      <Name>Pillar14__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar1__0001_Normal_depth.png">
-      <Name>Pillar1__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar2__0001_Normal_depth.png">
-      <Name>Pillar2__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar3__0001_Normal_depth.png">
-      <Name>Pillar3__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar4__0001_Normal_depth.png">
-      <Name>Pillar4__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar5__0001_Normal_depth.png">
-      <Name>Pillar5__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar6__0001_Normal_depth.png">
-      <Name>Pillar6__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar7__0001_Normal_depth.png">
-      <Name>Pillar7__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar8__0001_Normal_depth.png">
-      <Name>Pillar8__0001_Normal_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\Pillars\Pillar9__0001_Normal_depth.png">
-      <Name>Pillar9__0001_Normal_depth</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -828,6 +752,555 @@
     </Compile>
     <Compile Include="GUI\gui_specular.png">
       <Name>gui_specular</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GUI\gui_no.png">
+      <Name>gui_no</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="GUI\gui_yes.png">
+      <Name>gui_yes</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GUI\gui_cleanse.png">
+      <Name>gui_cleanse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GUI\Continue.png">
+      <Name>Continue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\blood_hit.mp3">
+      <Name>blood_hit</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\blood_splat.mp3">
+      <Name>blood_splat</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\calm.wav">
+      <Name>calm</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\cough_boy_2_years_painful_sore_throat_002.mp3">
+      <Name>cough_boy_2_years_painful_sore_throat_002</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\deep_underwater_ambience_001.mp3">
+      <Name>deep_underwater_ambience_001</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\explosion_underwater_distant.mp3">
+      <Name>explosion_underwater_distant</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\free_board_break_sound_from_www_sfxsource_com.mp3">
+      <Name>free_board_break_sound_from_www_sfxsource_com</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\funny_bite.mp3">
+      <Name>funny_bite</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\heart_beating_at_normal_speed.mp3">
+      <Name>heart_beating_at_normal_speed</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\horror_knife_stab_flesh_001.mp3">
+      <Name>horror_knife_stab_flesh_001</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\horror_knife_stab_flesh_wet_squelchy_002.mp3">
+      <Name>horror_knife_stab_flesh_wet_squelchy_002</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\human_swallow_gulp.mp3">
+      <Name>human_swallow_gulp</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\intense.wav">
+      <Name>intense</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\short_hard_squish.mp3">
+      <Name>short_hard_squish</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\water_drip_001.mp3">
+      <Name>water_drip_001</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Audio\water_drip_002.mp3">
+      <Name>water_drip_002</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Dark-Thought-Animation.png">
+      <Name>Dark-Thought-Animation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Nightmare-Animation_A.png">
+      <Name>Nightmare-Animation_A</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Blood-Vessel-Death-Anim-Blue.png">
+      <Name>Blood-Vessel-Death-Anim-Blue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteSheets\BloodVesselDeathAnimPurple.png">
+      <Name>BloodVesselDeathAnimPurple</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteSheets\BloodVesselDeathAnimRed.png">
+      <Name>BloodVesselDeathAnimRed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteSheets\InnerDemonDeathAnim.png">
+      <Name>InnerDemonDeathAnim</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Blood-Vessel-death-Anim-1.png">
+      <Name>Blood-Vessel-death-Anim-1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteSheets\Bloodvessel1_fixed_2.png">
+      <Name>Bloodvessel1_fixed_2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\Arrow_Swoosh.wav">
+      <Name>Arrow_Swoosh</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\beep-07.wav">
+      <Name>beep-07</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\black.wav">
+      <Name>black</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\born_barnstomers_a_blend_of_bluegrass_strings_and_funk_organ_styles.mp3">
+      <Name>born_barnstomers_a_blend_of_bluegrass_strings_and_funk_organ_styles</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\briefcase-02.wav">
+      <Name>briefcase-02</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\Fireball3.wav">
+      <Name>Fireball3</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\HeadPop.mp3">
+      <Name>HeadPop</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\laugh-man-01.wav">
+      <Name>laugh-man-01</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\match-light-01.wav">
+      <Name>match-light-01</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\staple-01.wav">
+      <Name>staple-01</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\throwknife.wav">
+      <Name>throwknife</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\gui_move.wav">
+      <Name>gui_move</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\gui_select.wav">
+      <Name>gui_select</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\soul_start.wav">
+      <Name>soul_start</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\soul_start2.wav">
+      <Name>soul_start2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\soul_title.wav">
+      <Name>soul_title</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\world_map.wav">
+      <Name>world_map</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\calm2.wav">
+      <Name>calm2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\gui_move2.wav">
+      <Name>gui_move2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\gui_select2.wav">
+      <Name>gui_select2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\map_zoom_in.wav">
+      <Name>map_zoom_in</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\map_zoom_out.wav">
+      <Name>map_zoom_out</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\world_map2.wav">
+      <Name>world_map2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\SOUND_0911.mp3">
+      <Name>SOUND_0911</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_0912.mp3">
+      <Name>SOUND_0912</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_0913.mp3">
+      <Name>SOUND_0913</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_0914.mp3">
+      <Name>SOUND_0914</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_0915.mp3">
+      <Name>SOUND_0915</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_0916.mp3">
+      <Name>SOUND_0916</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1108.mp3">
+      <Name>SOUND_1108</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1109.mp3">
+      <Name>SOUND_1109</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1116.mp3">
+      <Name>SOUND_1116</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1117.mp3">
+      <Name>SOUND_1117</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1135.mp3">
+      <Name>SOUND_1135</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1136.mp3">
+      <Name>SOUND_1136</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1137.mp3">
+      <Name>SOUND_1137</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1141.mp3">
+      <Name>SOUND_1141</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1142.mp3">
+      <Name>SOUND_1142</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1143.mp3">
+      <Name>SOUND_1143</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1144.mp3">
+      <Name>SOUND_1144</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1145.mp3">
+      <Name>SOUND_1145</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1146.mp3">
+      <Name>SOUND_1146</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1147.mp3">
+      <Name>SOUND_1147</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1148.mp3">
+      <Name>SOUND_1148</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1165.mp3">
+      <Name>SOUND_1165</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1170.mp3">
+      <Name>SOUND_1170</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1171.mp3">
+      <Name>SOUND_1171</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1172.mp3">
+      <Name>SOUND_1172</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1173.mp3">
+      <Name>SOUND_1173</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1174.mp3">
+      <Name>SOUND_1174</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1175.mp3">
+      <Name>SOUND_1175</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1218.mp3">
+      <Name>SOUND_1218</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1219.mp3">
+      <Name>SOUND_1219</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1220.mp3">
+      <Name>SOUND_1220</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Audio\SOUND_1221.mp3">
+      <Name>SOUND_1221</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Backgrounds\bg2_color_map.png">
+      <Name>bg2_color_map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\bg_colorMap.png">
+      <Name>bg_colorMap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\bg_normalMap.png">
+      <Name>bg_normalMap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Backgrounds\Pillars\Pillar01_depth.png">
+      <Name>Pillar01_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar02_depth.png">
+      <Name>Pillar02_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar03_depth.png">
+      <Name>Pillar03_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar04_depth.png">
+      <Name>Pillar04_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar05_depth.png">
+      <Name>Pillar05_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar06_depth.png">
+      <Name>Pillar06_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar07_depth.png">
+      <Name>Pillar07_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar08_depth.png">
+      <Name>Pillar08_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar09_depth.png">
+      <Name>Pillar09_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar10_depth.png">
+      <Name>Pillar10_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar11_depth.png">
+      <Name>Pillar11_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar12_depth.png">
+      <Name>Pillar12_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar13_depth.png">
+      <Name>Pillar13_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar14_depth.png">
+      <Name>Pillar14_depth</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Backgrounds\Pillars\Pillar15_depth.png">
+      <Name>Pillar15_depth</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

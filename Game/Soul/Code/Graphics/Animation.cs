@@ -15,6 +15,7 @@ namespace Soul
         private int oldTime = 0;
         private int frameInc = 1;
         private int frameRate = 100;
+        public bool playOnce = false;
 
         public Animation(int value)
         {
@@ -61,10 +62,18 @@ namespace Soul
             else if (currentFrame > maxFrames && reverse == false)
             {
                 currentFrame = 0;
+                if (playOnce == true)
+                {
+                    currentFrame = maxFrames;
+                }
             }
             else if (currentFrame < 0 && reverse == true)
             {
                 currentFrame = maxFrames;
+                if (playOnce == true)
+                {
+                    currentFrame = 0;
+                }
             }
 
         }

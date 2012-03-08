@@ -21,7 +21,7 @@ namespace Soul
 
         public override void initialize(string data)
         {
-            entityManager = new EntityManager(spriteBatch, game);
+            entityManager = new EntityManager(spriteBatch, game, audio);
             player = new Player(spriteBatch, game, audio, "player", entityManager, controls);
             Vector2 newPlayerPos = new Vector2((float)game.Window.ClientBounds.Width * 0.5f, (float)game.Window.ClientBounds.Height * 0.5f);
             player.Position = newPlayerPos;
@@ -29,23 +29,24 @@ namespace Soul
             entityManager.initialize();
 
             levelManager = new LevelManager();
-            Level level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL01, "level01");
+            Level level = new Level(spriteBatch, game, audio, entityManager, player, controls, Constants.LEVEL01, "level01");
             levelManager.AddLevel(level);
-            level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL02, "level02");
+            level = new Level(spriteBatch, game, audio, entityManager, player, controls, Constants.LEVEL02, "level02");
             levelManager.AddLevel(level);
-            level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL03, "level03");
+            level = new Level(spriteBatch, game, audio, entityManager, player, controls, Constants.LEVEL03, "level03");
             levelManager.AddLevel(level);
-            level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL04, "level04");
+            level = new Level(spriteBatch, game, audio, entityManager, player, controls, Constants.LEVEL04, "level04");
             levelManager.AddLevel(level);
-            level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL05, "level05");
+            level = new Level(spriteBatch, game, audio, entityManager, player, controls, Constants.LEVEL05, "level05");
             levelManager.AddLevel(level);
-            level = new Level(spriteBatch, game, entityManager, player, controls, Constants.LEVEL06, "level06");
+            level = new Level(spriteBatch, game, audio, entityManager, player, controls, Constants.LEVEL06, "level06");
             levelManager.AddLevel(level);
 
             levelManager.setLevel(data);
 
             fade = new FadeInOut(spriteBatch, game);
             fade.FadeIn();
+            audio.playMusic("main_music");
         }
 
         public override void shutdown()

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
+using System.IO;
 
 namespace Soul.Manager
 {
@@ -48,22 +49,35 @@ namespace Soul.Manager
                 MediaPlayer.Volume = 0.0f;
             }
 
-            addSong("Audio//iron-man", "backgroundSound0");
+            //addSong("iron-man", "backgroundSound0");
 
-            addEffect("Audio//comic010", "fireSound0");
+            //addEffect("comic010", "fireSound0");
         }
 
-        public void addEffect(String filename, String asset)
+        public void addEffect(string filename, string asset)
         {
-            effectList.Add(asset, content.Load<SoundEffect>(filename));
+            string path = "Audio\\" + filename;
+            string test = "Content\\" + path + ".xnb";
+            if (System.IO.File.Exists(test) == false)
+            {
+                return;
+            }
+
+            effectList.Add(asset, content.Load<SoundEffect>(path));
         }
 
-        public void addSong(String filename, String asset)
+        public void addSong(string filename, string asset)
         {
-            songList.Add(asset, content.Load<Song>(filename));
+            string path = "Audio\\" + filename;
+            string test = "Content\\" + path + ".xnb";
+            if (System.IO.File.Exists(test) == false)
+            {
+                return;
+            }
+            songList.Add(asset, content.Load<Song>(path));
         }
 
-        public void playSound(String asset)
+        public void playSound(string asset)
         {
             SoundEffect sound;
             if (effectList.TryGetValue(asset, out sound))
@@ -72,7 +86,7 @@ namespace Soul.Manager
             }
         }
 
-        public void playMusic(String asset)
+        public void playMusic(string asset)
         {
             current = null;
 

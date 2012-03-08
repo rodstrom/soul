@@ -140,6 +140,7 @@
     <Compile Include="Code\Graphics\Label.cs" />
     <Compile Include="Code\Graphics\Light\Light.cs" />
     <Compile Include="Code\Graphics\Light\PointLight.cs" />
+    <Compile Include="Code\Graphics\MenuImage.cs" />
     <Compile Include="Code\Graphics\Selection.cs" />
     <Compile Include="Code\Graphics\VolumeSlider.cs" />
     <Compile Include="Code\Managers\AudioManager.cs" />

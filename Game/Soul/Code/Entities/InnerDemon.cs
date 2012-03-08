@@ -23,8 +23,9 @@ namespace Soul
         private bool entitySpawned = true;
         private Vector2 directionToWaypoint = Vector2.Zero;
         private Random random;
+        private bool waitingToDie = false;
 
-        public InnerDemon(SpriteBatch spriteBatch, Soul game, string alias, EntityManager entityManager, Path path)
+        public InnerDemon(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, string alias, EntityManager entityManager, Path path)
             : base(spriteBatch, game, Constants.INNER_DEMON_FILENAME, new Vector2(Constants.INNER_DEMON_WIDTH, Constants.INNER_DEMON_HEIGHT), alias, EntityType.INNER_DEMON)
         {
             this.path = path;
@@ -36,42 +37,57 @@ namespace Soul
             this.random = new Random();
             hitFx = new HitFX(game);
             //this.hitRadius = Constants.INNER_DEMON_RADIUS;
+            this.audio = audioManager;
+            animation.MaxFrames = 0;
         }
 
         public void SpawnLesserDemon()
         {
-            LesserDemon lesserDemon = new LesserDemon(spriteBatch, game, "lesserdemon" + spawnNumber.ToString(), target);
+            LesserDemon lesserDemon = new LesserDemon(spriteBatch, game, audio, "lesserdemon" + spawnNumber.ToString(), target);
             while (entityManager.addEntity(lesserDemon) == false)
             {
                 spawnNumber++;
                 lesserDemon.Alias = "lesserdemon" + spawnNumber.ToString();
             }
             lesserDemon.position = position;
+            audio.playSound("lesser_demon_spawn");
         }
 
         public override void Update(GameTime gameTime)
         {
             hitFx.Update();
             path.Update(gameTime, Position);
-            if (entitySpawned == true)
-            {
-                spawnTimer = random.Next(minSpawn, maxSpawn);
-                entitySpawned = false;
-            }
 
-            if (entitySpawned == false)
+            if (waitingToDie == false)
             {
-                timer += gameTime.ElapsedGameTime.Milliseconds;
-                if (timer >= spawnTimer)
+                if (entitySpawned == true)
                 {
-                    SpawnLesserDemon();
-                    timer = 0;
-                    entitySpawned = true;
+                    spawnTimer = random.Next(minSpawn, maxSpawn);
+                    entitySpawned = false;
+                }
+
+                if (entitySpawned == false)
+                {
+                    timer += gameTime.ElapsedGameTime.Milliseconds;
+                    if (timer >= spawnTimer)
+                    {
+                        SpawnLesserDemon();
+                        timer = 0;
+                        entitySpawned = true;
+                    }
+                }
+            }
+            else
+            {
+                if (animation.CurrentFrame >= animation.MaxFrames)
+                {
+                    killMe = true;
                 }
             }
 
             base.Update(gameTime);
             Move(gameTime);
+            animation.Animate(gameTime);
         }
 
         public void Move(GameTime gameTime)
@@ -114,7 +130,8 @@ namespace Soul
                     {
                         onDie(this);
                     }
-                    killMe = true;
+                    OnDie();
+                    audio.playSound("inner_demon_die");
                 }
             }
         }
@@ -129,8 +146,17 @@ namespace Soul
             health -= value;
             if (health <= 0)
             {
-                killMe = true;
+                OnDie();
+                audio.playSound("inner_demon_die");
             }
+        }
+
+        private void OnDie()
+        {
+            animation.MaxFrames = 13;
+            waitingToDie = true;
+            animation.playOnce = true;
+            ghost = true;
         }
     }
 }

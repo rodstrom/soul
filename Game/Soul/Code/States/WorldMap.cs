@@ -30,7 +30,7 @@ namespace Soul
             }
 
             Vector2 position = new Vector2((float)game.Window.ClientBounds.Width * 0.5f, (float)game.Window.ClientBounds.Height * 0.5f);
-            mapManager = new BrainMapManager(spriteBatch, game, controls, position);
+            mapManager = new BrainMapManager(spriteBatch, game, audio, controls, position);
             BrainMapMarker mapMarker = new BrainMapMarker(spriteBatch, game, controls, position, "BrainMap\\level01", "level01", saveData.LevelStatus("level01"));
             mapManager.addBrainMap(mapMarker, 0);
             mapMarker = new BrainMapMarker(spriteBatch, game, controls, position, "BrainMap\\level02", "level02", saveData.LevelStatus("level02"));
@@ -43,7 +43,7 @@ namespace Soul
             mapManager.addBrainMap(mapMarker, 2);
             mapMarker = new BrainMapMarker(spriteBatch, game, controls, position, "BrainMap\\level04", "level04", saveData.LevelStatus("level04"));
             mapManager.addBrainMap(mapMarker, 2);
-
+            audio.playMusic("map_music");
             mapManager.initialize();
             fadeInOut.Reset();
             fadeInOut.FadeIn();
@@ -57,17 +57,24 @@ namespace Soul
 
         public override bool Update(GameTime gameTime)
         {
-            if (mapManager.Update(gameTime) == true)
+            int value = mapManager.Update(gameTime);
+
+            if (value == 1)
             {
                 nextState = "PlayState";
                 fadeInOut.FadeOut();
             }
-
-            if (controls.Pause == true)
+            else if (value == -1)
             {
                 nextState = "MenuState";
                 fadeInOut.FadeOut();
             }
+
+            /*if (controls.Pause == true)
+            {
+                nextState = "MenuState";
+                fadeInOut.FadeOut();
+            }*/
 
             if (fadeInOut.FadeOutDone == true)
             {

@@ -10,15 +10,14 @@ namespace Soul
 {
     class RedBloodvessel : BloodVessel
     {
-        public RedBloodvessel(SpriteBatch spriteBatch, Soul game, EntityManager entityManager, string alias)
-            : base(spriteBatch, game, entityManager, new Vector2(Constants.RED_BLOOD_VESSEL_WIDTH), EntityType.RED_BLOOD_VESSEL, alias, Constants.RED_BLOOD_VESSEL_FILENAME)
+        public RedBloodvessel(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, EntityManager entityManager, string alias)
+            : base(spriteBatch, game, audioManager, entityManager, new Vector2(Constants.RED_BLOOD_VESSEL_WIDTH), EntityType.RED_BLOOD_VESSEL, alias, Constants.RED_BLOOD_VESSEL_FILENAME)
         {
-            maxVelocity = new Vector2(Constants.RED_BLOOD_VESSEL_MAX_SPEED);
+            //maxVelocity = new Vector2(Constants.RED_BLOOD_VESSEL_MAX_SPEED);
             acceleration = new Vector2(Constants.RED_BLOOD_VESSEL_ACCELERATION);
             moveRight = true;
-            this.health = Constants.RED_BLOOD_VESSEL_MAX_HEALTH;
-            this.damage = Constants.RED_BLOOD_VESSEL_DAMAGE;
-            this.hitRadius = Constants.RED_BLOOD_VESSEL_RADIUS;
+            animation.MaxFrames = 0;
+            animation.FrameRate = 30;
         }
 
         public override void Update(GameTime gameTime)

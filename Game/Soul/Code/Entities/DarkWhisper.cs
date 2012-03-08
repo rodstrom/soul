@@ -22,7 +22,7 @@ namespace Soul
         private bool waitingToDie = false;
         private HitFX hitFx = null;
 
-        public DarkWhisper(SpriteBatch spriteBatch, Soul game, string alias, EntityManager entityManager, Path path) 
+        public DarkWhisper(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, string alias, EntityManager entityManager, Path path) 
             : base(spriteBatch, game, Constants.DARK_WHISPER_FILENAME, new Vector2(Constants.DARK_WHISPER_WIDTH, Constants.DARK_WHISPER_HEIGHT), alias, EntityType.DARK_WHISPER)
         {
             if (path != null)
@@ -38,6 +38,7 @@ namespace Soul
             this.animation.MaxFrames = 0;
             this.animation.FrameRate = 50;
             hitFx = new HitFX(game);
+            this.audio = audioManager;
             //this.hitRadius = Constants.DARK_WHISPER_RADIUS;
         }
 
@@ -137,6 +138,7 @@ namespace Soul
                 {
                     waitingToDie = true;
                     animation.MaxFrames = 17;
+                    PlayDeathSound();
                 }
             }
 
@@ -144,12 +146,14 @@ namespace Soul
             {
                 waitingToDie = true;
                 animation.MaxFrames = 17;
+                PlayDeathSound();
             }
 
             if (entity.Type == EntityType.DARK_WHISPER_SPIKE && waitingToDie == false)
             {
                 waitingToDie = true;
                 animation.MaxFrames = 17;
+                PlayDeathSound();
             }
         }
 
@@ -180,6 +184,7 @@ namespace Soul
                 entityManager.addBullet(spikeList[i]);
             }
             spikesReleased = true;
+            audio.playSound("release_spikes");
         }
 
         private void CreateSpikes()
@@ -226,6 +231,11 @@ namespace Soul
             velo.Y = -spikeSpeed;
             spike = new Bullet(spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
             spikeList.Add(spike);
+        }
+
+        private void PlayDeathSound()
+        {
+            audio.playSound("dark_whisper_die");
         }
     }
 }

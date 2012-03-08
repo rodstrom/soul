@@ -16,6 +16,7 @@ namespace Soul.Manager
         private List<EntityData> queueList = new List<EntityData>();
         private List<Light> lights;
 
+        private AudioManager audioManager = null;
         private CollisionManager collisionManager = null;
         private Random random;
         private SpriteBatch spriteBatch;
@@ -32,11 +33,12 @@ namespace Soul.Manager
         public SpriteBatch SpriteBatch { get { return spriteBatch; } }
         public Soul Game { get { return game; } }
 
-        public EntityManager(SpriteBatch spriteBatch, Soul game)
+        public EntityManager(SpriteBatch spriteBatch, Soul game, AudioManager audioManager)
         {
             this.random = new Random();
             this.spriteBatch = spriteBatch;
             this.game = game;
+            this.audioManager = audioManager;
         }
 
         public void AddEntityDataList(List<EntityData> queueList)
@@ -103,6 +105,7 @@ namespace Soul.Manager
 
              foreach (Entity i in entityList)
              {
+                 if (i.Type == EntityType.PLAYER) continue;
                  i.Draw();
              }
         }
@@ -149,7 +152,7 @@ namespace Soul.Manager
                 if (spawnEnemies.One == true)
                 {
                     int count = EntityCount(EntityType.NIGHTMARE);
-                    Nightmare nightmare = new Nightmare(spriteBatch, game, this, "nightmare_spawned" + count.ToString());
+                    Nightmare nightmare = new Nightmare(spriteBatch, game, audioManager, this, "nightmare_spawned" + count.ToString());
                     nightmare.onDie += new Nightmare.PowerupReleaseHandle(ReleasePowerup);
                     nightmare.position.X = 0.0f;
                     float newY = random.Next(50, game.Window.ClientBounds.Bottom - 50);
@@ -164,9 +167,9 @@ namespace Soul.Manager
 
                 if (spawnEnemies.Two == true)
                 {
-                    int count = EntityCount(EntityType.PURPLE_BLOOD_VESSEL);
-                    PurpleBloodvessel bloodvessel = new PurpleBloodvessel(spriteBatch, game, this, "bloodvessel_spawned" + count.ToString());
-                    bloodvessel.onDie += new PurpleBloodvessel.PowerupReleaseHandle(ReleasePowerup);
+                    int count = EntityCount(EntityType.BLUE_BLOOD_VESSEL);
+                    BlueBloodvessel bloodvessel = new BlueBloodvessel(spriteBatch, game, audioManager, this, "bloodvessel_spawned" + count.ToString());
+                    bloodvessel.onDie += new BlueBloodvessel.PowerupReleaseHandle(ReleasePowerup);
                     bloodvessel.position.X = 0.0f;
                     float newY = random.Next(50, game.Window.ClientBounds.Bottom - 50);
                     bloodvessel.position.X = 0.0f;
@@ -188,7 +191,7 @@ namespace Soul.Manager
                     waypoints.AddPath(waypoint);
                     waypoint = new Vector2(1000.0f, 600.0f);
                     waypoints.AddPath(waypoint);
-                    DarkThought darkThought = new DarkThought(spriteBatch, game, gameTime, "darkthought_spawned" + count.ToString(), this, waypoints);
+                    DarkThought darkThought = new DarkThought(spriteBatch, game, audioManager, gameTime, "darkthought_spawned" + count.ToString(), this, waypoints);
                     darkThought.onDie += new DarkThought.PowerupReleaseHandle(ReleasePowerup);
                     darkThought.position.X = 100.0f;
                     darkThought.position.Y = 100.0f;
@@ -202,7 +205,7 @@ namespace Soul.Manager
                 if (spawnEnemies.Four == true)
                 {
                     int count = EntityCount(EntityType.DARK_WHISPER);
-                    DarkWhisper darkWhisper = new DarkWhisper(spriteBatch, game, "dark_whisper_spawned" + count.ToString(), this, null);
+                    DarkWhisper darkWhisper = new DarkWhisper(spriteBatch, game, audioManager, "dark_whisper_spawned" + count.ToString(), this, null);
                     darkWhisper.onDie += new DarkWhisper.PowerupReleaseHandle(ReleasePowerup);
                     darkWhisper.position.X = 200.0f;
                     darkWhisper.position.Y = 200.0f;
@@ -222,7 +225,7 @@ namespace Soul.Manager
                     waypoints.AddPath(waypoint);
                     waypoint = new Vector2(1000.0f, 600.0f);
                     waypoints.AddPath(waypoint);
-                    InnerDemon innerDemon = new InnerDemon(spriteBatch, game, "inner_demon_spawned" + count.ToString(), this, waypoints);
+                    InnerDemon innerDemon = new InnerDemon(spriteBatch, game, audioManager, "inner_demon_spawned" + count.ToString(), this, waypoints);
                     innerDemon.onDie += new InnerDemon.PowerupReleaseHandle(ReleasePowerup);
                     innerDemon.position.X = 200.0f;
                     innerDemon.position.Y = 200.0f;
@@ -314,41 +317,21 @@ namespace Soul.Manager
         {
             if (player != null && powerupsDisabled)
             {
-                if (player.Health >= Constants.PLAYER_MAX_HEALTH)
+                if (player.Health >= player.MaxHealth)
                 {
-                    int value = random.Next(0, 100);
-                    if (value >= 50)
-                    {
-                        WeaponPowerup wpnPowerup = new WeaponPowerup(spriteBatch, game, "wpnpowerUp" + powerupCount.ToString(), entity.position);
-                        addEntity(wpnPowerup);
-                        powerupCount++;
-                    }
+                    return;
                 }
                 else
                 {
-                    int powerupType = random.Next(0, 10);
-                    if (powerupType < 8)
-                    {
                         int value = random.Next(0, 100);
-                        if (value >= 50)
+                        if (value >= 80)
                         {
                             HealthPowerup healthPowerup = new HealthPowerup(spriteBatch, game, "healthpowerUp" + powerupCount.ToString(), entity.position);
                             addEntity(healthPowerup);
                             powerupCount++;
                         }
-                    }
-                    else if (powerupType >= 8)
-                    {
-                        int value = random.Next(0, 100);
-                        if (value >= 50)
-                        {
-                            WeaponPowerup wpnPowerup = new WeaponPowerup(spriteBatch, game, "wpnpowerUp" + powerupCount.ToString(), entity.position);
-                            addEntity(wpnPowerup);
-                            powerupCount++;
-                        }
-                    }
-                }
-            } 
+                 }
+            }
         }
 
         private void CheckSpawnQueue(GameTime gameTime)
@@ -372,49 +355,49 @@ namespace Soul.Manager
         {
             if (entityData.Type == EntityType.NIGHTMARE)
             {
-                Nightmare nightmare = new Nightmare(spriteBatch, game, this, "nightmare" + enemySpawnCounter.ToString());
+                Nightmare nightmare = new Nightmare(spriteBatch, game, audioManager, this, "nightmare" + enemySpawnCounter.ToString());
                 nightmare.onDie += new Nightmare.PowerupReleaseHandle(ReleasePowerup);
                 nightmare.position = entityData.Position;
                 addEntity(nightmare);
             }
             else if (entityData.Type == EntityType.BLUE_BLOOD_VESSEL)
             {
-                BlueBloodvessel bloodvessel = new BlueBloodvessel(spriteBatch, game, this, "blue_bloodvessel" + enemySpawnCounter.ToString());
+                BlueBloodvessel bloodvessel = new BlueBloodvessel(spriteBatch, game, audioManager, this, "blue_bloodvessel" + enemySpawnCounter.ToString());
                 bloodvessel.onDie += new BlueBloodvessel.PowerupReleaseHandle(ReleasePowerup);
                 bloodvessel.position = entityData.Position;
                 addEntity(bloodvessel);
             }
             else if (entityData.Type == EntityType.RED_BLOOD_VESSEL)
             {
-                RedBloodvessel bloodvessel = new RedBloodvessel(spriteBatch, game, this, "red_bloodvessel" + enemySpawnCounter.ToString());
+                RedBloodvessel bloodvessel = new RedBloodvessel(spriteBatch, game, audioManager, this, "red_bloodvessel" + enemySpawnCounter.ToString());
                 bloodvessel.onDie += new RedBloodvessel.PowerupReleaseHandle(ReleasePowerup);
                 bloodvessel.position = entityData.Position;
                 addEntity(bloodvessel);
             }
             else if (entityData.Type == EntityType.PURPLE_BLOOD_VESSEL)
             {
-                PurpleBloodvessel bloodvessel = new PurpleBloodvessel(spriteBatch, game, this, "purple_bloodvessel" + enemySpawnCounter.ToString());
+                PurpleBloodvessel bloodvessel = new PurpleBloodvessel(spriteBatch, game, audioManager, this, "purple_bloodvessel" + enemySpawnCounter.ToString());
                 bloodvessel.onDie += new PurpleBloodvessel.PowerupReleaseHandle(ReleasePowerup);
                 bloodvessel.position = entityData.Position;
                 addEntity(bloodvessel);
             }
             else if (entityData.Type == EntityType.DARK_THOUGHT)
             {
-                DarkThought darkThought = new DarkThought(spriteBatch, game, gameTime, "darkthought" + enemySpawnCounter.ToString(), this, entityData.PathFinding);
+                DarkThought darkThought = new DarkThought(spriteBatch, game, audioManager, gameTime, "darkthought" + enemySpawnCounter.ToString(), this, entityData.PathFinding);
                 darkThought.onDie += new DarkThought.PowerupReleaseHandle(ReleasePowerup);
                 darkThought.position = entityData.Position;
                 addEntity(darkThought);
             }
             else if (entityData.Type == EntityType.INNER_DEMON)
             {
-                InnerDemon innerDemon = new InnerDemon(spriteBatch, game, "inner_demon" + enemySpawnCounter.ToString(), this, entityData.PathFinding);
+                InnerDemon innerDemon = new InnerDemon(spriteBatch, game, audioManager, "inner_demon" + enemySpawnCounter.ToString(), this, entityData.PathFinding);
                 innerDemon.onDie += new InnerDemon.PowerupReleaseHandle(ReleasePowerup);
                 innerDemon.position = entityData.Position;
                 addEntity(innerDemon);
             }
             else if (entityData.Type == EntityType.DARK_WHISPER)
             {
-                DarkWhisper darkWhisper = new DarkWhisper(spriteBatch, game, "dark_whisper" + enemySpawnCounter.ToString(), this, entityData.PathFinding);
+                DarkWhisper darkWhisper = new DarkWhisper(spriteBatch, game, audioManager, "dark_whisper" + enemySpawnCounter.ToString(), this, entityData.PathFinding);
                 darkWhisper.onDie += new DarkWhisper.PowerupReleaseHandle(ReleasePowerup);
                 darkWhisper.position = entityData.Position;
                 addEntity(darkWhisper);

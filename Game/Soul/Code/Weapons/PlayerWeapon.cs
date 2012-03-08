@@ -10,9 +10,12 @@ namespace Soul
     class PlayerWeapon : Weapon
     {
         private int weaponLevel = 0;
-        private int weaponSpreadModifier = 40;
-        private int shootDelay = 50;
-        private uint timer = 0;
+        private float weaponSpreadModifier = 40f;
+        private float minYVel = 0f;
+        private float maxYVel = 0f;
+
+        //private int shootDelay = 50;
+        //private uint timer = 0;
         private Random random = new Random();
 
         public PlayerWeapon(SpriteBatch spriteBatch, Soul game, int spriteHeight)
@@ -23,14 +26,14 @@ namespace Soul
 
         public override Bullet Shoot(Vector2 position)
         {
-            if (timer <= shootDelay)
+            /*if (timer <= shootDelay)
             {
                 return null;
             }
             else
             {
                 timer = 0;
-            }
+            }*/
             
             velocity = getVelocity();
             position = getPosition(position);
@@ -40,7 +43,7 @@ namespace Soul
 
         public override void Update(GameTime gameTime)
         {
-            timer += (uint)gameTime.ElapsedGameTime.Milliseconds;
+            //timer += (uint)gameTime.ElapsedGameTime.Milliseconds;
             if (weaponLevel < Constants.WEAPON_LEVEL_LOWEST)
             {
                 weaponLevel = Constants.WEAPON_LEVEL_LOWEST;
@@ -53,8 +56,8 @@ namespace Soul
 
         public override Vector2 getVelocity()
         {
-            Vector2 newVelocity = Vector2.Zero;
-            if (weaponLevel >= 0 && weaponLevel <= 1)
+            Vector2 newVelocity = new Vector2(-Constants.BULLET_VELOCITY, NextFloat(random, minYVel, maxYVel));
+            /*if (weaponLevel >= 0 && weaponLevel <= 1)
             {
                 newVelocity = new Vector2(-Constants.BULLET_VELOCITY, 0.0f);
             }
@@ -72,35 +75,30 @@ namespace Soul
             {
                 float newY = NextFloat(random, -3.0f, 3.0f);
                 newVelocity = new Vector2(-Constants.BULLET_VELOCITY, newY);
-            }
+            }*/
             return newVelocity;
         }
 
         public override Vector2 getPosition(Vector2 position)
         {
             Vector2 newPosition = position;
-            newPosition.Y = random.Next((int)newPosition.Y - (spriteHeight / 2) + weaponSpreadModifier, (int)newPosition.Y + (spriteHeight / 2) - weaponSpreadModifier);
+            newPosition.Y = random.Next((int)newPosition.Y - (spriteHeight / 2) + (int)weaponSpreadModifier, (int)newPosition.Y + (spriteHeight / 2) - (int)weaponSpreadModifier);
             return newPosition;
         }
 
         public void IncreaseWeaponLevel()
         {
-            weaponLevel++;
-            if (weaponLevel > Constants.WEAPON_LEVEL_HIGHEST)
-            {
-                weaponLevel = Constants.WEAPON_LEVEL_HIGHEST;
-            }
-            ModifyWeaponStats();
+            minYVel -= 0.5f;
+            maxYVel += 0.5f;
         }
 
         public void DecreaseWeaponLevel()
         {
-            weaponLevel--;
-            if (weaponLevel < Constants.WEAPON_LEVEL_LOWEST)
-            {
-                weaponLevel = Constants.WEAPON_LEVEL_LOWEST;
-            }
-            ModifyWeaponStats();
+            if (weaponSpreadModifier >= 40.0f) weaponSpreadModifier -= weaponSpreadModifier * 0.05f;
+            
+            if (minYVel < 0.0f) minYVel += 0.05f;
+
+            if (maxYVel > 0.0f)maxYVel -= 0.05f;
         }
 
         private float NextFloat(Random random, float min, float max)
@@ -108,40 +106,7 @@ namespace Soul
             return (float)random.NextDouble() * (max - min) + min;
         }
 
-        private void ModifyWeaponStats()
-        {
-            if (weaponLevel == 0)
-            {
-                weaponSpreadModifier = 40;
-                shootDelay = 60;
-            }
-            else if (weaponLevel == 1)
-            {
-                weaponSpreadModifier = 35;
-                shootDelay = 50;
-            }
-            else if (weaponLevel == 2)
-            {
-                weaponSpreadModifier = 30;
-                shootDelay = 40;
-            }
-            else if (weaponLevel == 3)
-            {
-                weaponSpreadModifier = 25;
-                shootDelay = 30;
-            }
-            else if (weaponLevel == 4)
-            {
-                weaponSpreadModifier = 20;
-                shootDelay = 20;
-            }
-            else if (weaponLevel == 5)
-            {
-                weaponSpreadModifier = 15;
-                shootDelay = 10;
-            }
 
-        }
 
         public int WeaponLevel
         {

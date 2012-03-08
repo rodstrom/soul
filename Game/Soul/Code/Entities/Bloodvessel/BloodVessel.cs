@@ -20,10 +20,12 @@ namespace Soul
         public event PowerupReleaseHandle onDie = null;
         protected float rotationValue = 0.05f;
         protected HitFX hitFx = null;
+        protected bool waitingToDie = false;
 
-         public BloodVessel(SpriteBatch spriteBatch, Soul game, EntityManager entityManager, Vector2 dimension, EntityType entityType, string alias, string filename)
+         public BloodVessel(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, EntityManager entityManager, Vector2 dimension, EntityType entityType, string alias, string filename)
             : base(spriteBatch, game, filename, dimension, alias, entityType)
         {
+            this.audio = audioManager;
             this.entityManager = entityManager;
             this.animation.MaxFrames = 0;
             hitFx = new HitFX(game);
@@ -49,6 +51,13 @@ namespace Soul
             Move(gameTime);
             animation.Animate(gameTime);
             base.Update(gameTime);
+            if (waitingToDie == true)
+            {
+                if (animation.CurrentFrame >= animation.MaxFrames)
+                {
+                    killMe = true;
+                }
+            }
         }
 
         #region move
@@ -108,12 +117,14 @@ namespace Soul
                     {
                         onDie(this);
                     }
-                    killMe = true;
+                    OnDeath();
+                    PlayDeathSound();
                 }
             }
             else if (entity.Type == EntityType.PLAYER)
             {
-                killMe = true;
+                OnDeath();
+                PlayDeathSound();
             }
         }
 
@@ -127,8 +138,45 @@ namespace Soul
             health -= value;
             if (health <= 0)
             {
-                killMe = true;
+                OnDeath();
+                PlayDeathSound();
             }
+        }
+
+        private void PlayDeathSound()
+        {
+            if (type == EntityType.BLUE_BLOOD_VESSEL)
+            {
+                audio.playSound("blue_bloodvessel_die");
+            }
+            else if (type == EntityType.RED_BLOOD_VESSEL)
+            {
+                audio.playSound("red_bloodvessel_die");
+            }
+            else if (type == EntityType.PURPLE_BLOOD_VESSEL)
+            {
+                audio.playSound("purple_bloodvessel_die");
+            }
+        }
+
+        private void OnDeath()
+        {
+            if (type == EntityType.BLUE_BLOOD_VESSEL)
+            {
+                animation.MaxFrames = 20;
+            }
+            else if (type == EntityType.RED_BLOOD_VESSEL)
+            {
+                animation.MaxFrames = 20;
+            }
+            else if (type == EntityType.PURPLE_BLOOD_VESSEL)
+            {
+                animation.MaxFrames = 16;
+            }
+
+            animation.playOnce = true;
+            ghost = true;
+            waitingToDie = true;
         }
     }
 }

@@ -23,9 +23,9 @@ namespace Soul
                 pointLight = new PointLight()
                 {
                     Color = new Vector4(1f, 1f, 1f, 1f),
-                    Power = 1f,
-                    LightDecay = 90,
-                    Position = new Vector3(0f, 0f, 50f),
+                    Power = 2f,
+                    LightDecay = 100,
+                    Position = new Vector3(0f, 0f, 70f),
                     IsEnabled = true
                 };
             }
