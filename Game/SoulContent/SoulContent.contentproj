@@ -73,22 +73,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\comic010.wav">
-      <Name>comic010</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Audio\iron-man.wma">
-      <Name>iron-man</Name>
-      <Importer>WmaImporter</Importer>
-      <Processor>SongProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Backgrounds\background__0002s_0000_Layer-9.png">
       <Name>background__0002s_0000_Layer-9</Name>
       <Importer>TextureImporter</Importer>
@@ -377,33 +361,105 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Audio\blood_hit.xnb">
+      <Name>blood_hit</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\calm2.xnb">
+      <Name>calm2</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\comic010.xnb">
+      <Name>comic010</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\explosion_underwater_distant.xnb">
+      <Name>explosion_underwater_distant</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\gui_move2.xnb">
+      <Name>gui_move2</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\gui_select2.xnb">
+      <Name>gui_select2</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\HeadPop.xnb">
+      <Name>HeadPop</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\heart_beating_at_normal_speed.xnb">
+      <Name>heart_beating_at_normal_speed</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\iron-man.xnb">
+      <Name>iron-man</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\map_zoom_in.xnb">
+      <Name>map_zoom_in</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\map_zoom_out.xnb">
+      <Name>map_zoom_out</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\player_die.xnb">
+      <Name>player_die</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\Shoot-bak1.xnb">
+      <Name>Shoot-bak1</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\short_hard_squish.xnb">
+      <Name>short_hard_squish</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\soul_start2.xnb">
+      <Name>soul_start2</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\soul_title.xnb">
+      <Name>soul_title</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\wierd heart.xnb">
+      <Name>wierd heart</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\world_map2.xnb">
+      <Name>world_map2</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Config\audiolist.ini">
       <Name>audiolist</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Levels\Level01.map">
       <Name>Level01</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Levels\Level02.map">
       <Name>Level02</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Levels\Level03.map">
       <Name>Level03</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Levels\Level04.map">
       <Name>Level04</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Levels\Level05.map">
       <Name>Level05</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Levels\Level06.map">
       <Name>Level06</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Saves\savedata.dat">
       <Name>savedata</Name>
@@ -433,11 +489,11 @@
   <ItemGroup>
     <None Include="Config\config.ini">
       <Name>config</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Config\constants.ini">
       <Name>constants</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -783,104 +839,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\blood_hit.mp3">
-      <Name>blood_hit</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\blood_splat.mp3">
-      <Name>blood_splat</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\calm.wav">
-      <Name>calm</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SongProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\cough_boy_2_years_painful_sore_throat_002.mp3">
-      <Name>cough_boy_2_years_painful_sore_throat_002</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\deep_underwater_ambience_001.mp3">
-      <Name>deep_underwater_ambience_001</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\explosion_underwater_distant.mp3">
-      <Name>explosion_underwater_distant</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\free_board_break_sound_from_www_sfxsource_com.mp3">
-      <Name>free_board_break_sound_from_www_sfxsource_com</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\funny_bite.mp3">
-      <Name>funny_bite</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\heart_beating_at_normal_speed.mp3">
-      <Name>heart_beating_at_normal_speed</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\horror_knife_stab_flesh_001.mp3">
-      <Name>horror_knife_stab_flesh_001</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\horror_knife_stab_flesh_wet_squelchy_002.mp3">
-      <Name>horror_knife_stab_flesh_wet_squelchy_002</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\human_swallow_gulp.mp3">
-      <Name>human_swallow_gulp</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\intense.wav">
-      <Name>intense</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SongProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\short_hard_squish.mp3">
-      <Name>short_hard_squish</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\water_drip_001.mp3">
-      <Name>water_drip_001</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Audio\water_drip_002.mp3">
-      <Name>water_drip_002</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="SpriteSheets\Dark-Thought-Animation.png">
       <Name>Dark-Thought-Animation</Name>
       <Importer>TextureImporter</Importer>
@@ -926,289 +884,6 @@
       <Name>Bloodvessel1_fixed_2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Audio\Arrow_Swoosh.wav">
-      <Name>Arrow_Swoosh</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\beep-07.wav">
-      <Name>beep-07</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\black.wav">
-      <Name>black</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\born_barnstomers_a_blend_of_bluegrass_strings_and_funk_organ_styles.mp3">
-      <Name>born_barnstomers_a_blend_of_bluegrass_strings_and_funk_organ_styles</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\briefcase-02.wav">
-      <Name>briefcase-02</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\Fireball3.wav">
-      <Name>Fireball3</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\HeadPop.mp3">
-      <Name>HeadPop</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\laugh-man-01.wav">
-      <Name>laugh-man-01</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\match-light-01.wav">
-      <Name>match-light-01</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\staple-01.wav">
-      <Name>staple-01</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\throwknife.wav">
-      <Name>throwknife</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Audio\gui_move.wav">
-      <Name>gui_move</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\gui_select.wav">
-      <Name>gui_select</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\soul_start.wav">
-      <Name>soul_start</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\soul_start2.wav">
-      <Name>soul_start2</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\soul_title.wav">
-      <Name>soul_title</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\world_map.wav">
-      <Name>world_map</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Audio\calm2.wav">
-      <Name>calm2</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\gui_move2.wav">
-      <Name>gui_move2</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\gui_select2.wav">
-      <Name>gui_select2</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\map_zoom_in.wav">
-      <Name>map_zoom_in</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\map_zoom_out.wav">
-      <Name>map_zoom_out</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\world_map2.wav">
-      <Name>world_map2</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Audio\SOUND_0911.mp3">
-      <Name>SOUND_0911</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_0912.mp3">
-      <Name>SOUND_0912</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_0913.mp3">
-      <Name>SOUND_0913</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_0914.mp3">
-      <Name>SOUND_0914</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_0915.mp3">
-      <Name>SOUND_0915</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_0916.mp3">
-      <Name>SOUND_0916</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1108.mp3">
-      <Name>SOUND_1108</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1109.mp3">
-      <Name>SOUND_1109</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1116.mp3">
-      <Name>SOUND_1116</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1117.mp3">
-      <Name>SOUND_1117</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1135.mp3">
-      <Name>SOUND_1135</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1136.mp3">
-      <Name>SOUND_1136</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1137.mp3">
-      <Name>SOUND_1137</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1141.mp3">
-      <Name>SOUND_1141</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1142.mp3">
-      <Name>SOUND_1142</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1143.mp3">
-      <Name>SOUND_1143</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1144.mp3">
-      <Name>SOUND_1144</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1145.mp3">
-      <Name>SOUND_1145</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1146.mp3">
-      <Name>SOUND_1146</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1147.mp3">
-      <Name>SOUND_1147</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1148.mp3">
-      <Name>SOUND_1148</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1165.mp3">
-      <Name>SOUND_1165</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1170.mp3">
-      <Name>SOUND_1170</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1171.mp3">
-      <Name>SOUND_1171</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1172.mp3">
-      <Name>SOUND_1172</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1173.mp3">
-      <Name>SOUND_1173</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1174.mp3">
-      <Name>SOUND_1174</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1175.mp3">
-      <Name>SOUND_1175</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1218.mp3">
-      <Name>SOUND_1218</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1219.mp3">
-      <Name>SOUND_1219</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1220.mp3">
-      <Name>SOUND_1220</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Audio\SOUND_1221.mp3">
-      <Name>SOUND_1221</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1329,6 +1004,34 @@
       <Name>Boss_Spawn</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\soul_title.wma">
+      <Name>soul_title</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\world_map2.wma">
+      <Name>world_map2</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\calm2.wma">
+      <Name>calm2</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\iron-man.wma">
+      <Name>iron-man</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SongProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
