@@ -574,12 +574,13 @@ namespace Soul
             
             if (ambientLight.B == 99)
             {
+                quit = true;
                 wait += gameTime.ElapsedGameTime.Milliseconds;
             }
 
             if (doWait && wait > 2000)
             {
-                quit = true;
+
             }
         }
 

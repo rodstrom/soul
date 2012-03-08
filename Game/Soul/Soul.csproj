@@ -190,11 +190,9 @@
     <Compile Include="Code\Graphics\Resolution.cs" />
     <Compile Include="Code\Managers\MenuManagerOptions.cs" />
     <Compile Include="Code\Managers\MenuStateManager.cs" />
-    <Compile Include="Code\States\ControlsState.cs" />
     <Compile Include="Code\States\CreditsState.cs" />
     <Compile Include="Code\States\IntroState.cs" />
     <Compile Include="Code\States\MenuState.cs" />
-    <Compile Include="Code\States\OptionsState.cs" />
     <Compile Include="Code\States\PlayState.cs" />
     <Compile Include="Code\States\State.cs" />
     <Compile Include="Code\Managers\StateManager.cs" />

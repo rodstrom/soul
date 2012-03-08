@@ -12,8 +12,8 @@ namespace Soul
     {
         private BossWeapon weapon;
         EntityManager entityManager;
-        private Vector2 bulletOrigin = new Vector2(50, 345);
-        private Vector2 spawnOrigin = new Vector2(90, 555);
+        private Vector2 bulletOrigin = new Vector2(75, 245);
+        private Vector2 spawnOrigin = new Vector2(80, 500);
         private Vector2 directionToPlayer = Vector2.Zero;
 
         private int fireTimer = 0;
@@ -23,22 +23,30 @@ namespace Soul
         private Random random;
         private HitFX hitFx = null;
         private bool waitingToDie = false;
+        private bool inPlace = false;
+
+        private bool shooting = false;
+        private bool spawning = false;
 
         private Sprite spriteIdle;
         private Sprite spriteShoot;
         private Sprite spriteSpawn;
         private Sprite spriteDeath;
 
+        private Animation animation2;
+
         public Boss(SpriteBatch spriteBatch, Soul game, GameTime gameTime, string alias, EntityManager entityManager)
             : base(spriteBatch, game, Constants.BOSS_IDLE_FILENAME, new Vector2(Constants.BOSS_WIDTH, Constants.BOSS_HEIGHT), alias, EntityType.BOSS)
         {
             spriteIdle = new Sprite(spriteBatch, game, Constants.BOSS_IDLE_FILENAME);
-            //spriteShoot = new Sprite(spriteBatch, game, Constants.BOSS_SHOOT_FILENAME);
-            //spriteSpawn = new Sprite(spriteBatch, game, Constants.BOSS_SPAWN_FILENAME);
+            spriteShoot = new Sprite(spriteBatch, game, Constants.BOSS_SHOOT_FILENAME);
+            spriteSpawn = new Sprite(spriteBatch, game, Constants.BOSS_SPAWN_FILENAME);
             spriteDeath = new Sprite(spriteBatch, game, Constants.BOSS_DEATH_FILENAME);
 
-            this.sprite = spriteIdle;
+            this.sprite = spriteSpawn;
             this.animation.MaxFrames = 0;
+
+            animation2 = new Animation(((int)(spriteShoot.X / dimension.X)) - 1);
 
             this.entityManager = entityManager;
             weapon = new BossWeapon(spriteBatch, game, sprite.Y);
@@ -52,14 +60,17 @@ namespace Soul
 
         public override void Draw()
         {
+            Rectangle rect = new Rectangle(animation.CurrentFrame * (int)dimension.X, (int)animationState * (int)dimension.Y, (int)dimension.X, (int)dimension.Y);
+            Rectangle rect2 = new Rectangle(animation2.CurrentFrame * (int)dimension.X, (int)animationState * (int)dimension.Y, (int)dimension.X, (int)dimension.Y / 2);
             if (hitFx.IsHit == true)
             {
-                Rectangle rect = new Rectangle(animation.CurrentFrame * (int)dimension.X, (int)animationState * (int)dimension.Y, (int)dimension.X, (int)dimension.Y);
                 sprite.Draw(position, rect, Color.White, rotation, offset, scale, SpriteEffects.None, layer, hitFx.Effect);
+                if (shooting) spriteShoot.Draw(position, rect2, Color.White, rotation, offset, scale, SpriteEffects.None, layer, hitFx.Effect);
             }
             else
             {
                 base.Draw();
+                if (shooting) spriteShoot.Draw(position, rect2, Color.White, rotation, offset, scale, SpriteEffects.None, layer);
             }
         }
 
@@ -67,15 +78,20 @@ namespace Soul
         {
             hitFx.Update();
 
-            if (!waitingToDie && !killMe)
+            if (!inPlace)
             {
                 Move(gameTime);
+            }
 
+            if (!waitingToDie && !killMe && inPlace)
+            {
                 fireTimer += gameTime.ElapsedGameTime.Milliseconds;
                 if (fireTimer >= fireRate)
                 {
                     directionToPlayer = (target - bulletOrigin);
                     directionToPlayer.Normalize();
+
+                    shootAnimate();
 
                     entityManager.addBullet(weapon.Shoot(bulletOrigin, directionToPlayer.Y));
                     fireTimer = 0;
@@ -84,7 +100,9 @@ namespace Soul
                 spawnTimer += gameTime.ElapsedGameTime.Milliseconds;
                 if (spawnTimer >= spawnRate)
                 {
-                    SpawnEntity();
+                    spawnAnimate();     //spawns an enemy when mouth is completely open
+
+                    //SpawnEntity();
                     spawnTimer = 0;
                     spawnRate = random.Next(minSpawn, maxSpawn);
                 }
@@ -115,11 +133,38 @@ namespace Soul
                         //animationState = 0;           //loop for debug
                         //animation.CurrentFrame = 0;
                         //animation.MaxFrames = 6;
-                        killMe = true;
                         entityManager.killAllEntities();
                         entityManager.cleansedLevel();
                     }
+                } 
+            }
+
+            if (spawning)
+            {
+                if (animation.CurrentFrame == 4)
+                {
+                    SpawnEntity();
+                    animation.CurrentFrame++;
                 }
+
+                if (animation.CurrentFrame >= animation.MaxFrames)
+                {
+                    spawning = false;
+
+                    animation.MaxFrames = 0;
+                    animation.CurrentFrame = 0;
+                }
+            }
+
+            if (shooting)
+            {
+                if (animation2.CurrentFrame >= animation2.MaxFrames)
+                {
+                    shooting = false;
+                    animation2.CurrentFrame = 0;
+                }
+
+                animation2.Animate(gameTime);
             }
 
             animation.Animate(gameTime);
@@ -141,6 +186,12 @@ namespace Soul
             if (position.X < 0)
             {
                 position.X += velocity.X;
+            }
+            else
+            {
+                inPlace = true;
+                spawnOrigin += position;
+                bulletOrigin += position;
             }
             
         }
@@ -180,11 +231,32 @@ namespace Soul
         private void die()
         {
             waitingToDie = true;
+            dimension.Y = Constants.BOSS_DEATH_HEIGHT;
             dimension.X = Constants.BOSS_DEATH_WIDTH;
             sprite = spriteDeath;
             animation.MaxFrames = 5;
             animation.CurrentFrame = 0;
             animationState = 0;
+            shooting = false;
+            spawning = false;
+        }
+
+        private void shootAnimate()
+        {
+            //sprite = spriteShoot;
+            //animation2.MaxFrames = 12;
+            animation2.CurrentFrame = 0;
+            //animationState = 0;
+            shooting = true;
+        }
+
+        private void spawnAnimate()
+        {
+            sprite = spriteSpawn;
+            animation.MaxFrames = 7;
+            animation.CurrentFrame = 0;
+            //animationState = 0;
+            spawning = true;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Soul
             displayModes = new LinkedList<DisplayMode>();
             foreach (DisplayMode dm in this.GraphicsDevice.Adapter.SupportedDisplayModes)
             {
-                if (dm.Format == SurfaceFormat.Color)
+                if (dm.Format == SurfaceFormat.Color && dm.AspectRatio > 1.7f && dm.AspectRatio < 2f)
                 {
                     displayModes.AddLast(dm);
                 }
@@ -68,10 +68,6 @@ namespace Soul
             State state = new IntroState(spriteBatch, this, audioManager, controls, "IntroState");
             stateManager.AddState(state);
             state = new MenuState(spriteBatch, this, graphics, displayModes, audioManager, controls, "MenuState");
-            stateManager.AddState(state);
-            state = new OptionsState(spriteBatch, this, audioManager, graphics, displayModes, controls, "OptionsState");
-            stateManager.AddState(state);
-            state = new ControlsState(spriteBatch, this, audioManager, controls, "ControlsState");
             stateManager.AddState(state);
             state = new CreditsState(spriteBatch, this, audioManager, controls, "CreditsState");
             stateManager.AddState(state);
