@@ -84,5 +84,15 @@ namespace Soul.Manager
                 return "";
             }
         }
+
+        public void stopBgScroll()
+        {
+            currentLevel.stopBgScroll();
+        }
+
+        public void cleansedLevel()
+        {
+            currentLevel.cleansing = true;
+        }
     }
 }

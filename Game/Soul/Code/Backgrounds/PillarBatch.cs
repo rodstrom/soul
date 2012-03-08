@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Soul.Manager;
 
 namespace Soul
 {
@@ -22,11 +23,14 @@ namespace Soul
         private uint timer = 0;
         private SpriteBatch spriteBatch;
         private Soul game;
+        BackgroundManager backgroundManager;
 
-        public PillarBatch(SpriteBatch spriteBatch, Soul game, int lowestSpawn, int highestSpawn, int deadTime, float direction, bool randomDirection, bool randomSpeed, float layer)
+        public PillarBatch(BackgroundManager backgroundManager, SpriteBatch spriteBatch, Soul game, int lowestSpawn, int highestSpawn, int deadTime, float direction, bool randomDirection, bool randomSpeed, float layer, bool persistScroll)
         {
+            this.backgroundManager = backgroundManager;
             this.randomSpeed = randomSpeed;
             this.fileNameList = new List<string>();
+            this.persistScroll = persistScroll;
             CreateFileNameList();
             this.spriteBatch = spriteBatch;
             this.game = game;
@@ -45,7 +49,7 @@ namespace Soul
         public override void Update(GameTime gameTime)
         {
             timer += (uint)gameTime.ElapsedGameTime.Milliseconds;
-            if (spawnRate <= timer)
+            if (spawnRate <= timer && backgroundManager.active)
             {
                 AddPillar();
                 SetNewSpawnRate();
@@ -64,6 +68,14 @@ namespace Soul
                         i--;
                     }
 
+                }
+            }
+
+            if (!backgroundManager.active)
+            {
+                foreach (BackgroundPillar p in pillarList)
+                {
+                    p.slowDown();
                 }
             }
         }
@@ -86,7 +98,7 @@ namespace Soul
 
         private void AddPillar()
         {
-            BackgroundPillar bg = new BackgroundPillar(spriteBatch, game, getRandomFileName(), 0, ScrollDirection(), layer);
+            BackgroundPillar bg = new BackgroundPillar(spriteBatch, game, getRandomFileName(), 0, ScrollDirection(), layer, persistScroll);
             pillarList.Add(bg);
             layer += 0.0001f;
         }

@@ -35,6 +35,8 @@ namespace Soul
 
         public void Hit() { fx = 1.0f; }
 
+        public void Hit(float f) { fx = f; }
+
         public bool IsHit
         {
             get 

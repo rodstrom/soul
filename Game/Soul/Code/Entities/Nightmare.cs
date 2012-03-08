@@ -59,7 +59,6 @@ namespace Soul
             }
         }
 
-        #region move
         public void Move(GameTime gameTime)
         {
             if (target == Vector2.Zero)
@@ -106,7 +105,6 @@ namespace Soul
             }
             position += velocity;
         }
-        #endregion move
 
         public override void onCollision(Entity entity)
         {

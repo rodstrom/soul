@@ -23,6 +23,7 @@ namespace Soul.Manager
         private Soul game;
         private Entity player = null;
         private SpawnEnemies spawnEnemies = new SpawnEnemies();
+        private LevelManager levelManager;
 
         private int powerupCount = 0;
         private uint timer = 0;
@@ -33,10 +34,11 @@ namespace Soul.Manager
         public SpriteBatch SpriteBatch { get { return spriteBatch; } }
         public Soul Game { get { return game; } }
 
-        public EntityManager(SpriteBatch spriteBatch, Soul game, AudioManager audioManager)
+        public EntityManager(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, LevelManager levelManager)
         {
             this.random = new Random();
             this.spriteBatch = spriteBatch;
+            this.levelManager = levelManager;
             this.game = game;
             this.audioManager = audioManager;
         }
@@ -119,7 +121,7 @@ namespace Soul.Manager
             Vector2 tmpPlayerPosition = Vector2.Zero;
             for (int i = 0; i < entityList.Count; i++)
             {
-                if (entityList[i].Type == EntityType.NIGHTMARE || entityList[i].Type == EntityType.INNER_DEMON || entityList[i].Type == EntityType.LESSER_DEMON || entityList[i].Type == EntityType.DARK_WHISPER)
+                if (entityList[i].Type == EntityType.BOSS || entityList[i].Type == EntityType.NIGHTMARE || entityList[i].Type == EntityType.INNER_DEMON || entityList[i].Type == EntityType.LESSER_DEMON || entityList[i].Type == EntityType.DARK_WHISPER)
                 {
                     if (player != null)
                     {
@@ -351,9 +353,33 @@ namespace Soul.Manager
             }
         }
 
+        public void cleansedLevel()
+        {
+            levelManager.cleansedLevel();
+        }
+
+        public void killAllEntities()
+        {
+            foreach (Entity e in entityList)
+            {
+                e.KillMe = true;
+                if (e.Type == EntityType.PLAYER)
+                {
+                    e.KillMe = false;
+                }
+            }
+        }
+
         private void SpawnEnemy(EntityData entityData, GameTime gameTime)
         {
-            if (entityData.Type == EntityType.NIGHTMARE)
+            if (entityData.Type == EntityType.BOSS)
+            {
+                Boss boss = new Boss(spriteBatch, game, audioManager, gameTime, "boss" + enemySpawnCounter.ToString(), this);
+                boss.position = entityData.Position;
+                addEntity(boss);
+                levelManager.stopBgScroll();
+            }
+            else if (entityData.Type == EntityType.NIGHTMARE)
             {
                 Nightmare nightmare = new Nightmare(spriteBatch, game, audioManager, this, "nightmare" + enemySpawnCounter.ToString());
                 nightmare.onDie += new Nightmare.PowerupReleaseHandle(ReleasePowerup);

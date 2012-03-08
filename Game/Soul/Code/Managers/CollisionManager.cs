@@ -64,7 +64,7 @@ namespace Soul.Manager
                             i--;
                         }
                     }
-                    else if (bulletList[i].Type == EntityType.DARK_THOUGHT_BULLET && entityList[j].Type == EntityType.PLAYER && entityList[j].Type != EntityType.WEAPON_POWERUP && entityList[j].Type != EntityType.HEALTH_POWERUP)
+                    else if ( (bulletList[i].Type == EntityType.BOSS_BULLET || bulletList[i].Type == EntityType.DARK_THOUGHT_BULLET) && entityList[j].Type == EntityType.PLAYER && entityList[j].Type != EntityType.WEAPON_POWERUP && entityList[j].Type != EntityType.HEALTH_POWERUP)
                     {
                         if (entityList[j].checkCollision(bulletList[i].CollisionBox) == true)
                         {

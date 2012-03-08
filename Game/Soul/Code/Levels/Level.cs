@@ -13,14 +13,16 @@ namespace Soul
         private string id;
         private bool pause = false;
         private bool quit = false;
-        private bool cleansing = false;
+        public bool cleansing = false;
         private int cleansPass = 1;
         private bool useDynamicLights = true;
+        private double wait = -1;
+        private bool doWait = false;
 
-        EntityManager entityManager;
         BackgroundManager backgroundManager_back;
         BackgroundManager backgroundManager_front;
         AudioManager audioManager;
+        EntityManager entityManager;
         Player player;
         InputManager controls;
         LevelReader levelReader;
@@ -222,6 +224,12 @@ namespace Soul
             {
                 return 1;
             }
+
+            if (cleansing)
+            {
+                LevelCleansed(gameTime);
+            }
+
             return 0;
         }
 
@@ -233,7 +241,7 @@ namespace Soul
             game.GraphicsDevice.SetRenderTarget(null);
             game.GraphicsDevice.SetRenderTarget(colorMap_back);
             game.GraphicsDevice.Clear(Color.Transparent);
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, Resolution.getTransformationMatrix());
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
             bg1.Draw(Vector2.Zero, new Rectangle(0,0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             backgroundManager_back.Draw();
             spriteBatch.End();
@@ -242,7 +250,7 @@ namespace Soul
             game.GraphicsDevice.SetRenderTarget(null);
             game.GraphicsDevice.SetRenderTarget(normalMap_back);
             game.GraphicsDevice.Clear(Color.Transparent);
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, Resolution.getTransformationMatrix());
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
             bg1_normal.Draw(Vector2.Zero, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             backgroundManager_back.DrawNormalMap();
             spriteBatch.End();
@@ -307,17 +315,17 @@ namespace Soul
                 }
                 else if (bgDataBack[i].Type == "Scrolling")
                 {
-                    ScrollingBackground bg = new ScrollingBackground(spriteBatch, game, bgDataBack[i].Filename, "bg" + i.ToString(), bgDataBack[i].SpawnTime, bgDataBack[i].DeleteTime, bgDataBack[i].Direction, bgDataBack[i].Layer);
+                    ScrollingBackground bg = new ScrollingBackground(spriteBatch, game, bgDataBack[i].Filename, "bg" + i.ToString(), bgDataBack[i].SpawnTime, bgDataBack[i].DeleteTime, bgDataBack[i].Direction, bgDataBack[i].Layer, bgDataBack[i].PersistScroll);
                     backgroundManager_back.addBackground(bg);
                 }
                 else if (bgDataBack[i].Type == "Pillar")
                 {
-                    BackgroundPillar bg = new BackgroundPillar(spriteBatch, game, backgroundManager_back.getPillarFileName(bgDataBack[i].Filename), bgDataBack[i].SpawnTime, bgDataBack[i].Direction, bgDataBack[i].Layer);
+                    BackgroundPillar bg = new BackgroundPillar(spriteBatch, game, backgroundManager_back.getPillarFileName(bgDataBack[i].Filename), bgDataBack[i].SpawnTime, bgDataBack[i].Direction, bgDataBack[i].Layer, bgDataBack[i].PersistScroll);
                     backgroundManager_back.addBackground(bg);
                 }
                 else if (bgDataBack[i].Type == "Batch")
                 {
-                    PillarBatch bg = new PillarBatch(spriteBatch, game, bgDataBack[i].LowestSpawnRate, bgDataBack[i].HighestSpawnRate, (int)bgDataBack[i].DeleteTime, bgDataBack[i].Direction, bgDataBack[i].RandomDirection, bgDataBack[i].RandomSpeed, bgDataBack[i].Layer);
+                    PillarBatch bg = new PillarBatch(backgroundManager_back, spriteBatch, game, bgDataBack[i].LowestSpawnRate, bgDataBack[i].HighestSpawnRate, (int)bgDataBack[i].DeleteTime, bgDataBack[i].Direction, bgDataBack[i].RandomDirection, bgDataBack[i].RandomSpeed, bgDataBack[i].Layer, bgDataBack[i].PersistScroll);
                     backgroundManager_back.addBackground(bg);
                 }
             }
@@ -332,17 +340,17 @@ namespace Soul
                 }
                 else if (bgDataFront[i].Type == "Scrolling")
                 {
-                    ScrollingBackground bg = new ScrollingBackground(spriteBatch, game, bgDataFront[i].Filename, "bg" + i.ToString(), bgDataFront[i].SpawnTime, bgDataFront[i].DeleteTime, bgDataFront[i].Direction, bgDataFront[i].Layer);
+                    ScrollingBackground bg = new ScrollingBackground(spriteBatch, game, bgDataFront[i].Filename, "bg" + i.ToString(), bgDataFront[i].SpawnTime, bgDataFront[i].DeleteTime, bgDataFront[i].Direction, bgDataFront[i].Layer, bgDataFront[i].PersistScroll);
                     backgroundManager_front.addBackground(bg);
                 }
                 else if (bgDataFront[i].Type == "Pillar")
                 {
-                    BackgroundPillar bg = new BackgroundPillar(spriteBatch, game, backgroundManager_front.getPillarFileName(bgDataFront[i].Filename), bgDataFront[i].SpawnTime, bgDataFront[i].Direction, bgDataFront[i].Layer);
+                    BackgroundPillar bg = new BackgroundPillar(spriteBatch, game, backgroundManager_front.getPillarFileName(bgDataFront[i].Filename), bgDataFront[i].SpawnTime, bgDataFront[i].Direction, bgDataFront[i].Layer, bgDataFront[i].PersistScroll);
                     backgroundManager_front.addBackground(bg);
                 }
                 else if (bgDataFront[i].Type == "Batch")
                 {
-                    PillarBatch bg = new PillarBatch(spriteBatch, game, bgDataFront[i].LowestSpawnRate, bgDataFront[i].HighestSpawnRate, (int)bgDataFront[i].DeleteTime, bgDataFront[i].Direction, bgDataFront[i].RandomDirection, bgDataFront[i].RandomSpeed, bgDataFront[i].Layer);
+                    PillarBatch bg = new PillarBatch(backgroundManager_front, spriteBatch, game, bgDataFront[i].LowestSpawnRate, bgDataFront[i].HighestSpawnRate, (int)bgDataFront[i].DeleteTime, bgDataFront[i].Direction, bgDataFront[i].RandomDirection, bgDataFront[i].RandomSpeed, bgDataFront[i].Layer, bgDataFront[i].PersistScroll);
                     backgroundManager_front.addBackground(bg);
                 }
             }
@@ -462,6 +470,12 @@ namespace Soul
             }
         }
 
+        public void stopBgScroll()
+        {
+            backgroundManager_back.stopScroll();
+            backgroundManager_front.stopScroll();
+        }
+
         private void HandleScreenAmbient(GameTime gameTime)
         {
             ambientTimer += gameTime.ElapsedGameTime.Milliseconds;
@@ -497,12 +511,30 @@ namespace Soul
             }
         }
 
-        private void LevelCleansed()
+        private void LevelCleansed(GameTime gameTime)
         {
             IncreaseLightSource();
             if (ambientLight.B > 100)
             {
                 decreaseAmbientB(1);
+            }
+
+            if (ambientLight.B == 100)
+            {
+                wait = (int)gameTime.ElapsedGameTime.Milliseconds;
+                doWait = true;
+                decreaseAmbientB(1);
+            }
+            
+            if (ambientLight.B == 99)
+            {
+                quit = true;
+                wait += gameTime.ElapsedGameTime.Milliseconds;
+            }
+
+            if (doWait && wait > 2000)
+            {
+
             }
         }
 
