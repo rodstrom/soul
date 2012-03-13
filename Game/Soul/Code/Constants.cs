@@ -26,7 +26,8 @@ namespace Soul
         public const int WEAPON_LEVEL_LOWEST = 0;
         public const int WEAPON_LEVEL_HIGHEST = 5;
         public const float WEAPON_DIMENSION = 50.0f;
-        public const string WEAPON_POWERUP_FILENAME = "Particles\\weapon_powerup";
+        public const string WEAPON_POWERUP_SPREAD_FILENAME = "Particles\\weapon_powerup_spread";
+        public const string WEAPON_POWERUP_RAPID_FILENAME = "Particles\\weapon_powerup_rapid";
         public const float WEAPON_POWERUP_RADIUS = 40.0f;
         
         public const float BULLET_VELOCITY = 15.0f;

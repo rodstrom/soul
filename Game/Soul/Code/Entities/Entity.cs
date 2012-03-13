@@ -124,8 +124,8 @@ namespace Soul
                 if (type.ToString().Equals("DARK_THOUGHT") || type.ToString().Equals("PLAYER") || type.ToString().Equals("BOSS"))
                 {
                     fireRate = float.Parse(game.constants.getValue(type.ToString(), "RATE"));
-                } 
-                if (type.ToString().Equals("DARK_THOUGHT"))
+                }
+                if (type.ToString().Equals("DARK_THOUGHT") || type.ToString().Equals("BOSS"))
                 {
                     burst = int.Parse(game.constants.getValue(type.ToString(), "BURSTPERIOD"));
                 }
@@ -326,7 +326,7 @@ namespace Soul
         public abstract void takeDamage(int value);
 
         //public float FX { get { return FX; } }
-        public bool Ghost { get { return ghost; } }
+        public bool Ghost { get { return ghost; } set { ghost = value; } }
         public int MaxHealth { get { return maxHealth; } }
 
 

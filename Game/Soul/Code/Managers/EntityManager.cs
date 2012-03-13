@@ -69,8 +69,6 @@ namespace Soul.Manager
             powerupsDisabled = !bool.Parse(game.config.getValue("Debug", "DisablePowerups"));
         }
 
-
-
         public int size
         {
             get { return entityList.Count; }
@@ -119,13 +117,14 @@ namespace Soul.Manager
             CheckSpawnQueue(gameTime);
             collisionManager.checkCollision();
             Vector2 tmpPlayerPosition = Vector2.Zero;
+
             for (int i = 0; i < entityList.Count; i++)
             {
                 if (entityList[i].Type == EntityType.BOSS || entityList[i].Type == EntityType.NIGHTMARE || entityList[i].Type == EntityType.INNER_DEMON || entityList[i].Type == EntityType.LESSER_DEMON || entityList[i].Type == EntityType.DARK_WHISPER)
                 {
                     if (player != null)
                     {
-                        entityList[i].Target = player.position; ;
+                        entityList[i].Target = player.position; 
                     }
                 }
                 entityList[i].Update(gameTime);
@@ -138,6 +137,10 @@ namespace Soul.Manager
             for (int i = 0; i < bulletList.Count; i++)
             {
                 bulletList[i].Update(gameTime);
+                if (bulletList[i].rangeExceded())
+                {
+                    bulletList.RemoveAt(i);
+                }
             }
 
             if (killList.Count > 0)
@@ -353,6 +356,24 @@ namespace Soul.Manager
             }
         }
 
+        public void ghostAll()
+        {
+            foreach (Entity e in entityList)
+            {
+                e.Ghost = true;
+            }
+        }
+
+        public void addLight(PointLight light)
+        {
+            lights.Add(light);
+        }
+
+        public void brightenScreen()
+        {
+            levelManager.brightenScreen();
+        }
+
         public void cleansedLevel()
         {
             levelManager.cleansedLevel();
@@ -428,10 +449,15 @@ namespace Soul.Manager
                 darkWhisper.position = entityData.Position;
                 addEntity(darkWhisper);
             }
-            else if (entityData.Type == EntityType.WEAPON_POWERUP)
+            else if (entityData.Type == EntityType.WEAPON_POWERUP_SPREAD)
             {
-                WeaponPowerup wpnPowerup = new WeaponPowerup(spriteBatch, game, "wpnPowerup" + enemySpawnCounter.ToString(), entityData.Position);
-                addEntity(wpnPowerup);
+                WeaponPowerupSpread wpnPowerupSpread = new WeaponPowerupSpread(spriteBatch, game, "wpnPowerupSpread" + enemySpawnCounter.ToString(), entityData.Position);
+                addEntity(wpnPowerupSpread);
+            }
+            else if (entityData.Type == EntityType.WEAPON_POWERUP_RAPID)
+            {
+                WeaponPowerupRapid wpnPowerupRapid = new WeaponPowerupRapid(spriteBatch, game, "wpnPowerupRapid" + enemySpawnCounter.ToString(), entityData.Position);
+                addEntity(wpnPowerupRapid);
             }
             else if (entityData.Type == EntityType.HEALTH_POWERUP)
             {

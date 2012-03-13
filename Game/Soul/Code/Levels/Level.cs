@@ -16,8 +16,10 @@ namespace Soul
         public bool cleansing = false;
         private int cleansPass = 1;
         private bool useDynamicLights = true;
+
         private double wait = -1;
         private bool doWait = false;
+        private bool doneOnce = false;
 
         BackgroundManager backgroundManager_back;
         BackgroundManager backgroundManager_front;
@@ -75,8 +77,8 @@ namespace Soul
         private EffectParameter lightCombinedEffectParamShadowMap;
         private EffectParameter lightCombinedEffectParamNormalMap;
 
+        public  bool brightenScreen = false;
         private bool darkenScreen = false;
-        private bool brightenScreen = false;
         private bool screenIsDark = false;
         private bool playerHitScreenFlash = false;
         private int playerHitState = 0;
@@ -218,7 +220,7 @@ namespace Soul
             if (controls.Debug == true)
             {
                 cleansing = true;
-                levelAmbient.B = (byte)100;
+                //levelAmbient.B = (byte)100;
             }
 
             if (controls.Pause == true)
@@ -300,7 +302,7 @@ namespace Soul
                 spriteBatch.End();
             }
 
-            if (bool.Parse(game.config.getValue("Debug", "Timestamp")))
+            if (bool.Parse(game.config.getValue("Debug", "InfoCorner")))
             {
                 spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Resolution.getTransformationMatrix());
                 double time = Math.Round((gameTime.TotalGameTime.TotalMilliseconds - timeStarted + double.Parse(game.config.getValue("Debug", "StartingTime"))) / 1000) ;
@@ -309,11 +311,13 @@ namespace Soul
                 string ambientAmplifyInfo = "Ambient Amplifier: " + ambientStrength.ToString();
                 string specular = "Specular: " + specularStrenght.ToString();
                 string numberOfLights = "Lights: " + lights.Count.ToString();
+                string waitTimer = "WaitTimer: " + wait.ToString();
                 spriteBatch.DrawString(font, output, new Vector2(10f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, ambientInfo, new Vector2(10f, 40f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, ambientAmplifyInfo, new Vector2(10f, 80f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, specular, new Vector2(10f, 120f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, numberOfLights, new Vector2(10f, 160f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
+                spriteBatch.DrawString(font, waitTimer, new Vector2(10f, 200f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.End();
             }
         }
@@ -512,9 +516,9 @@ namespace Soul
             else if (brightenScreen == true)
             {
 
-                increaseAmbientR(1);
-                increaseAmbientG(1);
-                increaseAmbientB(1);
+                increaseAmbientR(2);
+                increaseAmbientG(2);
+                increaseAmbientB(2);
 
                 if (ambientLight == levelAmbient)
                 {
@@ -530,30 +534,48 @@ namespace Soul
             }
         }
 
+        private void resetLights()
+        {
+            darkenScreen = false;
+            brightenScreen = false;
+            screenIsDark = false;
+            levelAmbient = Color.White;
+            ambientLight = Color.White;
+        }
+
         private void LevelCleansed(GameTime gameTime)
         {
+            if (!doneOnce)
+            {
+                resetLights();
+                doneOnce = true;
+            }
+
             IncreaseLightSource();
             if (ambientLight.B > 100)
             {
                 decreaseAmbientB(1);
+
+                foreach (Light l in lights)
+                {
+                    l.Power = l.Power - 0.0002f;
+                }
             }
 
-            if (ambientLight.B == 100)
+            if (ambientLight.B <= 100)
             {
-                wait = (int)gameTime.ElapsedGameTime.Milliseconds;
+                //wait = (int)gameTime.ElapsedGameTime.Milliseconds;
                 doWait = true;
-                decreaseAmbientB(1);
+                //decreaseAmbientB(1);
             }
-            
-            if (ambientLight.B == 99)
+
+            if (doWait)
             {
-                quit = true;
                 wait += gameTime.ElapsedGameTime.Milliseconds;
-            }
-
-            if (doWait && wait > 2000)
-            {
-
+                if (wait > 3000)
+                {
+                    quit = true;
+                }
             }
         }
 
@@ -570,10 +592,10 @@ namespace Soul
             else if (cleansPass == 2)
             {
                 ambientStrength -= ambientStrenghtScalar;
-                if (ambientStrength <= 4.0f)
-                {
-                    cleansing = false;
-                }
+                //if (ambientStrength <= 4.0f)
+                //{
+                //    cleansing = false;
+                //}
             }
         }
 

@@ -54,7 +54,7 @@ namespace Soul.Manager
             {
                 for (int i = 0; i < bulletList.Count; i++)
                 {
-                    if (bulletList[i].Type == EntityType.PLAYER_BULLET && entityList[j].Type != EntityType.PLAYER && entityList[j].Type != EntityType.WEAPON_POWERUP && entityList[j].Type != EntityType.HEALTH_POWERUP && entityList[j].Ghost == false)
+                    if (bulletList[i].Type == EntityType.PLAYER_BULLET && entityList[j].Type != EntityType.PLAYER && entityList[j].Type != EntityType.WEAPON_POWERUP_SPREAD && entityList[j].Type != EntityType.WEAPON_POWERUP_RAPID && entityList[j].Type != EntityType.HEALTH_POWERUP && entityList[j].Ghost == false)
                     {
                         if (entityList[j].checkCollision(bulletList[i].CollisionBox) == true)
                         {
@@ -64,7 +64,7 @@ namespace Soul.Manager
                             i--;
                         }
                     }
-                    else if ( (bulletList[i].Type == EntityType.BOSS_BULLET || bulletList[i].Type == EntityType.DARK_THOUGHT_BULLET) && entityList[j].Type == EntityType.PLAYER && entityList[j].Type != EntityType.WEAPON_POWERUP && entityList[j].Type != EntityType.HEALTH_POWERUP)
+                    else if ((bulletList[i].Type == EntityType.BOSS_BULLET || bulletList[i].Type == EntityType.DARK_THOUGHT_BULLET) && entityList[j].Type == EntityType.PLAYER && entityList[j].Type != EntityType.WEAPON_POWERUP_SPREAD && entityList[j].Type != EntityType.WEAPON_POWERUP_RAPID && entityList[j].Type != EntityType.HEALTH_POWERUP)
                     {
                         if (entityList[j].checkCollision(bulletList[i].CollisionBox) == true)
                         {
@@ -74,7 +74,7 @@ namespace Soul.Manager
                             i--;
                         }
                     }
-                    else if (bulletList[i].Type == EntityType.DARK_WHISPER_SPIKE && entityList[j].Type != EntityType.WEAPON_POWERUP && entityList[j].Type != EntityType.HEALTH_POWERUP)
+                    else if (bulletList[i].Type == EntityType.DARK_WHISPER_SPIKE && entityList[j].Type != EntityType.WEAPON_POWERUP_SPREAD && entityList[j].Type != EntityType.WEAPON_POWERUP_RAPID && entityList[j].Type != EntityType.HEALTH_POWERUP)
                     {
                         if (entityList[j].checkCollision(bulletList[i].CollisionBox) == true)
                         {
