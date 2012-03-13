@@ -46,7 +46,11 @@ namespace Soul.Manager
             left = setKey(game.config.getValue("Controls", "Left"));
             shoot = setKey(game.config.getValue("Controls", "Shoot"));
             pause = setKey(game.config.getValue("Controls", "Pause"));
-            debug = Keys.P;
+            debug = Keys.F20;
+            if(bool.Parse(game.config.getValue("Debug", "KeyEnabled")))
+            {
+                debug = Keys.P;
+            }
         }
 
         private Keys setKey(String newKey)

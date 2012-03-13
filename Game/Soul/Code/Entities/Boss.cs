@@ -25,6 +25,9 @@ namespace Soul
         private bool waitingToDie = false;
         private bool inPlace = false;
 
+        private int burstTimer = 0;
+        private bool attack = true;
+
         private bool shooting = false;
         private bool spawning = false;
 
@@ -87,7 +90,9 @@ namespace Soul
             if (!waitingToDie && !killMe && inPlace)
             {
                 fireTimer += gameTime.ElapsedGameTime.Milliseconds;
-                if (fireTimer >= fireRate)
+                burstTimer += gameTime.ElapsedGameTime.Milliseconds;
+
+                if (attack && fireTimer >= fireRate)
                 {
                     directionToPlayer = (target - bulletOrigin);
                     directionToPlayer.Normalize();
@@ -96,6 +101,17 @@ namespace Soul
 
                     entityManager.addBullet(weapon.Shoot(bulletOrigin, directionToPlayer.Y));
                     fireTimer = 0;
+                }
+
+                if (attack && burstTimer > burst)
+                {
+                    attack = false;
+                    burstTimer = 0;
+                }
+                else if (!attack && burstTimer > burst / 2)
+                {
+                    attack = true;
+                    burstTimer = 0;
                 }
 
                 spawnTimer += gameTime.ElapsedGameTime.Milliseconds;
@@ -116,6 +132,9 @@ namespace Soul
 
             if (waitingToDie && !killMe)
             {
+                pointLight.LightDecay = pointLight.LightDecay + 10;
+                pointLight.Power = pointLight.Power - 0.0012f;
+
                 if (animation.CurrentFrame >= animation.MaxFrames)
                 {
                     if (animationState <= 2)
@@ -240,6 +259,18 @@ namespace Soul
             animationState = 0;
             shooting = false;
             spawning = false;
+            entityManager.ghostAll();
+            entityManager.brightenScreen();
+
+            pointLight = new PointLight()
+            {
+                Color = new Vector4(240, 240, 0, 255),
+                Power = 0.2f,
+                LightDecay = 200,
+                Position = new Vector3(0f, 360f, 50f),
+                IsEnabled = true
+            };
+            entityManager.addLight(pointLight);
         }
 
         private void shootAnimate()

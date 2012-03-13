@@ -12,6 +12,13 @@ namespace Soul
         private float scalePercentage = 0.03f;
         private bool decrease = true;
 
+        private Vector2 originalPosition = Vector2.Zero;
+        private bool useRange = false;
+
+        public bool bigBullet = false;
+
+        public bool pulsate = true;
+
         public Bullet(SpriteBatch spriteBatch, Soul game, Vector2 position, Vector2 velocity, string filename, string alias, EntityType type, int damage)
             : base(spriteBatch, game, filename, new Vector2(20.0f, 20.0f), alias, type)
         {
@@ -32,9 +39,38 @@ namespace Soul
             }
         }
 
+        public Bullet(int range, SpriteBatch spriteBatch, Soul game, Vector2 position, Vector2 velocity, string filename, string alias, EntityType type, int damage)
+            : base(spriteBatch, game, filename, new Vector2(20.0f, 20.0f), alias, type)
+        {
+            spikeRange = range;
+            useRange = true;
+            originalPosition = position;
+
+            this.position = position;
+            this.velocity = velocity;
+            this.damage = damage;
+            this.hitRadius = Constants.BULLET_RADIUS;
+            if (type == EntityType.PLAYER_BULLET)
+            {
+                pointLight = new PointLight()
+                {
+                    Color = new Vector4(1f, 1f, 1f, 1f),
+                    Power = 2f,
+                    LightDecay = 100,
+                    Position = new Vector3(0f, 0f, 70f),
+                    IsEnabled = true
+                };
+            }
+        }
+
         public override void Draw()
         {
-            sprite.Draw(position, Color.White, rotation, offset, scale, SpriteEffects.None, layer);
+            float newScale = scale;
+            if (bigBullet)
+            {
+                newScale = scale * 1.2f;
+            }
+            sprite.Draw(position, Color.White, rotation, offset, newScale, SpriteEffects.None, layer);
         }
 
         public override void Update(GameTime gameTime)
@@ -45,37 +81,56 @@ namespace Soul
                 pointLight.Position = new Vector3(position.X, position.Y, pointLight.Position.Z);
             }
 
-            if (decrease == true)
+            pulsate = !pulsate;
+
+            if (pulsate)
             {
-                scale -= scalePercentage;
-
-                if (pointLight != null)
+                if (decrease == true)
                 {
-                    pointLight.LightDecay = pointLight.LightDecay - 1;
+                    scale -= scalePercentage;
+
+                    if (pointLight != null)
+                    {
+                        pointLight.LightDecay = pointLight.LightDecay - 1;
+                    }
+
+                    if (scale <= 0.8f)
+                    {
+                        decrease = false;
+                    }
                 }
-
-                if (scale <= 0.6f)
+                else
                 {
-                    decrease = false;
-                }
-            }
-            else
-            {
-                scale += scalePercentage;
+                    scale += scalePercentage;
 
-                if (pointLight != null)
-                {
-                    pointLight.LightDecay = pointLight.LightDecay + 1;
-                }
+                    if (pointLight != null)
+                    {
+                        pointLight.LightDecay = pointLight.LightDecay + 1;
+                    }
 
-                if (scale >= 1.0f)
-                {
-                    decrease = true;
+                    if (scale >= 1.0f)
+                    {
+                        decrease = true;
+                    }
                 }
             }
         }
 
-
+        public bool rangeExceded()
+        {
+            if (useRange)
+            {
+                if (Math.Abs(originalPosition.X - position.X) > spikeRange)
+                {
+                    return true;
+                }
+                if (Math.Abs(originalPosition.Y - position.Y) > spikeRange)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         public override void onCollision(Entity entity)
         {

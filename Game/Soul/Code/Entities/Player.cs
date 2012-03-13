@@ -42,6 +42,9 @@ namespace Soul
         private double timeSinceLastShot = 0;
         private bool showPlayer = true;
 
+        private double powerupTime = 0;
+        private bool powerupActive = false;
+
         private EntityManager entityManager;
 
         public Player(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, string alias, EntityManager entityManager, InputManager controls)
@@ -105,9 +108,19 @@ namespace Soul
         {
             weapon.Update(gameTime);
             hitFx.Update();
+
             if (waitingtoDie == false)
             {
                 checkHealthStatus();
+                if (powerupActive)
+                {
+                    powerupTime += gameTime.ElapsedGameTime.TotalMilliseconds;
+                    if (powerupTime >= 15000)
+                    {
+                        clearPowerup(false);
+                    }
+                }
+                
                 if (controls.Shooting == true && lesserDemonStuck == false)
                 {
                     if (gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastShot > fireRate)
@@ -435,17 +448,39 @@ namespace Soul
                 audio.playSound("player_powerup_pickup");
             }
 
-            if (entity.Type == EntityType.WEAPON_POWERUP)
+            if (entity.Type == EntityType.WEAPON_POWERUP_SPREAD)
             {
-                weapon.IncreaseWeaponLevel();
-                audio.playSound("player_powerup_pickup");
-                fireRate -= fireRate * 0.05f;
+                clearPowerup(true);
+                weapon.powerupSpread();
+                damage = (int)(damage * float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "DAMAGEMULTIPLIER")));
+                weapon.Damage = damage;
+            }
+
+            if (entity.Type == EntityType.WEAPON_POWERUP_RAPID)
+            {
+                clearPowerup(true);
+                fireRate /= float.Parse(game.constants.getValue("WEAPON_POWERUP_RAPID", "RATEMULTIPLIER"));
             }
 
             if (waitingtoDie == false && health <= 0)
             {
                 waitingtoDie = true;
                 audio.playSound("player_die");
+            }
+        }
+
+        private void clearPowerup(bool setNew)
+        {
+            powerupTime = 0;
+            weapon.clearPowerup();
+            fireRate = float.Parse(game.constants.getValue(type.ToString(), "RATE"));
+            damage = int.Parse(game.constants.getValue(type.ToString(), "DAMAGE"));
+            weapon.Damage = damage;
+
+            powerupActive = setNew;
+            if (setNew)
+            {
+                audio.playSound("player_powerup_pickup");
             }
         }
 

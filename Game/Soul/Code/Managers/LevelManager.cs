@@ -94,5 +94,10 @@ namespace Soul.Manager
         {
             currentLevel.cleansing = true;
         }
+
+        public void brightenScreen()
+        {
+            currentLevel.brightenScreen = true;
+        }
     }
 }

@@ -62,23 +62,26 @@ namespace Soul
             {
                 path.Update(gameTime, Position);
 
-                if (attack && gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastBullet > fireRate)
+                if (attack && timeSinceLastBullet > fireRate)
                 {
                     entityManager.addBullet(weapon.Shoot(position));
                     audio.playSound("dark_thought_shoot");
-                    timeSinceLastBullet = gameTime.TotalGameTime.TotalMilliseconds;
+                    timeSinceLastBullet = 0;
                 }
 
-                if (attack && gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastBurst > burst)
+                if (attack && timeSinceLastBurst > burst)
                 {
                     attack = false;
-                    timeSinceLastBurst = gameTime.TotalGameTime.TotalMilliseconds;
+                    timeSinceLastBurst = 0;
                 }
-                else if (!attack && gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastBurst > burst * 2)
+                else if (!attack && timeSinceLastBurst > burst * 2)
                 {
                     attack = true;
-                    timeSinceLastBurst = gameTime.TotalGameTime.TotalMilliseconds;
+                    timeSinceLastBurst = 0;
                 }
+
+                timeSinceLastBullet += gameTime.ElapsedGameTime.TotalMilliseconds;
+                timeSinceLastBurst += gameTime.ElapsedGameTime.TotalMilliseconds;
 
                 
             }

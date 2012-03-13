@@ -10,9 +10,10 @@ namespace Soul
     class PlayerWeapon : Weapon
     {
         private int weaponLevel = 0;
-        private float weaponSpreadModifier = 40f;
+        private float weaponSpreadModifier = 5f;
         private float minYVel = 0f;
         private float maxYVel = 0f;
+        private bool bigBullet = false;
 
         //private int shootDelay = 50;
         //private uint timer = 0;
@@ -38,6 +39,7 @@ namespace Soul
             velocity = getVelocity();
             position = getPosition(position);
             Bullet bullet = new Bullet(spriteBatch, game, position, velocity, Constants.PLAYER_BULLET_FILENAME, "bullet", EntityType.PLAYER_BULLET, damage);
+            bullet.bigBullet = bigBullet;
             return bullet;
         }
 
@@ -82,24 +84,34 @@ namespace Soul
         public override Vector2 getPosition(Vector2 position)
         {
             Vector2 newPosition = position;
-            newPosition.Y = random.Next((int)newPosition.Y - (spriteHeight / 2) + (int)weaponSpreadModifier, (int)newPosition.Y + (spriteHeight / 2) - (int)weaponSpreadModifier);
+            newPosition.Y = random.Next((int)newPosition.Y - (int)weaponSpreadModifier, (int)newPosition.Y + (int)weaponSpreadModifier);
             return newPosition;
         }
 
-        public void IncreaseWeaponLevel()
+        public void clearPowerup()
         {
-            minYVel -= 0.5f;
-            maxYVel += 0.5f;
+            minYVel = 0f;
+            maxYVel = 0f;
+            weaponSpreadModifier = 5f;
+            bigBullet = false;
         }
 
-        public void DecreaseWeaponLevel()
+        public void powerupSpread()
+        {
+            minYVel = -float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREADMULTIPLIER"));
+            maxYVel = float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREADMULTIPLIER"));
+            weaponSpreadModifier *= float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREADMULTIPLIER")) * 2f;
+            bigBullet = true;
+        }
+
+        /*public void DecreaseWeaponLevel()
         {
             if (weaponSpreadModifier >= 40.0f) weaponSpreadModifier -= weaponSpreadModifier * 0.05f;
             
             if (minYVel < 0.0f) minYVel += 0.05f;
 
             if (maxYVel > 0.0f)maxYVel -= 0.05f;
-        }
+        }*/
 
         private float NextFloat(Random random, float min, float max)
         {
