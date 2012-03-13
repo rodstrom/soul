@@ -440,10 +440,6 @@
       <Name>Level01</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Levels\Level01_old2.map">
-      <Name>Level01_old2</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Levels\Level02.map">
       <Name>Level02</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
