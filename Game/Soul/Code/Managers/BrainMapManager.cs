@@ -39,10 +39,10 @@ namespace Soul.Manager
             mapList.Add(tmpList);
 
             menuManager = new MenuManager(controls);
-            ImageButton button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f - 150, (float)game.Window.ClientBounds.Height * 0.5f + 200), Constants.GUI_CLEANSE, "cleanse");
+            ImageButton button = new ImageButton(spriteBatch, game, controls, new Vector2((float)Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f - 150, (float)Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200), Constants.GUI_CLEANSE, "cleanse");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
-            button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f + 150, (float)game.Window.ClientBounds.Height * 0.5f + 200), Constants.GUI_BACK, "back");
+            button = new ImageButton(spriteBatch, game, controls, new Vector2((float)Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 150, (float)Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200), Constants.GUI_BACK, "back");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
             menuManager.initialize();

@@ -24,6 +24,7 @@ namespace Soul
         public IniFile config;
         public IniFile constants;
         public IniFile audioList;
+        public IniFile lighting;
 
         public Soul()
         {
@@ -39,6 +40,8 @@ namespace Soul
             constants.parse();
             audioList = new IniFile("Content\\Config\\audiolist.ini");
             audioList.parse();
+            lighting = new IniFile("Content\\Config\\lighting.ini");
+            lighting.parse();
             this.IsMouseVisible = bool.Parse(config.getValue("General", "ShowMouse"));
             audioManager = new AudioManager(Content, this);
             displayModes = new LinkedList<DisplayMode>();

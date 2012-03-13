@@ -107,7 +107,7 @@ namespace Soul.Manager
 
              foreach (Entity i in entityList)
              {
-                 if (i.Type == EntityType.PLAYER) continue;
+                 //if (i.Type == EntityType.PLAYER) continue;
                  i.Draw();
              }
         }
@@ -288,7 +288,7 @@ namespace Soul.Manager
         public void addBullet(Bullet bullet)
         {
             bulletList.Add(bullet);
-            if (bullet.Type == EntityType.PLAYER_BULLET)
+            if (bullet.Type == EntityType.PLAYER_BULLET || bullet.Type == EntityType.DARK_THOUGHT_BULLET)
             {
                 lights.Add(bullet.PointLight);
             }

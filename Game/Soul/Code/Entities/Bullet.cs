@@ -23,11 +23,24 @@ namespace Soul
             {
                 pointLight = new PointLight()
                 {
-                    Color = new Vector4(1f, 1f, 1f, 1f),
-                    Power = 2f,
-                    LightDecay = 100,
-                    Position = new Vector3(0f, 0f, 70f),
-                    IsEnabled = true
+                    Color = new Vector4(float.Parse(game.lighting.getValue("PlayerBullet", "ColorR")), float.Parse(game.lighting.getValue("PlayerBullet", "ColorG")), float.Parse(game.lighting.getValue("PlayerBullet", "ColorB")), float.Parse(game.lighting.getValue("PlayerBullet", "ColorA"))),
+                    Power = float.Parse(game.lighting.getValue("PlayerBullet", "Power")),
+                    LightDecay = int.Parse(game.lighting.getValue("PlayerBullet", "LightDecay")),
+                    Position = new Vector3(0f, 0f, float.Parse(game.lighting.getValue("PlayerBullet", "ZPosition"))),
+                    IsEnabled = true,
+                    renderSpecular = bool.Parse(game.lighting.getValue("PlayerBullet", "Specular"))
+                };
+            }
+            else if (type == EntityType.DARK_THOUGHT_BULLET)
+            {
+                pointLight = new PointLight()
+                {
+                    Color = new Vector4(float.Parse(game.lighting.getValue("DarkThoughtBullet", "ColorR")), float.Parse(game.lighting.getValue("DarkThoughtBullet", "ColorG")), float.Parse(game.lighting.getValue("DarkThoughtBullet", "ColorB")), float.Parse(game.lighting.getValue("DarkThoughtBullet", "ColorA"))),
+                    Power = float.Parse(game.lighting.getValue("DarkThoughtBullet", "Power")),
+                    LightDecay = int.Parse(game.lighting.getValue("DarkThoughtBullet", "LightDecay")),
+                    Position = new Vector3(0f, 0f, float.Parse(game.lighting.getValue("DarkThoughtBullet", "ZPosition"))),
+                    IsEnabled = true,
+                    renderSpecular = false
                 };
             }
         }

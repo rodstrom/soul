@@ -181,6 +181,18 @@ namespace Soul.Manager
             menuManager.initialize();
             menu["Credits"] = menuManager;
 
+            // Creating Quit Menu
+            menuManager = new MenuManager(inputManager, "Quit");
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f - 200, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_YES, "quit_yes");
+            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f), "quit_text", "Are you sure you want to quit?", false);
+            button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
+            menuManager.AddButton(button, label);
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 200, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_NO, "quit_no");
+            button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
+            menuManager.AddButton(button);
+            menuManager.initialize();
+            menu["Quit"] = menuManager;
+
             currentMenuManager = menu["MainMenu"];
             currentMenuManager.FadeIn();
 
@@ -209,7 +221,7 @@ namespace Soul.Manager
 
             currentMenuManager.Update(gameTime);
 
-            if (wait == false && changeKey == false)
+            if (wait == false && changeKey == false && currentMenuManager.ID != "Quit")
             {
                 if (inputManager.MoveUpOnce == true)
                 {
@@ -229,6 +241,24 @@ namespace Soul.Manager
                 else if (inputManager.ShootingOnce == true && currentMenuManager.SelectionID() == "start")
                 {
                     audioManager.playSound("menu_start");
+                }
+            }
+            else if (currentMenuManager.ID == "Quit")
+            {
+                if (inputManager.MoveLeftOnce == true)
+                {
+                    audioManager.playSound("menu_move");
+                    currentMenuManager.increment();
+                }
+                else if (inputManager.MoveRightOnce == true)
+                {
+                    audioManager.playSound("menu_move");
+                    currentMenuManager.decrement();
+                }
+
+                if (inputManager.ShootingOnce == true)
+                {
+                    audioManager.playSound("menu_select");
                 }
             }
 
@@ -260,6 +290,10 @@ namespace Soul.Manager
             else if (currentMenuManager.ID == "Controls")
             {
                 ControlsMenu();
+            }
+            else if (currentMenuManager.ID == "MainMenu" && inputManager.Pause == true)
+            {
+                ChangeMenuState("Quit");
             }
 
             return returnValue;
@@ -458,6 +492,10 @@ namespace Soul.Manager
             {
                 CreditsControl(button);
             }
+            else if (currentMenuManager.ID == "Quit")
+            {
+                QuitControl(button);
+            }
         }
 
         public void MainMenuControl(ImageButton button)
@@ -476,7 +514,7 @@ namespace Soul.Manager
             }
             else if (button.ID == "quit")
             {
-                returnValue = -1;
+                ChangeMenuState("Quit");
             }
         }
 
@@ -527,6 +565,18 @@ namespace Soul.Manager
         public void CreditsControl(ImageButton button)
         {
             if (button.ID == "credits_back")
+            {
+                ChangeMenuState("MainMenu");
+            }
+        }
+
+        public void QuitControl(ImageButton button)
+        {
+            if (button.ID == "quit_yes")
+            {
+                returnValue = -1;
+            }
+            else if (button.ID == "quit_no")
             {
                 ChangeMenuState("MainMenu");
             }
@@ -662,6 +712,7 @@ namespace Soul.Manager
             game.config.addModify("Video", "Height", displayModes.ElementAt(currentmode).Height.ToString());
             game.config.save();
             currentMenuManager.SetSelection(game.config.getValue("Video", "Width") + " x " + game.config.getValue("Video", "Height"));
+            returnValue = -2;
         }
 
         public void FadeInMenu()

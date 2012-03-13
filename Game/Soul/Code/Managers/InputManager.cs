@@ -111,22 +111,22 @@ namespace Soul.Manager
         public void Update(GameTime gameTime)
         {
             keyState = Keyboard.GetState();
-            if (keyState.IsKeyDown(up) == true)
+            if (keyState.IsKeyDown(up) == true || keyState.IsKeyDown(Keys.Up) == true)
             {
                 moveUp = true;
             }
 
-            if (keyState.IsKeyDown(down) == true)
+            if (keyState.IsKeyDown(down) == true || keyState.IsKeyDown(Keys.Down) == true)
             {
                 moveDown = true;
             }
 
-            if (keyState.IsKeyDown(right) == true)
+            if (keyState.IsKeyDown(right) == true || keyState.IsKeyDown(Keys.Right) == true)
             {
                 moveRight = true;
             }
 
-            if (keyState.IsKeyDown(left) == true)
+            if (keyState.IsKeyDown(left) == true || keyState.IsKeyDown(Keys.Left) == true)
             {
                 moveLeft = true;
             }
@@ -139,22 +139,22 @@ namespace Soul.Manager
             //////////////////////////////////////////////
             //////////////////////////////////////////////
 
-            if (keyState.IsKeyDown(up) == false)
+            if (keyState.IsKeyDown(up) == false || keyState.IsKeyDown(Keys.Up) == false)
             {
                 moveUp = false;
             }
 
-            if (keyState.IsKeyDown(down) == false)
+            if (keyState.IsKeyDown(down) == false || keyState.IsKeyDown(Keys.Down) == false)
             {
                 moveDown = false;
             }
 
-            if (keyState.IsKeyDown(right) == false)
+            if (keyState.IsKeyDown(right) == false || keyState.IsKeyDown(Keys.Right) == false)
             {
                 moveRight = false;
             }
 
-            if (keyState.IsKeyDown(left) == false)
+            if (keyState.IsKeyDown(left) == false || keyState.IsKeyDown(Keys.Left) == false)
             {
                 moveLeft = false;
             }
@@ -167,7 +167,7 @@ namespace Soul.Manager
             //////////////////////////////////////////////
             //////////////////////////////////////////////
 
-            if (keyState.IsKeyUp(shoot) == true && oldKeyState.IsKeyDown(shoot) == true)
+            if (keyState.IsKeyUp(shoot) == true && oldKeyState.IsKeyDown(shoot) == true || keyState.IsKeyUp(Keys.Enter) == true && oldKeyState.IsKeyDown(Keys.Enter) == true)
             {
                 shootingOnce = true;
             }
@@ -176,7 +176,7 @@ namespace Soul.Manager
                 shootingOnce = false;
             }
 
-            if (keyState.IsKeyUp(up) == true && oldKeyState.IsKeyDown(up) == true)
+            if (keyState.IsKeyUp(up) == true && oldKeyState.IsKeyDown(up) == true || (keyState.IsKeyUp(Keys.Up) == true && oldKeyState.IsKeyDown(Keys.Up)))
             {
                 moveUpOnce = true;
             }
@@ -185,7 +185,7 @@ namespace Soul.Manager
                 moveUpOnce = false;
             }
 
-            if (keyState.IsKeyUp(down) == true && oldKeyState.IsKeyDown(down) == true)
+            if (keyState.IsKeyUp(down) == true && oldKeyState.IsKeyDown(down) == true || keyState.IsKeyUp(Keys.Down) == true && oldKeyState.IsKeyDown(Keys.Down) == true)
             {
                 moveDownOnce = true;
             }
@@ -194,7 +194,7 @@ namespace Soul.Manager
                 moveDownOnce = false;
             }
 
-            if (keyState.IsKeyUp(left) == true && oldKeyState.IsKeyDown(left) == true)
+            if (keyState.IsKeyUp(left) == true && oldKeyState.IsKeyDown(left) == true || keyState.IsKeyUp(Keys.Left) == true && oldKeyState.IsKeyDown(Keys.Left) == true)
             {
                 moveLeftOnce = true;
             }
@@ -203,7 +203,7 @@ namespace Soul.Manager
                 moveLeftOnce = false;
             }
 
-            if (keyState.IsKeyUp(right) == true && oldKeyState.IsKeyDown(right) == true)
+            if (keyState.IsKeyUp(right) == true && oldKeyState.IsKeyDown(right) == true || keyState.IsKeyUp(Keys.Right) == true && oldKeyState.IsKeyDown(Keys.Right) == true)
             {
                 moveRightOnce = true;
             }

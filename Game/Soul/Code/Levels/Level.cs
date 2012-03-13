@@ -36,6 +36,7 @@ namespace Soul
         private Sprite bg1 = null;
         private Sprite bg1_normal = null;
         private Sprite fog = null;
+        private Sprite fog_normal = null;
 
 
         private RenderTarget2D colorMap_back;
@@ -47,8 +48,8 @@ namespace Soul
         private RenderTarget2D entityLayer;
 
         private List<Light> lights = new List<Light>();
-        private Color ambientLight = new Color(1f, 1f, 1f, 1f);
-        private Color levelAmbient = new Color(1f, 1f, 1f, 1f);
+        private Color ambientLight;
+        private Color levelAmbient;
         private float specularStrenght = 1.0f;
         private float ambientStrength = 1f;
         private float ambientStrenghtScalar = 0.025f;
@@ -77,6 +78,8 @@ namespace Soul
         private bool darkenScreen = false;
         private bool brightenScreen = false;
         private bool screenIsDark = false;
+        private bool playerHitScreenFlash = false;
+        private int playerHitState = 0;
 
         private double ambientTimer = 0.0;
 
@@ -94,6 +97,8 @@ namespace Soul
             this.player = player;
             font = game.Content.Load<SpriteFont>("GUI\\Extrafine");
             this.audioManager = audioManager;
+            levelAmbient = new Color(byte.Parse(game.lighting.getValue("AmbientLight", "ColorR")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorG")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorB")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorA")));
+            ambientLight = new Color(byte.Parse(game.lighting.getValue("AmbientLight", "ColorR")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorG")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorB")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorA")));
         }
 
         public void initialize()
@@ -156,12 +161,15 @@ namespace Soul
             bg1 = new Sprite(spriteBatch, game, "Backgrounds\\background__0002s_0008_Layer-1_combined");
             bg1_normal = new Sprite(spriteBatch, game, "Backgrounds\\background__0002s_0008_Layer-1_combined_depth");
             fog = new Sprite(spriteBatch, game, Constants.BACKGROUND_FOG);
+            fog_normal = new Sprite(spriteBatch, game, Constants.BACKGROUND_FOG_NORMAL);
             
 
 
             player.nightmareHit += new Player.NightmareHit(DarkenScreen);
+            player.hitFlash += new Player.HitFlash(PlayerHitFlash);
 
             lights.Add(player.PointLight);
+            lights.Add(player.HealthLight);
 
             specularStrenght = float.Parse(game.config.getValue("Video", "Specular"));
             useDynamicLights = bool.Parse(game.config.getValue("Video", "DynamicLights"));
@@ -230,6 +238,11 @@ namespace Soul
                 LevelCleansed(gameTime);
             }
 
+            if (playerHitScreenFlash == true)
+            {
+                PlayerHitFade();
+            }
+
             return 0;
         }
 
@@ -244,6 +257,7 @@ namespace Soul
             spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
             bg1.Draw(Vector2.Zero, new Rectangle(0,0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             backgroundManager_back.Draw();
+            fog.Draw(Vector2.Zero, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             spriteBatch.End();
 
             // Draw Normal Map Back Layer
@@ -253,6 +267,7 @@ namespace Soul
             spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
             bg1_normal.Draw(Vector2.Zero, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             backgroundManager_back.DrawNormalMap();
+            fog_normal.Draw(Vector2.Zero, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             spriteBatch.End();
 
             game.GraphicsDevice.SetRenderTarget(null);
@@ -386,14 +401,15 @@ namespace Soul
             lightCombinedEffect.CurrentTechnique.Passes[0].Apply();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, lightCombinedEffect, Resolution.getTransformationMatrix());
-            spriteBatch.Draw(colorMap_back, Vector2.Zero, Color.White);
-            fog.Draw(Vector2.Zero, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(entityLayer, Vector2.Zero, Color.White);
+            
+            spriteBatch.Draw(colorMap_back, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White);
+           
+            spriteBatch.Draw(entityLayer, new Rectangle(0, 0, Constants.RESOLUTION_VIRTUAL_WIDTH, Constants.RESOLUTION_VIRTUAL_HEIGHT), Color.White);
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Resolution.getTransformationMatrix());
-            player.Draw();
-            spriteBatch.Draw(colorMap_front, Vector2.Zero, Color.White);
+            //player.Draw();
+            spriteBatch.Draw(colorMap_front, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White);
             spriteBatch.End();
 
         }
@@ -416,7 +432,10 @@ namespace Soul
                     lightEffectParameterPosition.SetValue(light.Position);
                     lightEffectParameterLightColor.SetValue(light.Color);
                     lightEffectParameterLightDecay.SetValue(light.LightDecay);
-                    lightEffect.Parameters["specularStrength"].SetValue(specularStrenght);
+                    if (light.renderSpecular)
+                    {
+                        lightEffect.Parameters["specularStrength"].SetValue(specularStrenght);
+                    }
 
                     if (light.LightType == LightType.Point)
                     {
@@ -578,6 +597,7 @@ namespace Soul
             if (r >= (int)levelAmbient.R)
             {
                 r = (int)levelAmbient.R;
+                ambientLight.R = (byte)r;
             }
             else
             {
@@ -592,6 +612,7 @@ namespace Soul
             if (g >= (int)levelAmbient.G)
             {
                 g = (int)levelAmbient.G;
+                ambientLight.G = (byte)g;
             }
             else
             {
@@ -606,6 +627,7 @@ namespace Soul
             if (b >= (int)levelAmbient.B)
             {
                 b = (int)levelAmbient.B;
+                ambientLight.B = (byte)b;
             }
             else
             {
@@ -646,6 +668,42 @@ namespace Soul
             ambientLight.B = (byte)b;
         }
         #endregion AmbientControl
+
+        private void PlayerHitFlash()
+        {
+            playerHitScreenFlash = true;
+            playerHitState = 0;
+        }
+
+        private void PlayerHitFade()
+        {
+            switch(playerHitState)
+            {
+                case 0:
+                    {
+                        decreaseAmbientB(15);
+                        decreaseAmbientG(15);
+                        if (ambientLight.B <= 150 && ambientLight.G <= 150)
+                            playerHitState = 1;
+                        break;
+                    }
+                case 1:
+                    {
+                        increaseAmbientB(15);
+                        increaseAmbientG(15);
+                        if (ambientLight.B >= levelAmbient.B && ambientLight.G >= levelAmbient.G)
+                            playerHitState = 2;
+                        break;
+                    }
+                case 2:
+                    {
+                        playerHitScreenFlash = false;
+                        break;
+                    }
+
+            }
+        }
+
 
         private static BlendState BlendBlack = new BlendState()
         {

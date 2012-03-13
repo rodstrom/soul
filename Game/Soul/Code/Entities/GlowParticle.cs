@@ -69,11 +69,12 @@ namespace Soul
             this.position = position;
             pointLight = new PointLight()
             {
-                Color = new Vector4(0f, 0f, 0f, 1f),
-                Power = 1f,
-                LightDecay = 90,
-                Position = new Vector3(0f, 0f, 50f),
-                IsEnabled = true
+                Color = new Vector4(float.Parse(game.lighting.getValue("MainMenuLight", "ColorR")), float.Parse(game.lighting.getValue("MainMenuLight", "ColorG")), float.Parse(game.lighting.getValue("MainMenuLight", "ColorB")), float.Parse(game.lighting.getValue("MainMenuLight", "ColorA"))),
+                Power = float.Parse(game.lighting.getValue("MainMenuLight", "Power")),
+                LightDecay = int.Parse(game.lighting.getValue("MainMenuLight", "LightDecay")),
+                Position = new Vector3(0f, 0f, float.Parse(game.lighting.getValue("MainMenuLight", "ZPosition"))),
+                IsEnabled = true,
+                renderSpecular = bool.Parse(game.lighting.getValue("MainMenuLight", "Specular"))
             };
         }
         private float NextFloat(Random random, float min, float max)

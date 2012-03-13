@@ -18,6 +18,7 @@ namespace Soul
     {
         protected float _initialPower;
         public bool dead = false;
+        public bool renderSpecular = true;
         
         public Vector3 Position { get; set; }
         public Vector4 Color;

@@ -69,6 +69,7 @@ namespace Soul.Manager
                         if (entityList[j].checkCollision(bulletList[i].CollisionBox) == true)
                         {
                             entityList[j].onCollision(bulletList[i]);
+                            bulletList[i].RemoveLight();
                             bulletList.RemoveAt(i);
                             i--;
                         }

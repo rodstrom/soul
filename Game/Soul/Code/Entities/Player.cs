@@ -21,9 +21,16 @@ namespace Soul
         };
 
         public delegate void NightmareHit();
-        public event NightmareHit nightmareHit = null; 
+        public delegate void HitFlash();
+        public event NightmareHit nightmareHit = null;
+        public event HitFlash hitFlash = null;
+        
 
         private List<Entity> lesserDemonList = new List<Entity>();
+        private PointLight healthLight;
+        private int healthLightMaxRadius = 0;
+        private int healthLightMinRadius = 0;
+        private GlowFX warningGlow = null;
 
         private PlayerWeapon weapon;
         private InputManager controls;
@@ -34,13 +41,31 @@ namespace Soul
 
         private float glowScale = 1.0f;
         private float glowScalePercentage = 0.005f;
+        private int dynamicLightScalar = 1;
         private bool decrease = true;
+
+        private float maxDeathPower = 0.0f;
+        private float deathPowerScaleUp = 0.0f;
+        private float deathPowerScaleDown = 0.0f;
+
+        private int maxDeathLightDecay = 0;
+        private int deathDecayScaleUp = 0;
+        private int deathDecayScaleDown = 0;
+        private float secondExplosionPower = 0.0f;
+        private float secondExplosionPwrScalar = 0.0f;
+        private int secondExplosionLight = 0;
+        private int secondExplosionLightScalar = 0;
+        private int fadeOutLight = 0;
+        private float fadeOutPower = 0;
+
+        private int deathPass = 1;
 
         private bool movingForward = false;
         private bool movingBackwards = false;
         private bool lesserDemonStuck = false;
         private double timeSinceLastShot = 0;
         private bool showPlayer = true;
+        private bool healthWarning = false;
 
         private EntityManager entityManager;
 
@@ -51,27 +76,49 @@ namespace Soul
             audio = audioManager;
             this.entityManager = entityManager;
             this.controls = controls;
-            //this.health = Constants.PLAYER_MAX_HEALTH;
             weapon = new PlayerWeapon(spriteBatch, game, (int)dimension.Y);
-            //weapon.Damage = Constants.PLAYER_WEAPON_DAMAGE;
             weapon.Damage = damage;
-            //maxVelocity = new Vector2 (Constants.PLAYER_MAX_SPEED, Constants.PLAYER_MAX_SPEED);
             acceleration = new Vector2 (Constants.PLAYER_ACCELERATION, Constants.PLAYER_ACCELERATION);
             animationState = (int)PlayerAnimationState.IDLE;
             this.glow = new Sprite(spriteBatch, game, Constants.PLAYER_GLOW_FILENAME);
             this.shootSprite = new Sprite(spriteBatch, game, Constants.PLAYER_SHOOT_ANIM);
             hitFx = new HitFX(game);
-            //this.hitRadius = Constants.PLAYER_RADIUS;
+            warningGlow = new GlowFX(game, Constants.FLASH_EFFECT_RED_FILENAME, 0.05f, 0.1f, 0.9f);
             this.animation.FrameRate = 30;
+            this.maxDeathLightDecay = int.Parse(game.lighting.getValue("PlayerDeath", "MaxDecay"));
+            this.maxDeathPower = float.Parse(game.lighting.getValue("PlayerDeath", "MaxPower"));
+            this.deathDecayScaleUp = int.Parse(game.lighting.getValue("PlayerDeath", "DecayScaleUp"));
+            this.deathDecayScaleDown = int.Parse(game.lighting.getValue("PlayerDeath", "DecayScaleDown"));
+            this.deathPowerScaleUp = float.Parse(game.lighting.getValue("PlayerDeath", "PowerScaleUp"));
+            this.deathPowerScaleDown = float.Parse(game.lighting.getValue("PlayerDeath", "PowerScaleDown"));
+            this.secondExplosionLight = int.Parse(game.lighting.getValue("PlayerDeath", "SecondExplosionLightSize"));
+            this.secondExplosionLightScalar = int.Parse(game.lighting.getValue("PlayerDeath", "SecondExplosionLightScalar"));
+            this.secondExplosionPower = float.Parse(game.lighting.getValue("PlayerDeath", "SecondExplosionPower"));
+            this.secondExplosionPwrScalar = float.Parse(game.lighting.getValue("PlayerDeath", "SecondExplosionPowerScalar"));
+            this.fadeOutLight = int.Parse(game.lighting.getValue("PlayerDeath", "FadeOutLightScalar"));
+            this.fadeOutPower = float.Parse(game.lighting.getValue("PlayerDeath", "FadeOutPowerScalar"));
+            this.healthLightMaxRadius = int.Parse(game.lighting.getValue("PlayerHealthLight", "MaxRadius"));
+            this.healthLightMinRadius = int.Parse(game.lighting.getValue("PlayerHealthLight", "MinRadius"));
             
             pointLight = new PointLight()
             {
-                Color = new Vector4(1f, 1f, 1f, 1f),
-                Power = 8f,
-                LightDecay = 200,
-                Position = new Vector3(0f, 0f, 50f),
-                IsEnabled = true
-            }; 
+                Color = new Vector4(float.Parse(game.lighting.getValue("PlayerLight", "ColorR")), float.Parse(game.lighting.getValue("PlayerLight", "ColorG")), float.Parse(game.lighting.getValue("PlayerLight", "ColorB")), float.Parse(game.lighting.getValue("PlayerLight", "ColorA"))),
+                Power = float.Parse(game.lighting.getValue("PlayerLight", "Power")),
+                LightDecay = int.Parse(game.lighting.getValue("PlayerLight", "LightDecay")),
+                Position = new Vector3(0f, 0f, float.Parse(game.lighting.getValue("PlayerLight", "ZPosition"))),
+                IsEnabled = true,
+                renderSpecular = bool.Parse(game.lighting.getValue("PlayerLight", "Specular"))
+            };
+
+            healthLight = new PointLight()
+            {
+                Color = new Vector4(float.Parse(game.lighting.getValue("PlayerHealthLight", "ColorR")), float.Parse(game.lighting.getValue("PlayerHealthLight", "ColorG")), float.Parse(game.lighting.getValue("PlayerHealthLight", "ColorB")), float.Parse(game.lighting.getValue("PlayerHealthLight", "ColorA"))),
+                Power = float.Parse(game.lighting.getValue("PlayerHealthLight", "Power")),
+                LightDecay = int.Parse(game.lighting.getValue("PlayerHealthLight", "LightDecay")),
+                Position = new Vector3(0f, 0f, float.Parse(game.lighting.getValue("PlayerHealthLight", "ZPosition"))),
+                IsEnabled = true,
+                renderSpecular = bool.Parse(game.lighting.getValue("PlayerHealthLight", "Specular"))
+            };
         }
 
         public override void Draw()
@@ -89,10 +136,10 @@ namespace Soul
 
             if (showPlayer == true)
             {
-                if (hitFx.IsHit == true)
+                if (healthWarning == true)
                 {
                     Rectangle rect = new Rectangle(animation.CurrentFrame * (int)dimension.X, (int)animationState * (int)dimension.Y, (int)dimension.X, (int)dimension.Y);
-                    sprite.Draw(position, rect, Color.White, rotation, offset, scale, SpriteEffects.None, layer, hitFx.Effect);
+                    sprite.Draw(position, rect, Color.White, rotation, offset, scale, SpriteEffects.None, layer, warningGlow.Effect);
                 }
                 else
                 {
@@ -104,7 +151,7 @@ namespace Soul
         public override void Update(GameTime gameTime)
         {
             weapon.Update(gameTime);
-            hitFx.Update();
+
             if (waitingtoDie == false)
             {
                 checkHealthStatus();
@@ -142,61 +189,29 @@ namespace Soul
                     }
                 }
 
-                if (decrease == true)
-                {
-                    glowScale -= glowScalePercentage;
-                    pointLight.LightDecay = pointLight.LightDecay - 1;
-                    if (glowScale <= 0.7f)
-                    {
-                        decrease = false;
-                    }
-                }
-                else
-                {
-                    glowScale += glowScalePercentage;
-                    pointLight.LightDecay = pointLight.LightDecay + 1;
-                    if (glowScale >= 1.0f)
-                    {
-                        decrease = true;
-                    }
-                }
-
                 animation.Animate(gameTime);
                 Move(gameTime);
                 pointLight.Position = new Vector3(position.X, position.Y, pointLight.Position.Z);
+                healthLight.Position = new Vector3(position.X, position.Y, healthLight.Position.Z);
                 
             }
             else
             {
-                if (showPlayer == true)
+                if (deathPass == 1)
                 {
-                    pointLight.LightDecay = pointLight.LightDecay + 20;
-                    pointLight.Power = pointLight.Power + 0.01f;
+                    FirstExplosion();
                 }
-
-                if (pointLight.LightDecay >= 1500f && showPlayer == true)
+                else if (deathPass == 2)
                 {
-                        GlowParticle glowParticle;
-                        Random random = new Random();
-                        for (int i = 0; i < Constants.PLAYER_NUMBER_OF_DEATH_GLOWS; i++)
-                        {
-                            glowParticle = new GlowParticle(spriteBatch, game, "glow_death" + i.ToString(), position, random);
-                            entityManager.addEntity(glowParticle);
-                            //entityManager.AddPointLight(glowParticle.PointLight);
-
-                        }
-                        showPlayer = false;
+                    Implosion();
                 }
-
-                if (showPlayer == false)
+                else if (deathPass == 3)
                 {
-                    pointLight.LightDecay = pointLight.LightDecay - 40;
-                    pointLight.Power = pointLight.Power - 0.04f;
+                    SecondExplosion();
                 }
-
-                if (pointLight.Power <= 0.0f && pointLight.LightDecay <= 0.0f)
+                else if (deathPass == 4)
                 {
-                    killMe = true;
+                    FadeOutLight();
                 }
             }
         }
@@ -415,19 +430,25 @@ namespace Soul
             if (entity.Type == EntityType.DARK_THOUGHT_BULLET || entity.Type == EntityType.BLUE_BLOOD_VESSEL || entity.Type == EntityType.PURPLE_BLOOD_VESSEL || entity.Type == EntityType.RED_BLOOD_VESSEL || entity.Type == EntityType.NIGHTMARE || entity.Type == EntityType.DARK_WHISPER || entity.Type == EntityType.DARK_WHISPER_SPIKE || entity.Type == EntityType.BOSS_BULLET)
             {
                 health -= entity.getDamage();
-                hitFx.Hit();
+                if (health < healthLightMaxRadius)
+                    healthWarning = true;
+                
+                if (hitFlash != null)
+                    hitFlash();
+
                 if (entity.Type == EntityType.NIGHTMARE)
                 {
                     if (nightmareHit != null)
-                    {
                         nightmareHit();
-                    }
                 }
             }
 
             if (entity.Type == EntityType.HEALTH_POWERUP)
             {
                 health += 10;
+                if (health > healthLightMaxRadius)
+                    healthWarning = false;
+
                 if (health > Constants.PLAYER_MAX_HEALTH)
                 {
                     health = Constants.PLAYER_MAX_HEALTH;
@@ -444,6 +465,7 @@ namespace Soul
 
             if (waitingtoDie == false && health <= 0)
             {
+                pointLight.Color = new Vector4(float.Parse(game.lighting.getValue("PlayerDeath", "ColorR")), float.Parse(game.lighting.getValue("PlayerDeath", "ColorG")), float.Parse(game.lighting.getValue("PlayerDeath", "ColorB")), float.Parse(game.lighting.getValue("PlayerDeath", "ColorA")));
                 waitingtoDie = true;
                 audio.playSound("player_die");
             }
@@ -457,53 +479,98 @@ namespace Soul
         public override void takeDamage(int value)
         {
             health -= value;
+            if (health < healthLightMaxRadius)
+                healthWarning = true;
             if (health <= 0)
             {
-                killMe = true;
-            }
-        }
-
-        public Vector2 GlowPosition
-        {
-            get
-            {
-                Vector2 newPosition = position;
-                newPosition.X -= ((float)glow.X * 0.5f) * glowScale;
-                newPosition.Y -= ((float)glow.Y * 0.5f) * glowScale;
-                return newPosition;
+                waitingtoDie = true;
             }
         }
 
         private void checkHealthStatus()
         {
             float percentage = (float)health / (float)maxHealth;
-            if (percentage > 0.8f)
-            {
-                glowScalePercentage = 0.005f;
-            }
-            else if (percentage < 0.8f && percentage > 0.5f)
-            {
-                glowScalePercentage = 0.015f;
-            }
-            else if (percentage < 0.5f && percentage > 0.2f)
-            {
-                glowScalePercentage = 0.03f;
-            }
-            else if (percentage < 0.2f)
-            {
-                glowScalePercentage = 0.05f;
-            }
+
+            float newLightRadius = (float)healthLightMaxRadius * percentage;
+            if (newLightRadius <= healthLightMinRadius)
+                newLightRadius = healthLightMinRadius;
+
+            healthLight.LightDecay = (int)newLightRadius;
+
         }
 
-        private Vector2 ShootAnimPosition
+        private void SpawnDeathGlow()
         {
-            get
+            GlowParticle glowParticle;
+            Random random = new Random();
+            for (int i = 0; i < Constants.PLAYER_NUMBER_OF_DEATH_GLOWS; i++)
             {
-                Vector2 tmpVector2 = Position;
-                tmpVector2.X -= 50;
-                return tmpVector2;
+                glowParticle = new GlowParticle(spriteBatch, game, "glow_death" + i.ToString(), position, random);
+                entityManager.addEntity(glowParticle);
+                //entityManager.AddPointLight(glowParticle.PointLight);
             }
         }
 
+        public PointLight HealthLight { get { return healthLight; } }
+
+        #region DeathExplosion
+
+        private void FirstExplosion()
+        {
+            if (pointLight.LightDecay <= maxDeathLightDecay)
+                pointLight.LightDecay = pointLight.LightDecay + deathDecayScaleUp;
+
+            if (pointLight.Power <= maxDeathPower)
+                pointLight.Power = pointLight.Power + deathPowerScaleUp;
+
+            if (pointLight.LightDecay >= maxDeathLightDecay && pointLight.Power >= maxDeathPower)
+            {
+                deathPass++;
+            }
+        }
+
+        private void Implosion()
+        {
+            if (pointLight.Power > 0)
+                pointLight.Power = pointLight.Power - deathPowerScaleDown;
+
+            pointLight.LightDecay = pointLight.LightDecay - deathDecayScaleDown;
+            if (pointLight.Power <= 0.0f)
+            {
+                SpawnDeathGlow();
+                showPlayer = false;
+                deathPass++;
+            }
+        }
+
+        private void SecondExplosion()
+        {
+            if (pointLight.LightDecay <= secondExplosionLight)
+                pointLight.LightDecay = pointLight.LightDecay + secondExplosionLightScalar;
+
+            if (pointLight.Power <= secondExplosionPower)
+                pointLight.Power = pointLight.Power + secondExplosionPwrScalar;
+
+            if (pointLight.LightDecay >= secondExplosionLight && pointLight.Power >= secondExplosionPower)
+            {
+                deathPass++;
+            }
+        }
+
+        private void FadeOutLight()
+        {
+            if (pointLight.LightDecay > 0)
+                pointLight.LightDecay = pointLight.LightDecay - fadeOutLight;
+
+            if (pointLight.Power > 0.0f)
+                pointLight.Power = pointLight.Power - fadeOutPower;
+
+            if (pointLight.Power <= 0.0f)
+            {
+                killMe = true;
+            }
+        }
+
+        #endregion DeathExplosion
     }
 }

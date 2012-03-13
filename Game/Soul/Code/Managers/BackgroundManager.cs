@@ -80,7 +80,7 @@ namespace Soul.Manager
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    if (queueList[i].SpawnTime >= timer)
+                    if (queueList[i].SpawnTime <= timer)
                     {
                         if (queueList[i].Type == "Scrolling")
                         {
@@ -100,13 +100,17 @@ namespace Soul.Manager
                         queueList.RemoveAt(i);
                         i--;
                     }
+                    if (i < 0)
+                    {
+                        break;
+                    }
                 }
             }
             else
             {
                 for (int i = 0; i < queueList.Count; i++)
                 {
-                    if (queueList[i].SpawnTime >= timer)
+                    if (queueList[i].SpawnTime <= timer)
                     {
                         if (queueList[i].Type == "Scrolling")
                         {

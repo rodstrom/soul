@@ -69,7 +69,7 @@ namespace Soul
         private bool confirm = false;
         private Random random = null;
         private int lightSpawnMin = 1000;
-        private int lightSpawnMax = 3000;
+        private int lightSpawnMax = 2000;
         private double lightSpawnTime = 0.0;
         private double timer = 0.0;
 
@@ -108,8 +108,8 @@ namespace Soul
 
             #region InitializeLighting
             PresentationParameters pp = game.GraphicsDevice.PresentationParameters;
-            int width = pp.BackBufferWidth;
-            int height = pp.BackBufferHeight;
+            int width = game.Window.ClientBounds.Width;
+            int height = game.Window.ClientBounds.Height;
             SurfaceFormat format = pp.BackBufferFormat;
             Vertices = new VertexPositionColorTexture[4];
             Vertices[0] = new VertexPositionColorTexture(new Vector3(-1, 1, 0), Color.White, new Vector2(0, 0));
@@ -217,12 +217,6 @@ namespace Soul
                 }*/
             }
 
-            if (controls.Pause)
-            {
-                fade.FadeOut();
-                quit = true;
-            }
-
             if (confirm == false)
             {
                 value = menuStateManager.Update(gameTime);
@@ -231,9 +225,8 @@ namespace Soul
             
             if (value == -1)
             {
-                confirm = true;
-                askToQuit.FadeIn();
-                //menuStateManager.FadeOutMenu();
+                fade.FadeOut();
+                quit = true;
             }
             else if (value == 1)
             {
@@ -242,6 +235,10 @@ namespace Soul
                 glowFX.glowFx = .9f;
                 glowFX.glowScalar = 0.005f;
                 fade.FadeOut();
+            }
+            else if (value == -2)
+            {
+                RecreateWindow();
             }
 
             if (fade.FadeOutDone == true)
@@ -348,7 +345,7 @@ namespace Soul
             lightCombinedEffect.CurrentTechnique.Passes[0].Apply();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, lightCombinedEffect, Resolution.getTransformationMatrix());
-            spriteBatch.Draw(colorMap, Vector2.Zero, Color.White);
+            spriteBatch.Draw(colorMap, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White);
             spriteBatch.End();
 
         }
@@ -370,7 +367,7 @@ namespace Soul
                     lightEffectParameterPosition.SetValue(light.Position);
                     lightEffectParameterLightColor.SetValue(light.Color);
                     lightEffectParameterLightDecay.SetValue(light.LightDecay);
-                    lightEffect.Parameters["specularStrength"].SetValue(specularStrenght);
+                    lightEffect.Parameters["specularStrength"].SetValue(float.Parse(game.config.getValue("Video","Specular")));
 
                     if (light.LightType == LightType.Point)
                     {
@@ -440,6 +437,27 @@ namespace Soul
 
 
             }
+        }
+
+        private void RecreateWindow()
+        {
+            PresentationParameters pp = game.GraphicsDevice.PresentationParameters;
+            int width = game.Window.ClientBounds.Width;
+            int height = game.Window.ClientBounds.Height;
+            SurfaceFormat format = pp.BackBufferFormat;
+            Vertices = new VertexPositionColorTexture[4];
+            Vertices[0] = new VertexPositionColorTexture(new Vector3(-1, 1, 0), Color.White, new Vector2(0, 0));
+            Vertices[1] = new VertexPositionColorTexture(new Vector3(1, 1, 0), Color.White, new Vector2(1, 0));
+            Vertices[2] = new VertexPositionColorTexture(new Vector3(-1, -1, 0), Color.White, new Vector2(0, 1));
+            Vertices[3] = new VertexPositionColorTexture(new Vector3(1, -1, 0), Color.White, new Vector2(1, 1));
+            VertexBuffer = new VertexBuffer(game.GraphicsDevice, typeof(VertexPositionColorTexture), Vertices.Length, BufferUsage.None);
+            VertexBuffer.SetData(Vertices);
+
+            colorMap = new RenderTarget2D(game.GraphicsDevice, width, height);
+            normalMap = new RenderTarget2D(game.GraphicsDevice, width, height);
+            shadowMap = new RenderTarget2D(game.GraphicsDevice, width, height, false, format, pp.DepthStencilFormat, pp.MultiSampleCount, RenderTargetUsage.DiscardContents);
+
+            graphics.ApplyChanges();
         }
     }
 }

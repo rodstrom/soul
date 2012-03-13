@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Windows.Forms;
 
 namespace Soul
 {
@@ -36,6 +37,7 @@ namespace Soul
         {
             if (System.IO.File.Exists(filename) == false)
             {
+                MessageBox.Show("Error: " + filename + " could not be found.");
                 throw new System.InvalidOperationException("Error: " + filename + " could not be found.");
             }
             line = file.ReadLine();
@@ -109,7 +111,8 @@ namespace Soul
 
                 if (ReadStringBackgrounds() == false)
                 {
-                    throw new System.InvalidOperationException("Error: failed to read background data at line " + lineCounter.ToString() + ".");
+                    MessageBox.Show("Error: failed to read background data at line " + lineCounter.ToString() + ".");
+                    throw new System.InvalidOperationException("Error: failed to read background data at line " + lineCounter.ToString() + ".");                
                 }
                 lineCounter++;
                 line = file.ReadLine();
@@ -136,6 +139,7 @@ namespace Soul
 
                 if (ReadString() == false)
                 {
+                    MessageBox.Show("Error: failed to read entity data at line " + lineCounter.ToString() + ".");
                     throw new System.InvalidOperationException("Error: failed to read entity data at line " + lineCounter.ToString() + ".");
                 }
                 lineCounter++;
@@ -309,6 +313,7 @@ namespace Soul
 
             if (entityType == EntityType.DARK_THOUGHT && path == null)
             {
+                MessageBox.Show("Error: DARK_THOUGHT on line" + lineCounter.ToString() + " does not have a path.");
                 throw new System.InvalidOperationException("Error: DARK_THOUGHT on line" + lineCounter.ToString() + " does not have a path.");
             }
 

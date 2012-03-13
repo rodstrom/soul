@@ -174,6 +174,7 @@ namespace Soul
         public const string PILLAR_15 = "Backgrounds\\Pillars\\Pillar15";
 
         public const string BACKGROUND_FOG = "Backgrounds\\background__0002s_0001_Layer-8";
+        public const string BACKGROUND_FOG_NORMAL = "Backgrounds\\background__0002s_0001_Layer-8_fixed_depth";
 
         public const string LEVEL01 = "Content\\Levels\\level01.map";
         public const string LEVEL02 = "Content\\Levels\\level02.map";
