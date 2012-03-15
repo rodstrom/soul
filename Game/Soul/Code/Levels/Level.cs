@@ -16,10 +16,14 @@ namespace Soul
         public bool cleansing = false;
         private int cleansPass = 1;
         private bool useDynamicLights = true;
+        private bool playerNightmareHit = false;
+        private bool playerHit = false;
 
         private double wait = -1;
         private bool doWait = false;
         private bool doneOnce = false;
+
+        private TutorialBase tutorialBase = null;
 
         BackgroundManager backgroundManager_back;
         BackgroundManager backgroundManager_front;
@@ -34,6 +38,10 @@ namespace Soul
         int timeStarted = 0;
         bool fulhack = true;
         SpriteFont font;
+
+        private AmbientFade NightmareAmbientFade = null;
+        private AmbientFade PlayerHitAmbientFade = null;
+        private AmbientFade currentAmbientFade = null;
 
         private Sprite bg1 = null;
         private Sprite bg1_normal = null;
@@ -52,9 +60,12 @@ namespace Soul
         private List<Light> lights = new List<Light>();
         private Color ambientLight;
         private Color levelAmbient;
+
         private float specularStrenght = 1.0f;
         private float ambientStrength = 1f;
         private float ambientStrenghtScalar = 0.025f;
+        private bool tutorial = false;
+        private TutorialManager tutorialManager = null;
 
         private Effect lightEffect;
         private Effect lightCombinedEffect;
@@ -78,12 +89,6 @@ namespace Soul
         private EffectParameter lightCombinedEffectParamNormalMap;
 
         public  bool brightenScreen = false;
-        private bool darkenScreen = false;
-        private bool screenIsDark = false;
-        private bool playerHitScreenFlash = false;
-        private int playerHitState = 0;
-
-        private double ambientTimer = 0.0;
 
         public VertexPositionColorTexture[] Vertices;
         public VertexBuffer VertexBuffer;
@@ -175,6 +180,28 @@ namespace Soul
 
             specularStrenght = float.Parse(game.config.getValue("Video", "Specular"));
             useDynamicLights = bool.Parse(game.config.getValue("Video", "DynamicLights"));
+
+            NightmareAmbientFade = new AmbientFade("NightmareAmbientFade", new Color(0, 0, 0, 255), 10, 2, 5000.0);
+            NightmareAmbientFade.SetCurrentColor(ambientLight);
+            PlayerHitAmbientFade = new AmbientFade("PlayerAmbientHit", new Color(255, 150, 150, 255), 15, 15);
+            this.tutorial = bool.Parse(game.config.getValue("General", "Tutorial"));
+
+            if (tutorial == true)
+            {
+                /*tutorialBase = new TutorialBase("movement");
+                TutorialSprite tutSprite = new TutorialSprite(spriteBatch, game, "arrow_left", Constants.TUTORIAL_ARROW, Constants.TUTORIAL_BUTTON_FRAME, new Vector2(100f, 0f), -(float)Math.PI * 0.5f);
+                tutorialBase.AddTutorialWidget(tutSprite);
+                tutSprite = new TutorialSprite(spriteBatch, game, "arrow_up", Constants.TUTORIAL_ARROW, Constants.TUTORIAL_BUTTON_FRAME, new Vector2(0f, 100f));
+                tutorialBase.AddTutorialWidget(tutSprite);
+                tutSprite = new TutorialSprite(spriteBatch, game, "arrow_right", Constants.TUTORIAL_ARROW, Constants.TUTORIAL_BUTTON_FRAME, new Vector2(-100f, 0f), (float)Math.PI * 0.5f);
+                tutorialBase.AddTutorialWidget(tutSprite);
+                tutSprite = new TutorialSprite(spriteBatch, game, "arrow_down", Constants.TUTORIAL_ARROW, Constants.TUTORIAL_BUTTON_FRAME, new Vector2(0f, -100f), (float)Math.PI);
+                tutorialBase.AddTutorialWidget(tutSprite);
+                TutorialString tutString = new TutorialString(spriteBatch, game, "shoot_key", font, game.config.getValue("Controls", "Shoot"), Constants.TUTORIAL_BUTTON_FRAME, new Vector2(100f, 100f));
+                tutorialBase.AddTutorialWidget(tutString);*/
+                tutorialManager = new TutorialManager(spriteBatch, game, font, controls);
+                tutorialManager.Initialize("movement");
+            }
         }
 
         public void shutdown()
@@ -184,16 +211,42 @@ namespace Soul
 
         public int Update(GameTime gameTime)
         {
+            if (tutorial == true)
+            {
+                tutorialManager.Update(gameTime, player.position);
+            }
+
+            if (currentAmbientFade != null)
+            {
+                currentAmbientFade.Update(gameTime);
+
+                if (currentAmbientFade.Done != true)
+                {
+                    ambientLight = currentAmbientFade.CurrentColor;
+                    if (playerHit == true)
+                    {
+                        playerHit = false;
+                    }
+                    else if (playerNightmareHit == true)
+                    {
+                        playerNightmareHit = false;
+                    }
+                }
+
+                if (currentAmbientFade.ID == "PlayerAmbientHit")
+                {
+                    if (currentAmbientFade.Done == true && NightmareAmbientFade.Done != true)
+                    {
+                        currentAmbientFade = NightmareAmbientFade;
+                    }
+                }
+            }
+
             checkForDeadLights();
             if (fulhack)
             {
                 timeStarted = (int)gameTime.TotalGameTime.TotalMilliseconds;
                 fulhack = false;
-            }
-
-            if (screenIsDark == true)
-            {
-                HandleScreenAmbient(gameTime);
             }
 
             if (pause == false)
@@ -220,7 +273,6 @@ namespace Soul
             if (controls.Debug == true)
             {
                 cleansing = true;
-                //levelAmbient.B = (byte)100;
             }
 
             if (controls.Pause == true)
@@ -238,11 +290,6 @@ namespace Soul
             if (cleansing)
             {
                 LevelCleansed(gameTime);
-            }
-
-            if (playerHitScreenFlash == true)
-            {
-                PlayerHitFade();
             }
 
             return 0;
@@ -412,7 +459,11 @@ namespace Soul
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Resolution.getTransformationMatrix());
-            //player.Draw();
+            player.Draw();
+            if (tutorial == true)
+            {
+                tutorialManager.Draw();
+            }
             spriteBatch.Draw(colorMap_front, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White);
             spriteBatch.End();
 
@@ -463,34 +514,31 @@ namespace Soul
             return shadowMap_back;
         }
 
-        private void DarkenScreen()
+        private void PlayerHitFlash()
         {
-            if (darkenScreen != true)
+            if (playerHit == false)
             {
-                darkenScreen = true;
-                screenIsDark = true;
-                ambientTimer = 0.0;
-            }
-            else
-            {
-                ambientTimer = 0.0;
+                currentAmbientFade = PlayerHitAmbientFade;
+                currentAmbientFade.Reset();
+                currentAmbientFade.SetCurrentColor(ambientLight);
+                currentAmbientFade.SetTargetColor(NightmareAmbientFade.CurrentColor);
             }
 
+            playerHit = true;
 
-            if (brightenScreen == true)
-            {
-                brightenScreen = false;
-            }
         }
 
-        private void BrightenScreen()
+        private void DarkenScreen()
         {
-            brightenScreen = true;
 
-            if (darkenScreen == true)
+            if (playerNightmareHit == false && playerHit == false)
             {
-                darkenScreen = false;
+                currentAmbientFade = NightmareAmbientFade;
+                currentAmbientFade.Reset();
+                currentAmbientFade.SetCurrentColor(ambientLight);
+                currentAmbientFade.SetTargetColor(new Color(255, 255, 255, 255));
             }
+            playerNightmareHit = true;
         }
 
         public void stopBgScroll()
@@ -499,46 +547,9 @@ namespace Soul
             backgroundManager_front.stopScroll();
         }
 
-        private void HandleScreenAmbient(GameTime gameTime)
-        {
-            ambientTimer += gameTime.ElapsedGameTime.Milliseconds;
-            if (darkenScreen == true)
-            {
-                decreaseAmbientR(5);
-                decreaseAmbientG(5);
-                decreaseAmbientB(5);
-                if (ambientLight.R == 0 && ambientLight.G == 0 && ambientLight.B == 0)
-                {
-                    darkenScreen = false;
-                }
-                
-            }
-            else if (brightenScreen == true)
-            {
-
-                increaseAmbientR(2);
-                increaseAmbientG(2);
-                increaseAmbientB(2);
-
-                if (ambientLight == levelAmbient)
-                {
-                    brightenScreen = false;
-                    screenIsDark = false;
-                    ambientTimer = 0.0;
-                }
-            }
-
-            if (ambientTimer >= 5000.0 && brightenScreen == false)
-            {
-                brightenScreen = true;
-            }
-        }
-
         private void resetLights()
         {
-            darkenScreen = false;
             brightenScreen = false;
-            screenIsDark = false;
             levelAmbient = Color.White;
             ambientLight = Color.White;
         }
@@ -564,9 +575,7 @@ namespace Soul
 
             if (ambientLight.B <= 100)
             {
-                //wait = (int)gameTime.ElapsedGameTime.Milliseconds;
                 doWait = true;
-                //decreaseAmbientB(1);
             }
 
             if (doWait)
@@ -592,10 +601,6 @@ namespace Soul
             else if (cleansPass == 2)
             {
                 ambientStrength -= ambientStrenghtScalar;
-                //if (ambientStrength <= 4.0f)
-                //{
-                //    cleansing = false;
-                //}
             }
         }
 
@@ -690,42 +695,6 @@ namespace Soul
             ambientLight.B = (byte)b;
         }
         #endregion AmbientControl
-
-        private void PlayerHitFlash()
-        {
-            playerHitScreenFlash = true;
-            playerHitState = 0;
-        }
-
-        private void PlayerHitFade()
-        {
-            switch(playerHitState)
-            {
-                case 0:
-                    {
-                        decreaseAmbientB(15);
-                        decreaseAmbientG(15);
-                        if (ambientLight.B <= 150 && ambientLight.G <= 150)
-                            playerHitState = 1;
-                        break;
-                    }
-                case 1:
-                    {
-                        increaseAmbientB(15);
-                        increaseAmbientG(15);
-                        if (ambientLight.B >= levelAmbient.B && ambientLight.G >= levelAmbient.G)
-                            playerHitState = 2;
-                        break;
-                    }
-                case 2:
-                    {
-                        playerHitScreenFlash = false;
-                        break;
-                    }
-
-            }
-        }
-
 
         private static BlendState BlendBlack = new BlendState()
         {

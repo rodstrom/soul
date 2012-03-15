@@ -105,7 +105,7 @@ namespace Soul.Manager
 
              foreach (Entity i in entityList)
              {
-                 //if (i.Type == EntityType.PLAYER) continue;
+                 if (i.Type == EntityType.PLAYER) continue;
                  i.Draw();
              }
         }

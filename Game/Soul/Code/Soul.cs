@@ -17,7 +17,6 @@ namespace Soul
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         StateManager stateManager;
-        LevelReader levelReader;
         AudioManager audioManager;
         LinkedList<DisplayMode> displayModes;
         InputManager controls;

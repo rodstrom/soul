@@ -119,7 +119,7 @@ namespace Soul.Manager
             {
                 moveUp = true;
             }
-
+            
             if (keyState.IsKeyDown(down) == true || keyState.IsKeyDown(Keys.Down) == true)
             {
                 moveDown = true;
@@ -143,22 +143,22 @@ namespace Soul.Manager
             //////////////////////////////////////////////
             //////////////////////////////////////////////
 
-            if (keyState.IsKeyDown(up) == false || keyState.IsKeyDown(Keys.Up) == false)
+            if (keyState.IsKeyDown(up) == false && keyState.IsKeyDown(Keys.Up) == false)
             {
                 moveUp = false;
             }
 
-            if (keyState.IsKeyDown(down) == false || keyState.IsKeyDown(Keys.Down) == false)
+            if (keyState.IsKeyDown(down) == false && keyState.IsKeyDown(Keys.Down) == false)
             {
                 moveDown = false;
             }
 
-            if (keyState.IsKeyDown(right) == false || keyState.IsKeyDown(Keys.Right) == false)
+            if (keyState.IsKeyDown(right) == false && keyState.IsKeyDown(Keys.Right) == false)
             {
                 moveRight = false;
             }
 
-            if (keyState.IsKeyDown(left) == false || keyState.IsKeyDown(Keys.Left) == false)
+            if (keyState.IsKeyDown(left) == false && keyState.IsKeyDown(Keys.Left) == false)
             {
                 moveLeft = false;
             }
