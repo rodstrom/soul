@@ -152,19 +152,19 @@ namespace Soul.Manager
             // Creating Controls Options Menu
             menuManager = new MenuManager(inputManager, "Controls");
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 50.0f), Constants.GUI_SHOOT, "controls_shoot");
-            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 50.0f), "shoot_string", inputManager.shoot.ToString());
+            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 50.0f), "shoot_string", inputManager.shoot.ToString(), false);
             menuManager.AddButton(button, label);
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 100.0f), Constants.GUI_UP, "controls_up");
-            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 100.0f), "up_string", inputManager.up.ToString());
+            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 100.0f), "up_string", inputManager.up.ToString(), false);
             menuManager.AddButton(button, label);
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_DOWN, "controls_down");
-            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), "down_string", inputManager.down.ToString());
+            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), "down_string", inputManager.down.ToString(), false);
             menuManager.AddButton(button, label);
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), Constants.GUI_LEFT, "controls_left");
-            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), "left_string", inputManager.left.ToString());
+            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), "left_string", inputManager.left.ToString(), false);
             menuManager.AddButton(button, label);
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), Constants.GUI_RIGHT, "controls_right");
-            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), "right_string", inputManager.right.ToString());
+            label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), "right_string", inputManager.right.ToString(), false);
             menuManager.AddButton(button, label);
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 300.0f), Constants.GUI_BACK, "controls_back");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
@@ -711,7 +711,7 @@ namespace Soul.Manager
             game.config.addModify("Video", "Width", displayModes.ElementAt(currentmode).Width.ToString());
             game.config.addModify("Video", "Height", displayModes.ElementAt(currentmode).Height.ToString());
             game.config.save();
-            currentMenuManager.SetSelection(game.config.getValue("Video", "Width") + " x " + game.config.getValue("Video", "Height"));
+            currentMenuManager.SetSelection(game.config.getValue("Video", "Width") + "x" + game.config.getValue("Video", "Height"));
             returnValue = -2;
         }
 

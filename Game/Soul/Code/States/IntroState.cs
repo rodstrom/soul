@@ -69,7 +69,7 @@ namespace Soul
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin(0, null, null, null, null, null, Resolution.getTransformationMatrix());
-            bg.Draw(new Vector2(0f, 0f), Color.White, 0f, new Vector2(0f, 0f), 1.0f, SpriteEffects.None, 0f);
+            bg.Draw(new Vector2(0f, 0f), new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, new Vector2(0f, 0f), 1.0f, SpriteEffects.None, 0f);
             fade.Draw();
             spriteBatch.End();
         }

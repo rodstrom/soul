@@ -22,7 +22,7 @@ namespace Soul
         public FadeInOut(SpriteBatch spriteBatch, Soul game)
         {
             sprite = new Sprite(spriteBatch, game, Constants.BLACK);
-            screenSize = new Rectangle(0, 0, Constants.RESOLUTION_VIRTUAL_WIDTH, Constants.RESOLUTION_VIRTUAL_HEIGHT);
+            screenSize = new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
             maxAlpha = 254;
             alphaValue = 254;
         }
