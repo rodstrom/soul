@@ -29,6 +29,7 @@ namespace Soul.Manager
         private int powerupCount = 0;
         private uint timer = 0;
         private uint enemySpawnCounter = 0;
+        public bool tutorial = false;
 
         private bool powerupsDisabled = true;
 
@@ -42,6 +43,7 @@ namespace Soul.Manager
             this.levelManager = levelManager;
             this.game = game;
             this.audioManager = audioManager;
+            this.tutorial = bool.Parse(game.config.getValue("General", "Tutorial"));
         }
 
         public void AddEntityDataList(List<EntityData> queueList)
@@ -113,11 +115,11 @@ namespace Soul.Manager
 
         public void Update(GameTime gameTime)
         {
-            if (!spawningPaused)
+            if (!spawningPaused && !tutorial)
             {
                 timer += (uint)gameTime.ElapsedGameTime.Milliseconds;
             }
-            else
+            else if (!tutorial)
             {
                 spawningPaused = !allEnemiesDead();
             }

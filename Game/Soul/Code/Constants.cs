@@ -225,6 +225,8 @@ namespace Soul
         public const string GUI_NO = "GUI\\gui_no";
         public const string GUI_CLEANSE = "GUI\\gui_cleanse";
         public const string GUI_CONTINUE = "GUI\\Continue";
+        public const string GUI_GAME_PLAY = "GUI\\Game_play";
+        public const string GUI_TUTORIAL = "GUI\\Tutorial";
 
         public const string GUI_FONT = "GUI\\Extrafine";
 

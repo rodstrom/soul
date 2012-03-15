@@ -21,6 +21,7 @@ namespace Soul
         protected bool fadeIn = false;
         protected bool fadeOut = false;
         protected GlowFX glow = null;
+        public bool done = false;
 
         public TutorialWidget(SpriteBatch spriteBatch, Soul game, string id, string filename, Vector2 positionOffset)
         {
@@ -64,6 +65,7 @@ namespace Soul
                     fadeOut = false;
                     alpha = 0;
                     glow.stop = true;
+                    done = true;
                 }
             }
         }

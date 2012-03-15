@@ -124,8 +124,6 @@ namespace Soul
             menuManager.initialize();
 
             PresentationParameters pp = game.GraphicsDevice.PresentationParameters;
-            //int width = Constants.RESOLUTION_VIRTUAL_WIDTH;
-            //int height = Constants.RESOLUTION_VIRTUAL_HEIGHT;
             int width = pp.BackBufferWidth;
             int height = pp.BackBufferHeight;
             SurfaceFormat format = pp.BackBufferFormat;
@@ -204,6 +202,11 @@ namespace Soul
             if (tutorial == true)
             {
                 tutorialManager.Update(gameTime, player.position);
+                if (tutorialManager.AllTutorialsDone() == true)
+                {
+                    entityManager.tutorial = false;
+                    tutorial = false;
+                }
             }
 
             if (currentAmbientFade != null)
