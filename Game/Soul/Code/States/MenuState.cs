@@ -20,9 +20,9 @@ namespace Soul
         private RenderTarget2D shadowMap = null;
 
         private float ambientStrength = 1f;
-        private float ambientStrenghtScalar = 0.025f;
+        //private float ambientStrenghtScalar = 0.025f;
 
-        private float specularStrenght = 1.0f;
+        //private float specularStrenght = 1.0f;
         private List<GlowParticle> glowList = null;
 
         #region LightEffects

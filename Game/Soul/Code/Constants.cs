@@ -51,7 +51,7 @@ namespace Soul
         public const float PLAYER_RADIUS = 128.0f;
         public const float PLAYER_DEACCELERATION = 0.5f;
         public const int PLAYER_NUMBER_OF_DEATH_GLOWS = 10;
-        public const string PLAYER_FILENAME = "SpriteSheets\\Avatar move animation B";
+        public const string PLAYER_FILENAME = "SpriteSheets\\Avata animation Sprite_Idle B";
         public const string PLAYER_SHOOT_ANIM = "SpriteSheets\\avatar_shoot_anim_A-1";
         public const string PLAYER_GLOW_FILENAME = "Particles\\Heroine Glow Final_2";
         public const string PLAYER_BULLET_FILENAME = "Particles\\bullet_glow";
@@ -234,5 +234,12 @@ namespace Soul
         public const string MENU_FRONT_BG_NORMALMAP = "Backgrounds\\bg_normalMap";
         public const string MENU_SPIKES_BG_COLORMAP = "Backgrounds\\bg2_color_map";
 
+        public const string TUTORIAL_BUTTON_FRAME = "TutorialGFX\\buttonFrame";
+        public const string TUTORIAL_ARROW = "TutorialGFX\\Arrow";
+        public const string TUTORIAL_BUTTON_FRAME_LARGE = "TutorialGFX\\bigButtonFrame";
+        public const string TUTORIAL_BUTTON_FRAME_XLLARGE = "TutorialGFX\\biggerButtonFrame";
+        public const string TUTORIAL_BUTTON_ENTER = "TutorialGFX\\Enter";
+        public const string TUTORIAL_BUTTON_FRAME_ENTER = "TutorialGFX\\enterFrame";
+        public const string TUTORIAL_BUTTON_SHIFT = "TutorialGFX\\Shift";
     }
 }

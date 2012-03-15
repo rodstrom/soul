@@ -15,9 +15,7 @@ namespace Soul
         {
             MOVE_BACK = 0,
             MOVE_FORWARD,
-            MOVING_FORWARD,
             IDLE,
-            MOVING_BACKWARDS
         };
 
         public delegate void NightmareHit();
@@ -38,11 +36,12 @@ namespace Soul
         private Sprite glow = null;
         private Sprite shootSprite = null;
         private HitFX hitFx = null;
+        public bool tutorial = false;
 
-        private float glowScale = 1.0f;
-        private float glowScalePercentage = 0.005f;
-        private int dynamicLightScalar = 1;
-        private bool decrease = true;
+        //private float glowScale = 1.0f;
+        //private float glowScalePercentage = 0.005f;
+        //private int dynamicLightScalar = 1;
+        //private bool decrease = true;
 
         private float maxDeathPower = 0.0f;
         private float deathPowerScaleUp = 0.0f;
@@ -56,12 +55,13 @@ namespace Soul
         private int secondExplosionLight = 0;
         private int secondExplosionLightScalar = 0;
         private int fadeOutLight = 0;
+        //private int animationMode = 0;
         private float fadeOutPower = 0;
 
         private int deathPass = 1;
 
-        private bool movingForward = false;
-        private bool movingBackwards = false;
+        //private bool movingForward = false;
+        //private bool movingBackwards = false;
         private bool lesserDemonStuck = false;
         private double timeSinceLastShot = 0;
         private bool showPlayer = true;
@@ -103,6 +103,9 @@ namespace Soul
             this.fadeOutPower = float.Parse(game.lighting.getValue("PlayerDeath", "FadeOutPowerScalar"));
             this.healthLightMaxRadius = int.Parse(game.lighting.getValue("PlayerHealthLight", "MaxRadius"));
             this.healthLightMinRadius = int.Parse(game.lighting.getValue("PlayerHealthLight", "MinRadius"));
+            //this.tutorial = bool.Parse(game.config.getValue("General", "Tutorial"));
+            this.animation.playOnce = true;
+            this.animation.FrameRate = 150;
             
             pointLight = new PointLight()
             {
@@ -127,16 +130,6 @@ namespace Soul
 
         public override void Draw()
         {
-            /*if (hitFx.IsHit == true)
-            {
-                sprite.Draw(GlowPosition, Color.White, rotation, origin, glowScale, SpriteEffects.None, layer, hitFx.Effect);
-            }
-            else
-            {
-                glow.Draw(GlowPosition, Color.White, rotation, origin, glowScale, SpriteEffects.None, layer);
-            }*/
-
-            //base.Draw();
 
             if (showPlayer == true)
             {
@@ -159,6 +152,11 @@ namespace Soul
 
             if (waitingtoDie == false)
             {
+                if (healthWarning == true)
+                {
+                    warningGlow.Update();
+                }
+
                 checkHealthStatus();
                 if (powerupActive)
                 {
@@ -287,76 +285,9 @@ namespace Soul
                 StopMovingY();
             }
             position += velocity;
-            
-            if (velocity.X == 0.0f && animation.Reverse == false)
-            {
-                animationState = (int)PlayerAnimationState.IDLE;
-                animation.MaxFrames = 0;
-                animation.CurrentFrame = 0;
-                movingBackwards = false;
-                movingForward = false;
-            }
-            else if (velocity.X < 0.0f && animation.Reverse == false)
-            {
-                movingBackwards = false;
-                if (movingForward == false)
-                {
-                    animationState = (int)PlayerAnimationState.MOVE_FORWARD;
-                    animation.MaxFrames = 4;
-                    
-                    if (animation.CurrentFrame == animation.MaxFrames - 1 && animation.Reverse == false)
-                    {
-                        movingForward = true;
-                    }
-                }
-                else
-                {
-                    animation.CurrentFrame = 0;
-                    animationState = (int)PlayerAnimationState.MOVING_FORWARD;
-                    animation.MaxFrames = 0;
-                    if (velocity.X > -maxVelocity.X)
-                    {
-                        animation.Reverse = true;
-                        animationState = (int)PlayerAnimationState.MOVE_FORWARD;
-                        animation.MaxFrames = 4;
-                        animation.CurrentFrame = animation.MaxFrames - 1;
-                    }
-                }
-            }
-            else if (velocity.X > 0.0f && animation.Reverse == false)
-            {
-                movingForward = false;
-                if (movingBackwards == false)
-                {
-                    animationState = (int)PlayerAnimationState.MOVE_BACK;
-                    animation.MaxFrames = 4;
 
-                    if (animation.CurrentFrame >= animation.MaxFrames - 1)
-                    {
-                        movingBackwards = true;
-                    }
-                }
-                else
-                {
-                    animation.CurrentFrame = 0;
-                    animationState = (int)PlayerAnimationState.MOVING_BACKWARDS;
-                    animation.MaxFrames = 0;
-                    if (velocity.X < maxVelocity.X)
-                    {
-                        animation.Reverse = true;
-                        animationState = (int)PlayerAnimationState.MOVE_BACK;
-                        animation.MaxFrames = 4;
-                        animation.CurrentFrame = animation.MaxFrames - 1;
-                    }
-                }
-            }
-            else if (animation.Reverse == true)
-            {
-                if (animation.CurrentFrame <= 0)
-                {
-                    animation.Reverse = false;
-                }
-            }
+
+            HandleAnimation();
 
             restriction();
         }
@@ -468,10 +399,10 @@ namespace Soul
             if (entity.Type == EntityType.DARK_THOUGHT_BULLET || entity.Type == EntityType.BLUE_BLOOD_VESSEL || entity.Type == EntityType.PURPLE_BLOOD_VESSEL || entity.Type == EntityType.RED_BLOOD_VESSEL || entity.Type == EntityType.NIGHTMARE || entity.Type == EntityType.DARK_WHISPER || entity.Type == EntityType.DARK_WHISPER_SPIKE || entity.Type == EntityType.BOSS_BULLET)
             {
                 health -= entity.getDamage();
-                if (health < healthLightMaxRadius)
+                if (health < healthLightMinRadius)
                     healthWarning = true;
                 
-                if (hitFlash != null)
+                if (hitFlash != null && entity.Type != EntityType.NIGHTMARE)
                     hitFlash();
 
                 if (entity.Type == EntityType.NIGHTMARE)
@@ -484,12 +415,12 @@ namespace Soul
             if (entity.Type == EntityType.HEALTH_POWERUP)
             {
                 health += 10;
-                if (health > healthLightMaxRadius)
+                if (health > healthLightMinRadius)
                     healthWarning = false;
 
-                if (health > Constants.PLAYER_MAX_HEALTH)
+                if (health > maxHealth)
                 {
-                    health = Constants.PLAYER_MAX_HEALTH;
+                    health = maxHealth;
                 }
                 audio.playSound("player_powerup_pickup");
             }
@@ -544,7 +475,7 @@ namespace Soul
         public override void takeDamage(int value)
         {
             health -= value;
-            if (health < healthLightMaxRadius)
+            if (health < healthLightMinRadius)
                 healthWarning = true;
             if (health <= 0)
             {
@@ -573,6 +504,58 @@ namespace Soul
                 glowParticle = new GlowParticle(spriteBatch, game, "glow_death" + i.ToString(), position, random);
                 entityManager.addEntity(glowParticle);
                 //entityManager.AddPointLight(glowParticle.PointLight);
+            }
+        }
+
+        private void HandleAnimation()
+        {
+            if (controls.MoveLeft == false && controls.MoveRight == false && animationState != (int)PlayerAnimationState.IDLE)
+            {
+                animation.Reverse = true;
+                
+            }
+            else if (animationState == (int)PlayerAnimationState.MOVE_FORWARD && controls.MoveRight == true)
+            {
+                animation.Reverse = true;
+            }
+            else if (animationState == (int)PlayerAnimationState.MOVE_BACK && controls.MoveLeft == true)
+            {
+                animation.Reverse = true;
+            }
+
+
+
+            if (animationState == (int)PlayerAnimationState.IDLE && (controls.MoveRight == true || controls.MoveLeft == true))
+            {
+                animation.CurrentFrame = 0;
+
+            }
+
+
+            if (velocity.Length() == 0.0f && animation.CurrentFrame == 0)
+            {
+                animationState = (int)PlayerAnimationState.IDLE;
+                animation.MaxFrames = 12;
+                animation.Reverse = false;
+                animation.playOnce = false;
+                animation.FrameRate = 150;
+            }
+            else if (controls.MoveLeft == true && animation.CurrentFrame == 0)
+            {
+                animationState = (int)PlayerAnimationState.MOVE_FORWARD;
+                animation.Reverse = false;
+                animation.playOnce = true;
+                animation.MaxFrames = 3;
+                animation.FrameRate = 100;
+
+            }
+            else if (controls.MoveRight == true && animation.CurrentFrame == 0)
+            {
+                animationState = (int)PlayerAnimationState.MOVE_BACK;
+                animation.Reverse = false;
+                animation.playOnce = true;
+                animation.MaxFrames = 3;
+                animation.FrameRate = 100;
             }
         }
 

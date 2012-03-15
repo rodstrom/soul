@@ -617,11 +617,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteSheets\Avatar move animation B.png">
-      <Name>Avatar move animation B</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="SpriteSheets\avatar_shoot_anim_A-1.PNG">
       <Name>avatar_shoot_anim_A-1</Name>
       <Importer>TextureImporter</Importer>
@@ -1046,6 +1041,54 @@
     </Compile>
     <Compile Include="SpriteSheets\Powerup_Spread.png">
       <Name>Powerup_Spread</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Avata animation Sprite_Idle B.png">
+      <Name>Avata animation Sprite_Idle B</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TutorialGFX\buttonFrame.png">
+      <Name>buttonFrame</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TutorialGFX\Arrow.png">
+      <Name>Arrow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TutorialGFX\bigButtonFrame.png">
+      <Name>bigButtonFrame</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="TutorialGFX\biggerButtonFrame.png">
+      <Name>biggerButtonFrame</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="TutorialGFX\Enter.png">
+      <Name>Enter</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="TutorialGFX\enterFrame.png">
+      <Name>enterFrame</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="TutorialGFX\Shift.png">
+      <Name>Shift</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

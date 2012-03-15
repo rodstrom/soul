@@ -15,6 +15,7 @@ namespace Soul
         public float glowMin = .1f;
         public float glowFx = .1f;
         public bool glowState = false;
+        public bool stop = false;
 
         public GlowFX(Game game)
         {
@@ -39,7 +40,7 @@ namespace Soul
 
         public void Update()
         {
-            if (glowState == false)
+            if (glowState == false && stop != true)
             {
                 glowFx += glowScalar;
                 if (glowFx >= glowMax)

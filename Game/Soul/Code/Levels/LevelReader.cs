@@ -298,7 +298,7 @@ namespace Soul
                         read = "";
                         pass++;
                     }
-                    else if (pass == 3) // pass3, reading where the enemy will spawn
+                    else if (pass == 3 && entityType != EntityType.CHECKPOINT) // pass3, reading where the enemy will spawn
                     {
                         position = setPosition(read);
                         read = "";

@@ -138,6 +138,7 @@
     <Compile Include="Code\Backgrounds\Memory.cs" />
     <Compile Include="Code\Entities\Boss.cs" />
     <Compile Include="Code\Entities\WeaponPowerupSpread.cs" />
+    <Compile Include="Code\Graphics\AmbientFade.cs" />
     <Compile Include="Code\Graphics\Animation.cs" />
     <Compile Include="Code\Graphics\GlowFX.cs" />
     <Compile Include="Code\Graphics\Label.cs" />
@@ -145,6 +146,10 @@
     <Compile Include="Code\Graphics\Light\PointLight.cs" />
     <Compile Include="Code\Graphics\MenuImage.cs" />
     <Compile Include="Code\Graphics\Selection.cs" />
+    <Compile Include="Code\Graphics\Tutorial\TutorialBase.cs" />
+    <Compile Include="Code\Graphics\Tutorial\TutorialSprite.cs" />
+    <Compile Include="Code\Graphics\Tutorial\TutorialString.cs" />
+    <Compile Include="Code\Graphics\Tutorial\TutorialWidget.cs" />
     <Compile Include="Code\Graphics\VolumeSlider.cs" />
     <Compile Include="Code\Managers\AudioManager.cs" />
     <Compile Include="Code\Backgrounds\Background.cs" />
@@ -193,6 +198,7 @@
     <Compile Include="Code\Graphics\Resolution.cs" />
     <Compile Include="Code\Managers\MenuManagerOptions.cs" />
     <Compile Include="Code\Managers\MenuStateManager.cs" />
+    <Compile Include="Code\Managers\TutorialManager.cs" />
     <Compile Include="Code\States\CreditsState.cs" />
     <Compile Include="Code\States\IntroState.cs" />
     <Compile Include="Code\States\MenuState.cs" />
