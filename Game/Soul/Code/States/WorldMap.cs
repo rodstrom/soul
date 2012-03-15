@@ -29,7 +29,7 @@ namespace Soul
                 saveData.SaveDataFile(data, true);
             }
 
-            Vector2 position = new Vector2((float)game.Window.ClientBounds.Width * 0.5f, (float)game.Window.ClientBounds.Height * 0.5f);
+            Vector2 position = new Vector2((float)Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, (float)Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f);
             mapManager = new BrainMapManager(spriteBatch, game, audio, controls, position);
             BrainMapMarker mapMarker = new BrainMapMarker(spriteBatch, game, controls, position, "BrainMap\\level01", "level01", saveData.LevelStatus("level01"));
             mapManager.addBrainMap(mapMarker, 0);

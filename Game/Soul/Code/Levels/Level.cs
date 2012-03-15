@@ -23,7 +23,6 @@ namespace Soul
         private bool doWait = false;
         private bool doneOnce = false;
 
-        private TutorialBase tutorialBase = null;
 
         BackgroundManager backgroundManager_back;
         BackgroundManager backgroundManager_front;
@@ -116,15 +115,17 @@ namespace Soul
             entityManager.initialize();
             CreateBackgrounds();
             menuManager = new MenuManager(controls);
-            ImageButton button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f - 150, (float)game.Window.ClientBounds.Height * 0.5f), Constants.GUI_CONTINUE, "continue");
+            ImageButton button = new ImageButton(spriteBatch, game, controls, new Vector2((float)Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f - 150, (float)Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f), Constants.GUI_CONTINUE, "continue");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
-            button = new ImageButton(spriteBatch, game, controls, new Vector2((float)game.Window.ClientBounds.Width * 0.5f + 150, (float)game.Window.ClientBounds.Height * 0.5f), Constants.GUI_QUIT, "quit");
+            button = new ImageButton(spriteBatch, game, controls, new Vector2((float)Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 150, (float)Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f), Constants.GUI_QUIT, "quit");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
             menuManager.initialize();
 
             PresentationParameters pp = game.GraphicsDevice.PresentationParameters;
+            //int width = Constants.RESOLUTION_VIRTUAL_WIDTH;
+            //int height = Constants.RESOLUTION_VIRTUAL_HEIGHT;
             int width = pp.BackBufferWidth;
             int height = pp.BackBufferHeight;
             SurfaceFormat format = pp.BackBufferFormat;
@@ -188,17 +189,6 @@ namespace Soul
 
             if (tutorial == true)
             {
-                /*tutorialBase = new TutorialBase("movement");
-                TutorialSprite tutSprite = new TutorialSprite(spriteBatch, game, "arrow_left", Constants.TUTORIAL_ARROW, Constants.TUTORIAL_BUTTON_FRAME, new Vector2(100f, 0f), -(float)Math.PI * 0.5f);
-                tutorialBase.AddTutorialWidget(tutSprite);
-                tutSprite = new TutorialSprite(spriteBatch, game, "arrow_up", Constants.TUTORIAL_ARROW, Constants.TUTORIAL_BUTTON_FRAME, new Vector2(0f, 100f));
-                tutorialBase.AddTutorialWidget(tutSprite);
-                tutSprite = new TutorialSprite(spriteBatch, game, "arrow_right", Constants.TUTORIAL_ARROW, Constants.TUTORIAL_BUTTON_FRAME, new Vector2(-100f, 0f), (float)Math.PI * 0.5f);
-                tutorialBase.AddTutorialWidget(tutSprite);
-                tutSprite = new TutorialSprite(spriteBatch, game, "arrow_down", Constants.TUTORIAL_ARROW, Constants.TUTORIAL_BUTTON_FRAME, new Vector2(0f, -100f), (float)Math.PI);
-                tutorialBase.AddTutorialWidget(tutSprite);
-                TutorialString tutString = new TutorialString(spriteBatch, game, "shoot_key", font, game.config.getValue("Controls", "Shoot"), Constants.TUTORIAL_BUTTON_FRAME, new Vector2(100f, 100f));
-                tutorialBase.AddTutorialWidget(tutString);*/
                 tutorialManager = new TutorialManager(spriteBatch, game, font, controls);
                 tutorialManager.Initialize("movement");
             }
@@ -304,7 +294,7 @@ namespace Soul
             game.GraphicsDevice.SetRenderTarget(colorMap_back);
             game.GraphicsDevice.Clear(Color.Transparent);
             spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
-            bg1.Draw(Vector2.Zero, new Rectangle(0,0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            bg1.Draw(Vector2.Zero, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             backgroundManager_back.Draw();
             fog.Draw(Vector2.Zero, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             spriteBatch.End();
@@ -330,29 +320,23 @@ namespace Soul
             game.GraphicsDevice.SetRenderTarget(null);
             game.GraphicsDevice.SetRenderTarget(colorMap_front);
             game.GraphicsDevice.Clear(Color.Transparent);
-            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Resolution.getTransformationMatrix());
+            player.Draw();
+            if (tutorial == true)
+            {
+                tutorialManager.Draw();
+            }
             backgroundManager_front.Draw();
-            spriteBatch.End();
-
-            game.GraphicsDevice.SetRenderTarget(null);
-            GenerateShadowMap();
-
-            game.GraphicsDevice.Clear(Color.Black);
-            DrawCombinedMaps();
-
-            
 
             if (pause)
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Resolution.getTransformationMatrix());
                 menuManager.Draw();
-                spriteBatch.End();
             }
 
             if (bool.Parse(game.config.getValue("Debug", "InfoCorner")))
             {
                 spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Resolution.getTransformationMatrix());
-                double time = Math.Round((gameTime.TotalGameTime.TotalMilliseconds - timeStarted + double.Parse(game.config.getValue("Debug", "StartingTime"))) / 1000) ;
+                double time = Math.Round((gameTime.TotalGameTime.TotalMilliseconds - timeStarted + double.Parse(game.config.getValue("Debug", "StartingTime"))) / 1000);
                 string output = time.ToString();
                 string ambientInfo = "Ambient Light: " + ambientLight.ToString();
                 string ambientAmplifyInfo = "Ambient Amplifier: " + ambientStrength.ToString();
@@ -367,6 +351,18 @@ namespace Soul
                 spriteBatch.DrawString(font, waitTimer, new Vector2(10f, 200f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.End();
             }
+
+            spriteBatch.End();
+
+            game.GraphicsDevice.SetRenderTarget(null);
+            GenerateShadowMap();
+
+            game.GraphicsDevice.Clear(Color.Black);
+            DrawCombinedMaps();
+
+            
+
+
         }
 
         private void CreateBackgrounds()
@@ -452,19 +448,12 @@ namespace Soul
             lightCombinedEffect.CurrentTechnique.Passes[0].Apply();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, lightCombinedEffect, Resolution.getTransformationMatrix());
-            
             spriteBatch.Draw(colorMap_back, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White);
-           
             spriteBatch.Draw(entityLayer, new Rectangle(0, 0, Constants.RESOLUTION_VIRTUAL_WIDTH, Constants.RESOLUTION_VIRTUAL_HEIGHT), Color.White);
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Resolution.getTransformationMatrix());
-            player.Draw();
-            if (tutorial == true)
-            {
-                tutorialManager.Draw();
-            }
-            spriteBatch.Draw(colorMap_front, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White);
+            spriteBatch.Draw(colorMap_front, new Rectangle(0, 0, Constants.RESOLUTION_VIRTUAL_WIDTH, Constants.RESOLUTION_VIRTUAL_HEIGHT), Color.White);
             spriteBatch.End();
 
         }

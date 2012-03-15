@@ -196,7 +196,6 @@
     <Compile Include="Code\Levels\LevelReader.cs" />
     <Compile Include="Code\Managers\InputManager.cs" />
     <Compile Include="Code\Graphics\Resolution.cs" />
-    <Compile Include="Code\Managers\MenuManagerOptions.cs" />
     <Compile Include="Code\Managers\MenuStateManager.cs" />
     <Compile Include="Code\Managers\TutorialManager.cs" />
     <Compile Include="Code\States\CreditsState.cs" />

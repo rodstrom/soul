@@ -108,8 +108,10 @@ namespace Soul
 
             #region InitializeLighting
             PresentationParameters pp = game.GraphicsDevice.PresentationParameters;
-            int width = game.Window.ClientBounds.Width;
-            int height = game.Window.ClientBounds.Height;
+            //int width = Constants.RESOLUTION_VIRTUAL_WIDTH;
+            //int height = Constants.RESOLUTION_VIRTUAL_HEIGHT;
+            int width = pp.BackBufferWidth;
+            int height = pp.BackBufferHeight;
             SurfaceFormat format = pp.BackBufferFormat;
             Vertices = new VertexPositionColorTexture[4];
             Vertices[0] = new VertexPositionColorTexture(new Vector3(-1, 1, 0), Color.White, new Vector2(0, 0));

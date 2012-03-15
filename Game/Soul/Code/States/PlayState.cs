@@ -25,7 +25,7 @@ namespace Soul
             entityManager = new EntityManager(spriteBatch, game, audio, levelManager); 
             
             player = new Player(spriteBatch, game, audio, "player", entityManager, controls);
-            Vector2 newPlayerPos = new Vector2((float)game.Window.ClientBounds.Width * 0.5f, (float)game.Window.ClientBounds.Height * 0.5f);
+            Vector2 newPlayerPos = new Vector2((float)Constants.RESOLUTION_VIRTUAL_WIDTH - 200f, (float)Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f);
             player.Position = newPlayerPos;
             entityManager.addEntity(player);
             entityManager.initialize();
