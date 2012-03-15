@@ -1,6 +1,6 @@
-level01=True
+level01=False
 level02=False
-level03=False
-level04=False
+level03=True
+level04=True
 level05=False
 level06=False
