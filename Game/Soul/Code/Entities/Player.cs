@@ -69,6 +69,7 @@ namespace Soul
 
         private double powerupTime = 0;
         private bool powerupActive = false;
+        private bool spreadPowerupActive = false;
 
         private EntityManager entityManager;
 
@@ -172,7 +173,14 @@ namespace Soul
                 {
                     if (gameTime.TotalGameTime.TotalMilliseconds - timeSinceLastShot > fireRate)
                     {
-                        Shoot();
+                        if (spreadPowerupActive)
+                        {
+                            ShootSpread();
+                        }
+                        else
+                        {
+                            Shoot();
+                        }
 
                         timeSinceLastShot = gameTime.TotalGameTime.TotalMilliseconds;
                     }
@@ -427,6 +435,23 @@ namespace Soul
             audio.playSound("player_shoot");
         }
 
+        public void ShootSpread()
+        {
+            Bullet bullet;
+            Vector2 newPos = weapon.getPosition(position);
+
+            for (int i = 0; i < 5; i++)
+            {
+                bullet = weapon.Shoot(newPos, i);
+                if (bullet != null)
+                {
+                    entityManager.addBullet(bullet);
+                }
+            }
+
+            audio.playSound("player_shoot");
+        }
+
         public override void onCollision(Entity entity)
         {
             if (entity.Type == EntityType.LESSER_DEMON)
@@ -475,11 +500,15 @@ namespace Soul
                 weapon.powerupSpread();
                 damage = (int)(damage * float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "DAMAGEMULTIPLIER")));
                 weapon.Damage = damage;
+                fireRate /= float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "RATEMULTIPLIER")); 
+                spreadPowerupActive = true;
             }
 
             if (entity.Type == EntityType.WEAPON_POWERUP_RAPID)
             {
                 clearPowerup(true);
+                damage = (int)(damage * float.Parse(game.constants.getValue("WEAPON_POWERUP_RAPID", "DAMAGEMULTIPLIER")));
+                weapon.Damage = damage;
                 fireRate /= float.Parse(game.constants.getValue("WEAPON_POWERUP_RAPID", "RATEMULTIPLIER"));
             }
 
@@ -497,7 +526,8 @@ namespace Soul
             weapon.clearPowerup();
             fireRate = float.Parse(game.constants.getValue(type.ToString(), "RATE"));
             damage = int.Parse(game.constants.getValue(type.ToString(), "DAMAGE"));
-            weapon.Damage = damage;
+            weapon.Damage = damage; 
+            spreadPowerupActive = false;
 
             powerupActive = setNew;
             if (setNew)

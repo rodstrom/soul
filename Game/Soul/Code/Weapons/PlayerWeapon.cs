@@ -43,6 +43,41 @@ namespace Soul
             return bullet;
         }
 
+        public Bullet Shoot(Vector2 position, int i)
+        {
+            int spread = int.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREAD"));
+            velocity = getVelocity(i, spread);
+            float velocitySpread = (float)spread / 500f;
+
+            switch (i)
+            {
+                case 0:
+                    position.Y -= spread * 2;
+                    break;
+                case 1:
+                    position.Y -= spread;
+                    position.X -= spread * 2;
+                    velocity.X *= (1f + velocitySpread);
+                    break;
+                case 2:
+                    position.X -= spread * 3;
+                    velocity.X *= (1f + velocitySpread * 2);
+                    break;
+                case 3:
+                    position.Y += spread;
+                    position.X -= spread * 2;
+                    velocity.X *= (1f + velocitySpread);
+                    break;
+                case 4:
+                    position.Y += spread * 2;
+                    break;
+            }
+
+            Bullet bullet = new Bullet(spriteBatch, game, position, velocity, Constants.PLAYER_BULLET_FILENAME, "bullet", EntityType.PLAYER_BULLET, damage);
+            bullet.bigBullet = bigBullet;
+            return bullet;
+        }
+
         public override void Update(GameTime gameTime)
         {
             //timer += (uint)gameTime.ElapsedGameTime.Milliseconds;
@@ -81,6 +116,12 @@ namespace Soul
             return newVelocity;
         }
 
+        public Vector2 getVelocity(float i, float s)
+        {
+            Vector2 newVelocity = new Vector2(-Constants.BULLET_VELOCITY, - s / 2f + i * (s / 4f));
+            return newVelocity;
+        }
+
         public override Vector2 getPosition(Vector2 position)
         {
             Vector2 newPosition = position;
@@ -98,9 +139,9 @@ namespace Soul
 
         public void powerupSpread()
         {
-            minYVel = -float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREADMULTIPLIER"));
-            maxYVel = float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREADMULTIPLIER"));
-            weaponSpreadModifier *= float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREADMULTIPLIER")) * 2f;
+            //minYVel = -float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREADMULTIPLIER"));
+            //maxYVel = float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREADMULTIPLIER"));
+            //weaponSpreadModifier *= float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREADMULTIPLIER")) * 2f;
             bigBullet = true;
         }
 

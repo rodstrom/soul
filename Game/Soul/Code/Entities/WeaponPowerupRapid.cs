@@ -12,17 +12,18 @@ namespace Soul
     {
 
         public WeaponPowerupRapid(SpriteBatch spriteBatch, Soul game, string alias, Vector2 position)
-            : base(spriteBatch, game, Constants.WEAPON_POWERUP_RAPID_FILENAME, new Vector2(Constants.WEAPON_DIMENSION), alias, EntityType.WEAPON_POWERUP_RAPID)
+            : base(spriteBatch, game, Constants.WEAPON_POWERUP_RAPID_FILENAME, new Vector2(Constants.WEAPON_POWERUP_RAPID_DIMENSION), alias, EntityType.WEAPON_POWERUP_RAPID)
         {
+            animation.MaxFrames = 4;
             this.position = position;
             velocity.X = 1.0f;
-            this.hitRadius = Constants.WEAPON_POWERUP_RADIUS;
-            this.scale = 0.3f;
+            this.hitRadius = Constants.WEAPON_POWERUP_RAPID_RADIUS;
         }
 
         public override void Update(GameTime gameTime)
         {
-            position += velocity; 
+            position += velocity;
+            animation.Animate(gameTime);
         }
 
         public override void Draw()
@@ -35,7 +36,8 @@ namespace Soul
                 brush.Render(spriteBatch);
             }
 
-            sprite.Draw(position, Color.White, 0.0f, offset, scale, SpriteEffects.None, 0.0f);
+            Rectangle rect = new Rectangle(animation.CurrentFrame * (int)dimension.X, (int)animationState * (int)dimension.Y, (int)dimension.X, (int)dimension.Y);
+            sprite.Draw(position, rect, Color.White, rotation, offset, scale, SpriteEffects.None, layer);
         }
 
 
