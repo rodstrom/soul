@@ -24,7 +24,8 @@ namespace Soul
         DARK_WHISPER,
         DARK_WHISPER_SPIKE,
         BOSS,
-        BOSS_BULLET
+        BOSS_BULLET,
+        CHECKPOINT
     };
 
     static class Program

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Soul.Debug;
 
 namespace Soul
 {
@@ -16,6 +17,7 @@ namespace Soul
         public HealthPowerup(SpriteBatch spriteBatch, Soul game, string alias, Vector2 position)
             : base(spriteBatch, game, Constants.HEALTH_POWERUP_FILENAME, new Vector2(Constants.HEALTH_POWERUP_DIMENSION), alias, EntityType.HEALTH_POWERUP)
         {
+            animation.MaxFrames = 8;
             this.position = position;
             velocity.X = 1.0f;
             this.hitRadius = Constants.HEALTH_POWERUP_RADIUS;
@@ -39,12 +41,23 @@ namespace Soul
                     decrease = true;
                 }
             }
-            position += velocity;  
+            position += velocity;
+
+            animation.Animate(gameTime);
         }
 
         public override void Draw()
         {
-            sprite.Draw(position,Color.White, rotation, offset, glowScale, SpriteEffects.None, layer);
+            if (debug)
+            {
+                DEBUG_circleLine brush = new DEBUG_circleLine(game.GraphicsDevice);
+                brush.CreateCircle(hitRadius, 100);
+                brush.Position = position;
+                brush.Render(spriteBatch);
+            }
+
+            Rectangle rect = new Rectangle(animation.CurrentFrame * (int)dimension.X, (int)animationState * (int)dimension.Y, (int)dimension.X, (int)dimension.Y);
+            sprite.Draw(position, rect, Color.White, rotation, offset, glowScale, SpriteEffects.None, layer);
         }
 
         public override void onCollision(Entity entity)

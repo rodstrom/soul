@@ -1029,13 +1029,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Particles\weapon_powerup_rapid.png">
-      <Name>weapon_powerup_rapid</Name>
+    <Compile Include="SpriteSheets\Powerup_Health.png">
+      <Name>Powerup_Health</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Particles\weapon_powerup_spread.png">
-      <Name>weapon_powerup_spread</Name>
+    <Compile Include="SpriteSheets\Powerup_Rapid.png">
+      <Name>Powerup_Rapid</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteSheets\Powerup_Spread.png">
+      <Name>Powerup_Spread</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

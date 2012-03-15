@@ -25,6 +25,7 @@ namespace Soul.Manager
         private SpawnEnemies spawnEnemies = new SpawnEnemies();
         private LevelManager levelManager;
 
+        private bool spawningPaused = false;
         private int powerupCount = 0;
         private uint timer = 0;
         private uint enemySpawnCounter = 0;
@@ -112,7 +113,14 @@ namespace Soul.Manager
 
         public void Update(GameTime gameTime)
         {
-            timer += (uint)gameTime.ElapsedGameTime.Milliseconds;
+            if (!spawningPaused)
+            {
+                timer += (uint)gameTime.ElapsedGameTime.Milliseconds;
+            }
+            else
+            {
+                spawningPaused = !allEnemiesDead();
+            }
             
             CheckSpawnQueue(gameTime);
             collisionManager.checkCollision();
@@ -345,7 +353,14 @@ namespace Soul.Manager
            {
                if (queueList[i].SpawnTime <= timer)
                {
-                   SpawnEnemy(queueList[i], gameTime);
+                   if (queueList[i].Type == EntityType.CHECKPOINT)
+                   {
+                       spawningPaused = true;
+                   }
+                   else
+                   {
+                       SpawnEnemy(queueList[i], gameTime);
+                   }
                    queueList.RemoveAt(i);
                    i--;
                }
@@ -354,6 +369,28 @@ namespace Soul.Manager
                    break;
                }
             }
+        }
+
+        private bool allEnemiesDead()
+        {
+            int totalEnemies = 0;
+
+            totalEnemies += EntityCount(EntityType.BOSS);
+            totalEnemies += EntityCount(EntityType.BLUE_BLOOD_VESSEL);
+            totalEnemies += EntityCount(EntityType.DARK_THOUGHT);
+            totalEnemies += EntityCount(EntityType.DARK_WHISPER);
+            totalEnemies += EntityCount(EntityType.INNER_DEMON);
+            totalEnemies += EntityCount(EntityType.LESSER_DEMON);
+            totalEnemies += EntityCount(EntityType.NIGHTMARE);
+            totalEnemies += EntityCount(EntityType.PURPLE_BLOOD_VESSEL);
+            totalEnemies += EntityCount(EntityType.RED_BLOOD_VESSEL);
+
+            if (totalEnemies == 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public void ghostAll()

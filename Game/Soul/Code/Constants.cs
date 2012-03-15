@@ -25,17 +25,21 @@ namespace Soul
 
         public const int WEAPON_LEVEL_LOWEST = 0;
         public const int WEAPON_LEVEL_HIGHEST = 5;
-        public const float WEAPON_DIMENSION = 50.0f;
-        public const string WEAPON_POWERUP_SPREAD_FILENAME = "Particles\\weapon_powerup_spread";
-        public const string WEAPON_POWERUP_RAPID_FILENAME = "Particles\\weapon_powerup_rapid";
-        public const float WEAPON_POWERUP_RADIUS = 40.0f;
+
+        public const float WEAPON_POWERUP_SPREAD_DIMENSION = 64.0f;
+        public const float WEAPON_POWERUP_SPREAD_RADIUS = 35.0f;
+        public const string WEAPON_POWERUP_SPREAD_FILENAME = "SpriteSheets\\Powerup_Spread";
+
+        public const float WEAPON_POWERUP_RAPID_DIMENSION = 64.0f;
+        public const float WEAPON_POWERUP_RAPID_RADIUS = 20.0f;
+        public const string WEAPON_POWERUP_RAPID_FILENAME = "SpriteSheets\\Powerup_Rapid";
         
         public const float BULLET_VELOCITY = 15.0f;
         public const float BULLET_RADIUS = 5.0f;
 
-        public const float HEALTH_POWERUP_DIMENSION = 40.0f;
-        public const string HEALTH_POWERUP_FILENAME = "Particles\\bullet_glow";
-        public const float HEALTH_POWERUP_RADIUS = 40.0f;
+        public const float HEALTH_POWERUP_DIMENSION = 64.0f;
+        public const string HEALTH_POWERUP_FILENAME = "SpriteSheets\\Powerup_Health";
+        public const float HEALTH_POWERUP_RADIUS = 20.0f;
         
         public const float PLAYER_ACCELERATION = 1.0f;
         public const float PLAYER_MAX_SPEED = 5.0f;
