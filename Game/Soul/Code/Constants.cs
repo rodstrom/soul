@@ -31,7 +31,7 @@ namespace Soul
         public const string WEAPON_POWERUP_SPREAD_FILENAME = "SpriteSheets\\Powerup_Spread";
 
         public const float WEAPON_POWERUP_RAPID_DIMENSION = 64.0f;
-        public const float WEAPON_POWERUP_RAPID_RADIUS = 20.0f;
+        public const float WEAPON_POWERUP_RAPID_RADIUS = 25.0f;
         public const string WEAPON_POWERUP_RAPID_FILENAME = "SpriteSheets\\Powerup_Rapid";
         
         public const float BULLET_VELOCITY = 15.0f;
