@@ -32,6 +32,41 @@ namespace Soul
             return bullet;
         }
 
+        public Bullet Shoot(Vector2 position, int i)
+        {
+            int spread = int.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREAD")) * 2;
+            velocity = getVelocity(i, spread);
+            float velocitySpread = (float)spread / 500f;
+
+            switch (i)
+            {
+                case 0:
+                    position.Y -= spread * 2;
+                    break;
+                case 1:
+                    position.Y -= spread;
+                    position.X -= spread * 2;
+                    velocity.X *= (1f + velocitySpread);
+                    break;
+                case 2:
+                    position.X -= spread * 3;
+                    velocity.X *= (1f + velocitySpread * 2);
+                    break;
+                case 3:
+                    position.Y += spread;
+                    position.X -= spread * 2;
+                    velocity.X *= (1f + velocitySpread);
+                    break;
+                case 4:
+                    position.Y += spread * 2;
+                    break;
+            }
+
+            Bullet bullet = new Bullet(spriteBatch, game, position, velocity, Constants.BOSS_BULLET_FILENAME, "Boss_bullet", EntityType.BOSS_BULLET, damage);
+            bullet.bigBullet = true;
+            return bullet;
+        }
+
         public override Vector2 getPosition(Vector2 position)
         {
             throw new NotImplementedException();
@@ -40,6 +75,12 @@ namespace Soul
         public override Vector2 getVelocity()
         {
             throw new NotImplementedException();
+        }
+
+		public Vector2 getVelocity(float i, float s)
+        {
+            Vector2 newVelocity = new Vector2(-Constants.BULLET_VELOCITY, - s / 2f + i * (s / 4f));
+            return newVelocity;
         }
     }
 }

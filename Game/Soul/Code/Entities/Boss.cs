@@ -27,6 +27,21 @@ namespace Soul
 
         private int burstTimer = 0;
         private bool attack = true;
+		private int currentAttack = 0;
+		private int currentSpawn = 0;
+
+		private enum AttackPattern{
+			HOMING = 0,
+			SHOTGUN,
+			SPRAY
+		};
+
+		private enum SpawnPattern{
+			NIGHTMARE = 0,
+			LESSER_DEMON,
+			DARK_WHISPER,
+			BLOOD_VESSEL
+		};
 
         private bool shooting = false;
         private bool spawning = false;
@@ -91,40 +106,66 @@ namespace Soul
             {
                 fireTimer += gameTime.ElapsedGameTime.Milliseconds;
                 burstTimer += gameTime.ElapsedGameTime.Milliseconds;
+				
+				switch(currentAttack)
+				{
+					case AttackPattern.HOMING:
+				        if (attack && fireTimer >= fireRate)
+				        {
+				            directionToPlayer = (target - bulletOrigin);
+				            directionToPlayer.Normalize();
 
-                if (attack && fireTimer >= fireRate)
-                {
-                    directionToPlayer = (target - bulletOrigin);
-                    directionToPlayer.Normalize();
+				            shootAnimate();
 
-                    shootAnimate();
+				            entityManager.addBullet(weapon.Shoot(bulletOrigin, directionToPlayer.Y));
+				            fireTimer = 0;
+				        }
 
-                    entityManager.addBullet(weapon.Shoot(bulletOrigin, directionToPlayer.Y));
-                    fireTimer = 0;
-                }
+				        if (attack && burstTimer > burst)
+				        {
+				            attack = false;
+				            burstTimer = 0;
+				        }
+				        else if (!attack && burstTimer > burst / 2)
+				        {
+				            attack = true;
+				            burstTimer = 0;
+				        }
+						break;
+					case AttackPattern.SHOTGUN:
+						if (attack && fireTimer >= fireRate * 2)
+				        {
+				            shootAnimate();
+							shootSpread();
+				            fireTimer = 0;
+				        }
 
-                if (attack && burstTimer > burst)
-                {
-                    attack = false;
-                    burstTimer = 0;
-                }
-                else if (!attack && burstTimer > burst / 2)
-                {
-                    attack = true;
-                    burstTimer = 0;
-                }
+				        if (attack && burstTimer > burst)
+				        {
+				            attack = false;
+				            burstTimer = 0;
+				        }
+				        else if (!attack && burstTimer > burst / 2)
+				        {
+				            attack = true;
+				            burstTimer = 0;
+				        }
+						break;
+					case AttackPattern.SPRAY:
+						break;
+				}
 
-                spawnTimer += gameTime.ElapsedGameTime.Milliseconds;
-                if (spawnTimer >= spawnRate)
-                {
-                    spawnAnimate();     //spawns an enemy when mouth is completely open
+				spawnTimer += gameTime.ElapsedGameTime.Milliseconds;
+		        if (spawnTimer >= spawnRate)
+		        {
+		            spawnAnimate();     //spawns an enemy when mouth is completely open
 
-                    //SpawnEntity();
-                    spawnTimer = 0;
-                    spawnRate = random.Next(minSpawn, maxSpawn);
-                }
+		            //SpawnEntity();
+		            spawnTimer = 0;
+		            spawnRate = random.Next(minSpawn, maxSpawn);
+		        }
 
-                if (health <= 0)
+        		if (health <= 0)
                 {
                     die();
                 }
@@ -192,13 +233,45 @@ namespace Soul
 
         public void SpawnEntity()
         {
-            Nightmare nightmare = new Nightmare(spriteBatch, game, audio, entityManager, "nightmare" + spawnNumber.ToString());
-            while (entityManager.addEntity(nightmare) == false)
-            {
-                spawnNumber++;
-                nightmare.Alias = "nightmare" + spawnNumber.ToString();
-            }
-            nightmare.position = spawnOrigin;
+			switch(currentSpawn)
+			{
+				case SpawnPattern.NIGHTMARE:
+					Nightmare nightmare = new Nightmare(spriteBatch, game, audio, entityManager, "nightmare" + spawnNumber.ToString());
+					while (entityManager.addEntity(nightmare) == false)
+					{
+						spawnNumber++;
+						nightmare.Alias = "nightmare" + spawnNumber.ToString();
+					}
+					nightmare.position = spawnOrigin;
+					break;
+				case SpawnPattern.LESSER_DEMON:
+					Nightmare nightmare = new Nightmare(spriteBatch, game, audio, entityManager, "nightmare" + spawnNumber.ToString());
+					while (entityManager.addEntity(nightmare) == false)
+					{
+						spawnNumber++;
+						nightmare.Alias = "nightmare" + spawnNumber.ToString();
+					}
+					nightmare.position = spawnOrigin;
+					break;
+				case SpawnPattern.DARK_WHISPER:
+					Nightmare nightmare = new Nightmare(spriteBatch, game, audio, entityManager, "nightmare" + spawnNumber.ToString());
+					while (entityManager.addEntity(nightmare) == false)
+					{
+						spawnNumber++;
+						nightmare.Alias = "nightmare" + spawnNumber.ToString();
+					}
+					nightmare.position = spawnOrigin;
+					break;
+				case SpawnPattern.BLOOD_VESSEL:
+					Nightmare nightmare = new Nightmare(spriteBatch, game, audio, entityManager, "nightmare" + spawnNumber.ToString());
+					while (entityManager.addEntity(nightmare) == false)
+					{
+						spawnNumber++;
+						nightmare.Alias = "nightmare" + spawnNumber.ToString();
+					}
+					nightmare.position = spawnOrigin;
+					break;
+			}
         }
 
         public void Move(GameTime gameTime)
@@ -274,8 +347,10 @@ namespace Soul
         }
 
         private void shootAnimate()
-        {
-            //sprite = spriteShoot;
+	    {
+			changeAttack();
+            
+			//sprite = spriteShoot;
             //animation2.MaxFrames = 12;
             animation2.CurrentFrame = 0;
             //animationState = 0;
@@ -284,11 +359,70 @@ namespace Soul
 
         private void spawnAnimate()
         {
+			changeSpawn();
+
             sprite = spriteSpawn;
             animation.MaxFrames = 7;
             animation.CurrentFrame = 0;
             //animationState = 0;
             spawning = true;
         }
+
+        private void shootSpread()
+        {
+            Bullet bullet;
+            Vector2 newPos = weapon.getPosition(position);
+
+            for (int i = 0; i < 5; i++)
+            {
+                bullet = weapon.Shoot(newPos, i);
+                if (bullet != null)
+                {
+                    entityManager.addBullet(bullet);
+                }
+            }
+
+            audio.playSound("player_shoot");
+        }
+
+		private void changeAttack()
+		{
+			//currentAttack = 0; //insert RANDOM -----------------------------------------------------------------
+			
+			switch(currentAttack)
+			{
+				case AttackPattern.HOMING:
+					currentAttack = 1;
+					break;
+				case AttackPattern.SHOTGUN:
+					currentAttack = 0;
+					break;
+				case AttackPattern.SPRAY:
+					break;
+			}
+		}
+
+		private void changeSpawn()
+		{
+			currentSpawn += 1; //insert RANDOM -----------------------------------------------------------------
+			if (currentSpawn == SpawnPattern.BLOOD_VESSEL)
+			{
+				currentSpawn = 0;
+			}
+
+			switch(currentSpawn)
+			{
+				case SpawnPattern.NIGHTMARE:
+					break;
+				case SpawnPattern.LESSER_DEMON:
+					break;
+				case SpawnPattern.DARK_WHISPER:
+					break;
+				case SpawnPattern.BLOOD_VESSEL:
+					//minSpawn /= 4;
+					//maxSpawn /= 4;
+					break;
+			}
+		}
     }
 }
