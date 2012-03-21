@@ -34,6 +34,7 @@ namespace Soul.Manager
         private bool changeKey = false;
         private Vector2 keyChangeWarning = Vector2.Zero;
         private SpriteFont spriteFont = null;
+        public bool stopControls = false;
 
         public MenuStateManager(SpriteBatch spriteBatch, Soul game, GraphicsDeviceManager graphics, LinkedList<DisplayMode> displayModes, InputManager inputManager, AudioManager audioManager)
         {
@@ -247,7 +248,7 @@ namespace Soul.Manager
 
             currentMenuManager.Update(gameTime);
 
-            if (wait == false && changeKey == false && currentMenuManager.ID != "Quit")
+            if (wait == false && changeKey == false && currentMenuManager.ID != "Quit" && currentMenuManager.IsFadingOut() == false && stopControls == false)
             {
                 if (inputManager.MoveUpOnce == true)
                 {
@@ -325,8 +326,14 @@ namespace Soul.Manager
             {
                 ChangeMenuState("Quit");
             }
-
-
+            else if (currentMenuManager.ID == "Credits" && inputManager.Pause == true)
+            {
+                ChangeMenuState("MainMenu");
+            }
+            else if (currentMenuManager.ID == "Options" && inputManager.Pause == true)
+            {
+                ChangeMenuState("MainMenu");
+            }
 
             return returnValue;
 
@@ -337,7 +344,8 @@ namespace Soul.Manager
             currentMenuManager.Draw();
             if (changeKey == true)
             {
-                spriteBatch.DrawString(spriteFont, alert, keyChangeWarning, Color.Red);
+                Vector2 keyOffset = spriteFont.MeasureString(alert) / 2;
+                spriteBatch.DrawString(spriteFont, alert, keyChangeWarning, Color.Red, 0f, keyOffset, 1f, SpriteEffects.None, 0f);
             }
         }
 

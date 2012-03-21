@@ -13,10 +13,13 @@ namespace Soul
         public const int RESOLUTION_VIRTUAL_WIDTH = 1280;
         public const int RESOLUTION_VIRTUAL_HEIGHT = 720;
 
+        public const string WARNING_IMAGE_FILENAME = "Backgrounds\\warning_screen";
+
         public const int BOSS_WIDTH = 150;
         public const int BOSS_HEIGHT = 600;
-        public const int BOSS_DEATH_WIDTH = 640;
-        public const int BOSS_DEATH_HEIGHT = 700;
+        public const int BOSS_DEATH_WIDTH = 720;
+        public const int BOSS_DEATH_HEIGHT = 720;
+        public const int BOSS_DEATH_OFFSET = 58;
         public const int BOSS_MAX_HEALTH = 200;
         public const int BOSS_DAMAGE = 20;
         public const string BOSS_IDLE_FILENAME = "SpriteSheets\\Boss";
@@ -33,7 +36,7 @@ namespace Soul
         public const string WEAPON_POWERUP_SPREAD_FILENAME = "SpriteSheets\\Powerup_Spread";
 
         public const float WEAPON_POWERUP_RAPID_DIMENSION = 64.0f;
-        public const float WEAPON_POWERUP_RAPID_RADIUS = 20.0f;
+        public const float WEAPON_POWERUP_RAPID_RADIUS = 25.0f;
         public const string WEAPON_POWERUP_RAPID_FILENAME = "SpriteSheets\\Powerup_Rapid";
         
         public const float BULLET_VELOCITY = 15.0f;
@@ -122,7 +125,10 @@ namespace Soul
         public const float DARK_WHISPER_HEIGHT = 128.0f;
         public const float DARK_WHISPER_SPIKE_VELOCITY = 5.0f;
         public const float DARK_WHISPER_RADIUS = 128.0f;
+        public const float DARK_WHISPER_SPIKE_WIDTH = 32f;
+        public const float DARK_WHISPER_SPIKE_HEIGHT = 64f;
         public const string DARK_WHISPER_FILENAME = "SpriteSheets\\Dark-Whisper-Death-animation";
+        public const string DARK_WHISPER_SPIKE_FILENAME = "SpriteSheets\\DarkWhisper_Spikes";
 
         public const float LESSER_DEMON_MAX_SPEED = 15.0f;
         public const float LESSER_DEMON_ACCELERATION = 0.5f;

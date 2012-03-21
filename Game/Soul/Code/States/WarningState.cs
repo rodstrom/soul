@@ -8,20 +8,20 @@ using Soul.Manager;
 
 namespace Soul
 {
-    class IntroState : State
+    class WarningState : State
     {
         Sprite bg;
         FadeInOut fade;
         int timer = 0;
 
-        public IntroState(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, InputManager controls, string id) : base(spriteBatch, game, audioManager, controls, id) { }
+        public WarningState(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, InputManager controls, string id) : base(spriteBatch, game, audioManager, controls, id) { }
 
         public override void initialize(string data)
         {
-            bg = new Sprite(spriteBatch, game, Constants.SPLASH_SCREEN_FILENAME);
+            bg = new Sprite(spriteBatch, game, Constants.WARNING_IMAGE_FILENAME);
             fade = new FadeInOut(spriteBatch, game);
             //audio.playMusic(Constants.AUDIO_INTRO);
-            audio.playSound("intro_startup");
+            //audio.playSound("intro_startup");
             fade.FadeIn();
         }
 
@@ -35,7 +35,7 @@ namespace Soul
 
         public override string getNextState()
         {
-            return "WarningState";
+            return "MenuState";
         }
 
         public override bool Update(GameTime gameTime)
@@ -57,7 +57,7 @@ namespace Soul
                     fade.Update(gameTime);
                 }
 
-                if (timer >= 6000 && !fade.IsFading)
+                if (timer >= 10000 && !fade.IsFading)
                 {
                     fade.FadeOut();
                 }

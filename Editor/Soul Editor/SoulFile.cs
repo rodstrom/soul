@@ -9,6 +9,10 @@ namespace Soul_Editor
 {
     public class SoulFile
     {
+        private static string line = null;
+        private static uint lineCounter = 0;
+        private static StreamReader file;
+
         public static void Write(Form1 form, String filename)
         {
             if(!form.checkBox1.Checked)
@@ -60,9 +64,7 @@ END
 
         public static void Read(List<Entity> e, String filename)
         {
-            TextReader file = null;
-            string line = null;
-            uint lineCounter = 0;
+            file = new StreamReader(filename);
 
             if (System.IO.File.Exists(filename) == false)
             {
@@ -71,8 +73,6 @@ END
             line = file.ReadLine();
             while (line != null)
             {
-
-
                 if (line == "")
                 {
                     line = file.ReadLine();
@@ -87,20 +87,21 @@ END
                     continue;   // skip reading the line if it is marked as a comment
                 }
 
-                if (line[0] == '[' && line[line.Length - 1] == ']')
+                if (line == "[Enemies]")
                 {
-                    string category = line.Substring(1, line.Length - 2);
-                    if (category == "Enemies")
-                    {
-                        lineCounter++;
-                        line = file.ReadLine();
-                        ReadEnemies();
-                    }
+                    lineCounter++;
+                    line = file.ReadLine();
+                    ReadEnemies();
                 }
-                lineCounter++;
-                line = file.ReadLine();
+                //lineCounter++;
+                //line = file.ReadLine();
             }
             file.Close();
+        }
+
+        private static void ReadEnemies()
+        {
+
         }
     }
 }

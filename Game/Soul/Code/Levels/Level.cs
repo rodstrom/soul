@@ -610,15 +610,15 @@ namespace Soul
                 doWait = true;
             }
 
-            if (doWait)
-            {
+            //if (doWait)
+            //{
                 wait += gameTime.ElapsedGameTime.Milliseconds;
-                if (wait > 3000)
+                if (wait > 8000)
                 {
                     bossDead = true;
                     quit = true;
                 }
-            }
+            //}
         }
 
         private void IncreaseLightSource()

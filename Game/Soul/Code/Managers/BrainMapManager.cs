@@ -14,8 +14,6 @@ namespace Soul.Manager
         private Vector2 offset = Vector2.Zero;
         private Vector2 position = Vector2.Zero;
         private List<BrainMapMarker> mapList;
-        private int _x = 0;
-        private int _y = 0;
         private int currentPosition = 0;
         private string currentLevel = "";
         private bool showMenu = false;

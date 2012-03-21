@@ -45,6 +45,7 @@ namespace Soul
             this.minY = int.Parse(game.lighting.getValue("LightGenerator", "MinYPosition"));
             this.minPower = float.Parse(game.lighting.getValue("LightGenerator", "MinPower"));
             this.maxPower = float.Parse(game.lighting.getValue("LightGenerator", "MaxPower"));
+            this.zpos = float.Parse(game.lighting.getValue("LightGenerator", "ZPosition"));
         }
 
         public void Update(GameTime gameTime)
@@ -79,7 +80,7 @@ namespace Soul
         {
             float x = (float)random.Next(minX, maxX);
             float y = (float)random.Next(minY, maxY);
-            return new Vector3(x, y, float.Parse(game.lighting.getValue("LightGenerator", "ZPosition")));
+            return new Vector3(x, y, zpos);
         }
     }
 }
