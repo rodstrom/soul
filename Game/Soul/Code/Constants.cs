@@ -13,8 +13,9 @@ namespace Soul
 
         public const int BOSS_WIDTH = 150;
         public const int BOSS_HEIGHT = 600;
-        public const int BOSS_DEATH_WIDTH = 640;
-        public const int BOSS_DEATH_HEIGHT = 700;
+        public const int BOSS_DEATH_WIDTH = 720;
+        public const int BOSS_DEATH_HEIGHT = 720;
+        public const int BOSS_DEATH_OFFSET = 58;
         public const int BOSS_MAX_HEALTH = 200;
         public const int BOSS_DAMAGE = 20;
         public const string BOSS_IDLE_FILENAME = "SpriteSheets\\Boss";
@@ -109,7 +110,7 @@ namespace Soul
         public const float DARK_THOUGHT_HEIGHT = 128.0f;
         public const string DARK_THOUGHT_FILENAME = "SpriteSheets\\Dark-Thought-Animation";
         public const float DARK_THOUGHT_RADIUS = 128.0f;
-        public const string DARK_THOUGHT_BULLET_FILENAME = "Particles\\bullet_glow_dark";
+        public const string DARK_THOUGHT_BULLET_FILENAME = "SpriteSheets\\DarkWhisper_Spikes";
 
         public const int DARK_WHISPER_DAMAGE = 10;
         public const int DARK_WHISPER_SPIKE_DAMAGE = 5;

@@ -16,6 +16,7 @@ namespace Soul
         private bool useRange = false;
 
         public bool bigBullet = false;
+        public bool spike = false;
 
         public bool pulsate = true;
 
@@ -52,12 +53,16 @@ namespace Soul
             }
         }
 
-        public Bullet(int range, SpriteBatch spriteBatch, Soul game, Vector2 position, Vector2 velocity, string filename, string alias, EntityType type, int damage)
-            : base(spriteBatch, game, filename, new Vector2(20.0f, 20.0f), alias, type)
+        public Bullet(Random r, int range, SpriteBatch spriteBatch, Soul game, Vector2 position, Vector2 velocity, string filename, string alias, EntityType type, int damage)
+            : base(spriteBatch, game, filename, new Vector2(8f, 32f), alias, type)
         {
             spikeRange = range;
             useRange = true;
             originalPosition = position;
+
+            spike = true;
+
+            animation.CurrentFrame = r.Next(3);
 
             this.position = position;
             this.velocity = velocity;
@@ -78,12 +83,20 @@ namespace Soul
 
         public override void Draw()
         {
-            float newScale = scale;
-            if (bigBullet)
+            if (spike)
             {
-                newScale = scale * 1.2f;
+                Rectangle rect = new Rectangle(animation.CurrentFrame * (int)dimension.X, (int)animationState * (int)dimension.Y, (int)dimension.X, (int)dimension.Y);
+                sprite.Draw(position, rect, Color.White, rotation, offset, scale, SpriteEffects.None, layer);
             }
-            sprite.Draw(position, Color.White, rotation, offset, newScale, SpriteEffects.None, layer);
+            else
+            {
+                float newScale = scale;
+                if (bigBullet)
+                {
+                    newScale = scale * 1.2f;
+                }
+                sprite.Draw(position, Color.White, rotation, offset, newScale, SpriteEffects.None, layer);
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -169,6 +182,11 @@ namespace Soul
                 newPosition.Y -= ((float)sprite.Y * 0.5f) * scale;
                 return newPosition;
             }
+        }
+
+        public void setRotation(float r)
+        {
+            rotation = r;
         }
     }
 }

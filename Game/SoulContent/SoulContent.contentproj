@@ -982,13 +982,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteSheets\Boss_Death.png">
-      <Name>Boss_Death</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="SpriteSheets\Boss_Shoot.png">
       <Name>Boss_Shoot</Name>
       <Importer>TextureImporter</Importer>
@@ -1089,6 +1082,20 @@
     </Compile>
     <Compile Include="TutorialGFX\Shift.png">
       <Name>Shift</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Boss_Death.png">
+      <Name>Boss_Death</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\DarkWhisper_Spikes.png">
+      <Name>DarkWhisper_Spikes</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

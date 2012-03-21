@@ -22,6 +22,8 @@ namespace Soul
         private bool waitingToDie = false;
         private HitFX hitFx = null;
 
+        private Random randomizer;
+
         public DarkWhisper(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, string alias, EntityManager entityManager, Path path) 
             : base(spriteBatch, game, Constants.DARK_WHISPER_FILENAME, new Vector2(Constants.DARK_WHISPER_WIDTH, Constants.DARK_WHISPER_HEIGHT), alias, EntityType.DARK_WHISPER)
         {
@@ -51,7 +53,7 @@ namespace Soul
                 path.Update(gameTime, Position);
             }
             animation.Animate(gameTime);
-   
+
             if (waitingToDie == true && killMe == false)
             {
                 if (animation.CurrentFrame >= animation.MaxFrames)
@@ -68,6 +70,7 @@ namespace Soul
             {
                 Move(gameTime);
             }
+            randomizer = new Random((int)gameTime.TotalGameTime.TotalMilliseconds);
         }
 
         public void Move(GameTime gameTime)
@@ -198,42 +201,50 @@ namespace Soul
             Vector2 velo = Vector2.Zero;
             pos.Y -= offset.Y;
             velo.Y = -spikeSpeed;
-            Bullet spike = new Bullet(spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            Bullet spike = new Bullet(randomizer, spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike.setRotation(0f);
             spikeList.Add(spike);
             pos.X += offsetHalf.X;
             pos.Y += offsetHalf.Y;
             velo.X = spikeSpeed;
-            spike = new Bullet(spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike = new Bullet(randomizer, spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike.setRotation((float)Math.PI / 4f);
             spikeList.Add(spike);
             pos.Y += offsetHalf.Y;
             pos.X += offsetHalf.X;
             velo.Y = 0.0f;
-            spike = new Bullet(spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike = new Bullet(randomizer, spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike.setRotation((float)Math.PI / 2f);
             spikeList.Add(spike);
             pos.Y += offsetHalf.Y;
             pos.X -= offsetHalf.X;
             velo.Y = spikeSpeed;
-            spike = new Bullet(spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike = new Bullet(randomizer, spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike.setRotation(3f * (float)Math.PI / 4f);
             spikeList.Add(spike);
             velo.X = 0.0f;
             pos.X -= offsetHalf.X;
             pos.Y += offsetHalf.Y;
-            spike = new Bullet(spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike = new Bullet(randomizer, spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike.setRotation((float)Math.PI);
             spikeList.Add(spike);
             velo.X = -spikeSpeed;
             pos.X -= offsetHalf.X;
             pos.Y -= offsetHalf.Y;
-            spike = new Bullet(spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike = new Bullet(randomizer, spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike.setRotation((float)Math.PI + (float)Math.PI / 4f);
             spikeList.Add(spike);
             pos.X -= offsetHalf.X;
             pos.Y -= offsetHalf.Y;
             velo.Y = 0.0f;
-            spike = new Bullet(spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike = new Bullet(randomizer, spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike.setRotation((float)Math.PI + (float)Math.PI / 2f);
             spikeList.Add(spike);
             pos.X += offsetHalf.X;
             pos.Y -= offsetHalf.Y;
             velo.Y = -spikeSpeed;
-            spike = new Bullet(spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike = new Bullet(randomizer, spikeRange, spriteBatch, game, pos, velo, Constants.DARK_THOUGHT_BULLET_FILENAME, "dark_whisper_spike", EntityType.DARK_WHISPER_SPIKE, spikeDamage);
+            spike.setRotation((float)Math.PI + 3f * (float)Math.PI / 4f);
             spikeList.Add(spike);
         }
 
