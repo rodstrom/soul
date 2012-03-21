@@ -115,13 +115,13 @@ namespace Soul
                     hitRadius = int.Parse(game.constants.getValue(type.ToString(), "RADIUS"));
                     maxVelocity = new Vector2(float.Parse(game.constants.getValue(type.ToString(), "SPEED")), float.Parse(game.constants.getValue(type.ToString(), "SPEED")));
                 }
-                
 
-                if (!type.ToString().Equals("INNER_DEMON") && !type.ToString().Equals("LESSER_DEMON"))
+
+                if (!type.ToString().Equals("INNER_DEMON") && !type.ToString().Equals("LESSER_DEMON") && !type.ToString().Equals("BOSS"))
                 {
                     damage = int.Parse(game.constants.getValue(type.ToString(), "DAMAGE"));
                 }
-                if (type.ToString().Equals("DARK_THOUGHT") || type.ToString().Equals("PLAYER") || type.ToString().Equals("BOSS"))
+                if (type.ToString().Equals("DARK_THOUGHT") || type.ToString().Equals("PLAYER"))
                 {
                     fireRate = float.Parse(game.constants.getValue(type.ToString(), "RATE"));
                 }

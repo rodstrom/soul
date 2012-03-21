@@ -27,8 +27,9 @@ namespace Soul
 
         private int burstTimer = 0;
         private bool attack = true;
-		private int currentAttack = 0;
+		private int currentAttack = -1;
 		private int currentSpawn = 0;
+        private int burstPause;
 
 		private enum AttackPattern{
 			HOMING = 0,
@@ -39,8 +40,7 @@ namespace Soul
 		private enum SpawnPattern{
 			NIGHTMARE = 0,
 			LESSER_DEMON,
-			DARK_WHISPER,
-			BLOOD_VESSEL
+			DARK_WHISPER
 		};
 
         private bool shooting = false;
@@ -75,6 +75,9 @@ namespace Soul
             hitFx = new HitFX(game);
             velocity.X = 5;
             this.audio = audio;
+
+            fireRate = burst;
+            burstPause = int.Parse(game.constants.getValue("BOSS", "BURSTPAUSE"));
         }
 
         public override void Draw()
@@ -109,7 +112,7 @@ namespace Soul
 				
 				switch(currentAttack)
 				{
-					case AttackPattern.HOMING:
+					case (int)AttackPattern.HOMING:
 				        if (attack && fireTimer >= fireRate)
 				        {
 				            directionToPlayer = (target - bulletOrigin);
@@ -120,49 +123,53 @@ namespace Soul
 				            entityManager.addBullet(weapon.Shoot(bulletOrigin, directionToPlayer.Y));
 				            fireTimer = 0;
 				        }
-
-				        if (attack && burstTimer > burst)
-				        {
-				            attack = false;
-				            burstTimer = 0;
-				        }
-				        else if (!attack && burstTimer > burst / 2)
-				        {
-				            attack = true;
-				            burstTimer = 0;
-				        }
 						break;
-					case AttackPattern.SHOTGUN:
-						if (attack && fireTimer >= fireRate * 2)
+                    case (int)AttackPattern.SHOTGUN:
+						if (attack && fireTimer >= fireRate)
 				        {
 				            shootAnimate();
 							shootSpread();
 				            fireTimer = 0;
 				        }
-
-				        if (attack && burstTimer > burst)
-				        {
-				            attack = false;
-				            burstTimer = 0;
-				        }
-				        else if (!attack && burstTimer > burst / 2)
-				        {
-				            attack = true;
-				            burstTimer = 0;
-				        }
 						break;
-					case AttackPattern.SPRAY:
+                    case (int)AttackPattern.SPRAY:
+                        if (attack && fireTimer >= fireRate)
+                        {
+                            shootAnimate();
+                            bool playerIsNorth = false;
+                            if (target.Y < 360f)
+                            {
+                                playerIsNorth = true;
+                            }
+                            entityManager.addBullet(weapon.Shoot(bulletOrigin, burstTimer, burst, playerIsNorth));
+                            fireTimer = 0;
+                        }
 						break;
 				}
 
+                if (attack && burstTimer > burst)
+                {
+                    attack = false;
+                    burstTimer = 0;
+                    changeAttack();
+                }
+                else if (!attack && burstTimer > burstPause)
+                {
+                    attack = true;
+                    burstTimer = 0;
+                }
+
 				spawnTimer += gameTime.ElapsedGameTime.Milliseconds;
-		        if (spawnTimer >= spawnRate)
+		        if (spawnTimer >= spawnRate && !attack)
 		        {
 		            spawnAnimate();     //spawns an enemy when mouth is completely open
 
 		            //SpawnEntity();
-		            spawnTimer = 0;
 		            spawnRate = random.Next(minSpawn, maxSpawn);
+
+                    spawnTimer = 0;
+                    fireTimer = -int.Parse(game.constants.getValue("BOSS", "SPAWNSHOOTDELAY"));
+                    burstTimer = -int.Parse(game.constants.getValue("BOSS", "SPAWNSHOOTDELAY"));
 		        }
 
         		if (health <= 0)
@@ -233,9 +240,11 @@ namespace Soul
 
         public void SpawnEntity()
         {
-			switch(currentSpawn)
+            changeSpawn();
+
+            switch (currentSpawn)
 			{
-				case SpawnPattern.NIGHTMARE:
+                case (int)SpawnPattern.NIGHTMARE:
 					Nightmare nightmare = new Nightmare(spriteBatch, game, audio, entityManager, "nightmare" + spawnNumber.ToString());
 					while (entityManager.addEntity(nightmare) == false)
 					{
@@ -244,32 +253,24 @@ namespace Soul
 					}
 					nightmare.position = spawnOrigin;
 					break;
-				case SpawnPattern.LESSER_DEMON:
-					Nightmare nightmare = new Nightmare(spriteBatch, game, audio, entityManager, "nightmare" + spawnNumber.ToString());
-					while (entityManager.addEntity(nightmare) == false)
-					{
-						spawnNumber++;
-						nightmare.Alias = "nightmare" + spawnNumber.ToString();
-					}
-					nightmare.position = spawnOrigin;
+                case (int)SpawnPattern.LESSER_DEMON:
+					LesserDemon lesserDemon = new LesserDemon(spriteBatch, game, audio, "lesserdemon" + spawnNumber.ToString(), target);
+                    while (entityManager.addEntity(lesserDemon) == false)
+                    {
+                        spawnNumber++;
+                        lesserDemon.Alias = "lesserdemon" + spawnNumber.ToString();
+                    }
+                    lesserDemon.position = spawnOrigin;
+                    audio.playSound("lesser_demon_spawn");
 					break;
-				case SpawnPattern.DARK_WHISPER:
-					Nightmare nightmare = new Nightmare(spriteBatch, game, audio, entityManager, "nightmare" + spawnNumber.ToString());
-					while (entityManager.addEntity(nightmare) == false)
-					{
-						spawnNumber++;
-						nightmare.Alias = "nightmare" + spawnNumber.ToString();
-					}
-					nightmare.position = spawnOrigin;
-					break;
-				case SpawnPattern.BLOOD_VESSEL:
-					Nightmare nightmare = new Nightmare(spriteBatch, game, audio, entityManager, "nightmare" + spawnNumber.ToString());
-					while (entityManager.addEntity(nightmare) == false)
-					{
-						spawnNumber++;
-						nightmare.Alias = "nightmare" + spawnNumber.ToString();
-					}
-					nightmare.position = spawnOrigin;
+                case (int)SpawnPattern.DARK_WHISPER:
+					DarkWhisper darkWhisper = new DarkWhisper(spriteBatch, game, audio, "dark_whisper" + spawnNumber.ToString(), entityManager, null);
+                    while (entityManager.addEntity(darkWhisper) == false)
+                    {
+                        spawnNumber++;
+                        darkWhisper.Alias = "dark_whisper" + spawnNumber.ToString();
+                    }
+                    darkWhisper.position = spawnOrigin;
 					break;
 			}
         }
@@ -348,8 +349,6 @@ namespace Soul
 
         private void shootAnimate()
 	    {
-			changeAttack();
-            
 			//sprite = spriteShoot;
             //animation2.MaxFrames = 12;
             animation2.CurrentFrame = 0;
@@ -359,9 +358,7 @@ namespace Soul
 
         private void spawnAnimate()
         {
-			changeSpawn();
-
-            sprite = spriteSpawn;
+			sprite = spriteSpawn;
             animation.MaxFrames = 7;
             animation.CurrentFrame = 0;
             //animationState = 0;
@@ -371,56 +368,55 @@ namespace Soul
         private void shootSpread()
         {
             Bullet bullet;
-            Vector2 newPos = weapon.getPosition(position);
 
             for (int i = 0; i < 5; i++)
             {
-                bullet = weapon.Shoot(newPos, i);
+                bullet = weapon.Shoot(bulletOrigin, i);
                 if (bullet != null)
                 {
                     entityManager.addBullet(bullet);
                 }
             }
 
-            audio.playSound("player_shoot");
+            //audio.playSound("player_shoot");
         }
 
 		private void changeAttack()
 		{
-			//currentAttack = 0; //insert RANDOM -----------------------------------------------------------------
-			
+			currentAttack = random.Next(3);
+
 			switch(currentAttack)
 			{
-				case AttackPattern.HOMING:
-					currentAttack = 1;
+                case (int)AttackPattern.HOMING:
+                    damage = int.Parse(game.constants.getValue("BOSS", "HOMINGDAMAGE"));
+                    fireRate = burst / int.Parse(game.constants.getValue("BOSS", "HOMINGBULLETS"));
+                    weapon.Damage = damage;
 					break;
-				case AttackPattern.SHOTGUN:
-					currentAttack = 0;
+                case (int)AttackPattern.SHOTGUN:
+                    damage = int.Parse(game.constants.getValue("BOSS", "SHOTGUNDAMAGE"));
+                    fireRate = burst / int.Parse(game.constants.getValue("BOSS", "SHOTGUNFIRES"));
+                    weapon.Damage = damage;
 					break;
-				case AttackPattern.SPRAY:
+                case (int)AttackPattern.SPRAY:
+                    damage = int.Parse(game.constants.getValue("BOSS", "SPRAYDAMAGE"));
+                    fireRate = burst / int.Parse(game.constants.getValue("BOSS", "SPRAYBULLETS"));
+                    weapon.Damage = damage;
 					break;
 			}
 		}
 
 		private void changeSpawn()
 		{
-			currentSpawn += 1; //insert RANDOM -----------------------------------------------------------------
-			if (currentSpawn == SpawnPattern.BLOOD_VESSEL)
-			{
-				currentSpawn = 0;
-			}
+            currentSpawn = random.Next(3);
 
 			switch(currentSpawn)
 			{
-				case SpawnPattern.NIGHTMARE:
+                case (int)SpawnPattern.NIGHTMARE:
+                    currentSpawn = random.Next(3);
 					break;
-				case SpawnPattern.LESSER_DEMON:
+                case (int)SpawnPattern.LESSER_DEMON:
 					break;
-				case SpawnPattern.DARK_WHISPER:
-					break;
-				case SpawnPattern.BLOOD_VESSEL:
-					//minSpawn /= 4;
-					//maxSpawn /= 4;
+                case (int)SpawnPattern.DARK_WHISPER:
 					break;
 			}
 		}

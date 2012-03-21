@@ -9,6 +9,8 @@ namespace Soul
 {
     class BossWeapon : Weapon
     {
+        bool playerIsNorth = false;
+
         public BossWeapon(SpriteBatch spriteBatch, Soul game, int spriteHeight)
             : base(spriteBatch, game, spriteHeight)
         {
@@ -22,19 +24,48 @@ namespace Soul
 
         public override Bullet Shoot(Vector2 position)
         {
-            Bullet bullet = new Bullet(spriteBatch, game, position, new Vector2(15.0f, 0.0f), Constants.BOSS_BULLET_FILENAME, "Boss_bullet", EntityType.BOSS_BULLET, damage);
-            return bullet;
+            throw new NotImplementedException();
         }
 
         public Bullet Shoot(Vector2 position, float angle)
         {
-            Bullet bullet = new Bullet(spriteBatch, game, position, new Vector2(15.0f, angle * 20f), Constants.BOSS_BULLET_FILENAME, "Boss_bullet", EntityType.BOSS_BULLET, damage);
+            Bullet bullet = new Bullet(spriteBatch, game, position, new Vector2(float.Parse(game.constants.getValue("BOSS", "HOMINGSPEED")), angle * 20f), Constants.BOSS_BULLET_FILENAME, "Boss_bullet", EntityType.BOSS_BULLET, damage);
+            return bullet;
+        }
+
+        public Bullet Shoot(Vector2 position, int burstTime, int burstMax, bool north)
+        {
+            float progress = (float)burstTime / (float)burstMax;
+            if (burstTime < 20)
+            {
+                playerIsNorth = north;
+            }
+
+            Vector2 direction;
+            if (playerIsNorth)
+            {
+                direction = (new Vector2(1280f, (720f * (progress * 2f))) - position);
+                if (progress > 0.5f)
+                {
+                    direction = (new Vector2(1280f, (720f - (720f * ((progress - 0.5f) * 2f)))) - position);
+                }
+            }
+            else
+            {
+                direction = (new Vector2(1280f, (720f - (720f * (progress * 2f)))) - position);
+                if (progress > 0.5f)
+                {
+                    direction = (new Vector2(1280f, (720f * ((progress - 0.5f) * 2f))) - position);
+                }
+            }
+            direction.Normalize();
+            Bullet bullet = new Bullet(spriteBatch, game, position, new Vector2(float.Parse(game.constants.getValue("BOSS", "SPRAYSPEED")), direction.Y * 20f), Constants.BOSS_BULLET_FILENAME, "Boss_bullet", EntityType.BOSS_BULLET, damage);
             return bullet;
         }
 
         public Bullet Shoot(Vector2 position, int i)
         {
-            int spread = int.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREAD")) * 2;
+            int spread = int.Parse(game.constants.getValue("BOSS", "SHOTGUNSPREAD"));
             velocity = getVelocity(i, spread);
             float velocitySpread = (float)spread / 500f;
 
@@ -45,16 +76,16 @@ namespace Soul
                     break;
                 case 1:
                     position.Y -= spread;
-                    position.X -= spread * 2;
+                    position.X += spread * 2;
                     velocity.X *= (1f + velocitySpread);
                     break;
                 case 2:
-                    position.X -= spread * 3;
+                    position.X += spread * 3;
                     velocity.X *= (1f + velocitySpread * 2);
                     break;
                 case 3:
                     position.Y += spread;
-                    position.X -= spread * 2;
+                    position.X += spread * 2;
                     velocity.X *= (1f + velocitySpread);
                     break;
                 case 4:
@@ -79,7 +110,7 @@ namespace Soul
 
 		public Vector2 getVelocity(float i, float s)
         {
-            Vector2 newVelocity = new Vector2(-Constants.BULLET_VELOCITY, - s / 2f + i * (s / 4f));
+            Vector2 newVelocity = new Vector2(float.Parse(game.constants.getValue("BOSS", "SHOTGUNSPEED")), - s / 2f + i * (s / 4f));
             return newVelocity;
         }
     }
