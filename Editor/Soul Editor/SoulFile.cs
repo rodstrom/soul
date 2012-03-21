@@ -64,6 +64,7 @@ END
 
         public static void Read(List<Entity> e, String filename)
         {
+            e.Clear();
             file = new StreamReader(filename);
 
             if (System.IO.File.Exists(filename) == false)
@@ -91,7 +92,7 @@ END
                 {
                     lineCounter++;
                     line = file.ReadLine();
-                    ReadEnemies();
+                    ReadEnemies(e);
                 }
                 //lineCounter++;
                 //line = file.ReadLine();
@@ -99,9 +100,9 @@ END
             file.Close();
         }
 
-        private static void ReadEnemies()
+        private static void ReadEnemies(List<Entity> e)
         {
-
+            
         }
     }
 }

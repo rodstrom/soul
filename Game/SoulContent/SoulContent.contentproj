@@ -1087,15 +1087,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteSheets\Boss_Death.png">
-      <Name>Boss_Death</Name>
+    <Compile Include="SpriteSheets\DarkWhisper_Spikes.png">
+      <Name>DarkWhisper_Spikes</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteSheets\DarkWhisper_Spikes.png">
-      <Name>DarkWhisper_Spikes</Name>
+    <Compile Include="SpriteSheets\Boss_Death.png">
+      <Name>Boss_Death</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

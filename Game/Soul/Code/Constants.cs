@@ -15,7 +15,7 @@ namespace Soul
         public const int BOSS_HEIGHT = 600;
         public const int BOSS_DEATH_WIDTH = 720;
         public const int BOSS_DEATH_HEIGHT = 720;
-        public const int BOSS_DEATH_OFFSET = 58;
+        public const int BOSS_DEATH_OFFSET = 50;
         public const int BOSS_MAX_HEALTH = 200;
         public const int BOSS_DAMAGE = 20;
         public const string BOSS_IDLE_FILENAME = "SpriteSheets\\Boss";
