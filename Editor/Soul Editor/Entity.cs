@@ -76,6 +76,7 @@ namespace Soul_Editor
             picture.BringToFront();
             picture.MouseDown += new MouseEventHandler(entity_MouseDown);
             picture.MouseUp += new MouseEventHandler(entity_MouseUp);
+
             if (isPath)
             {
                 path.AddFirst(new Point(1280, pos.Y * 2));

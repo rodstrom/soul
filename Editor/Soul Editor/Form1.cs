@@ -58,6 +58,7 @@ namespace Soul_Editor
             //listBox2.DataSource = _items;
             updatePosition(e.id);
             //listBox2.Update();
+            panel2.SendToBack();
         }
 
         private void addBackground()
