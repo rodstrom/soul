@@ -23,17 +23,35 @@ namespace Soul_Editor
             InitializeComponent();
             this.backgrounds = new PictureBox[1000];
             this.addBackground();
+
+            for (int i = 0; i < 20; i++)
+            {
+                this.addBackground();
+            }
+
             base.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             this.textBox6.Text = Directory.GetCurrentDirectory() + "\\Level01.map";
+            this.textBox6.Text = @"C:\git\soul\Game\Soul\bin\x86\Debug\Content\Levels\Level01.map";
         }
 
-        private void addEntity(String entity, Point pos)
+        public void addEntity(String entity, Point pos)
         {
             Entity e = new Entity(this, entity, pos.X, pos.Y , 0);
+
+            _items.Add(e);
+            e.id = listBox2.Items.Add(e.name);
+            //listBox2.DataSource = _items;
+            updatePosition(e.id);
+            //listBox2.Update();
+        }
+
+        public void addEntity(String entity, int ms, int y)
+        {
+            Entity e = new Entity(this, entity, ms, y);
 
             _items.Add(e);
             e.id = listBox2.Items.Add(e.name);
@@ -187,7 +205,7 @@ namespace Soul_Editor
 
         private void updateLevelTimeLabel()
         {
-            this.label5.Text = startTime + " - " + (this.panel2.Width / 500 + startTime).ToString() + " seconds";
+            this.label5.Text = startTime + " - " + (this.panel2.Width / 250 + startTime).ToString() + " seconds";
         }
 
         private void path_KeyPress(object sender, KeyPressEventArgs e)
@@ -225,8 +243,9 @@ namespace Soul_Editor
             Point prevPath = new Point(0, e.pos.Y);
             foreach (Point p in e.path)
             {
-                g.DrawLine(myPen, prevPath, p);
-                prevPath = p;
+                Point n = new Point(p.X / 2, p.Y / 2);
+                g.DrawLine(myPen, prevPath, n);
+                prevPath = n;
             }
 
             myPen.Dispose();
@@ -236,7 +255,7 @@ namespace Soul_Editor
         private void panel3_MouseClick(object sender, MouseEventArgs e)
         {
             //Point pos = panel3.PointToClient(e.Location);
-            _items.ElementAt(listBox2.SelectedIndex).addPath(e.X, e.Y);
+            _items.ElementAt(listBox2.SelectedIndex).addPath(e.X * 2, e.Y * 2);
             updatePosition(listBox2.SelectedIndex);
 
             panel3_Update(_items.ElementAt(listBox2.SelectedIndex));
@@ -268,7 +287,9 @@ namespace Soul_Editor
 
         private void button3_Click(object sender, EventArgs e)
         {
-            SoulFile.Read(_items, textBox6.Text.ToString());
+            _items.Clear();
+            listBox2.Items.Clear();
+            SoulFile.Read(this, textBox6.Text.ToString());
         }
     }
 }

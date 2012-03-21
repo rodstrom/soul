@@ -29,49 +29,32 @@ namespace Soul_Editor
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Dark_Thought");
-            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("Dark_Whisper");
-            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Inner_Demon");
-            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Nightmare");
-            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Red_blood_vessel");
-            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("Blue_blood_vessel");
-            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("Purple_blood_vessel");
-            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("Bloodvessels", new System.Windows.Forms.TreeNode[] {
-            treeNode28,
-            treeNode29,
-            treeNode30});
-            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("Enemies", new System.Windows.Forms.TreeNode[] {
-            treeNode24,
-            treeNode25,
-            treeNode26,
-            treeNode27,
-            treeNode31});
-            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("Health_Powerup");
-            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("Weapon_Powerup");
-            System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("Powerups", new System.Windows.Forms.TreeNode[] {
-            treeNode33,
-            treeNode34});
-            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("Tinted color 1");
-            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("Tinted color 2");
-            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("Cliff formation 1");
-            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("Cloud formation 1");
-            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("Cloud formation 2");
-            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("Large leftleaning 1");
-            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("Large leftleaning 2");
-            System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("Small rightleaning 1");
-            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("Large rightleaning 1");
-            System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("Pillars", new System.Windows.Forms.TreeNode[] {
-            treeNode41,
-            treeNode42,
-            treeNode43,
-            treeNode44});
-            System.Windows.Forms.TreeNode treeNode46 = new System.Windows.Forms.TreeNode("Backgrounds", new System.Windows.Forms.TreeNode[] {
-            treeNode36,
-            treeNode37,
-            treeNode38,
-            treeNode39,
-            treeNode40,
-            treeNode45});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Dark_Thought");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Dark_Whisper");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Inner_Demon");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Nightmare");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Red_blood_vessel");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Blue_blood_vessel");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Purple_blood_vessel");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Bloodvessels", new System.Windows.Forms.TreeNode[] {
+            treeNode5,
+            treeNode6,
+            treeNode7});
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Boss");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Enemies", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4,
+            treeNode8,
+            treeNode9});
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Health_Powerup");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Weapon_Powerup_Spread");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Weapon_Powerup_Rapid");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Powerups", new System.Windows.Forms.TreeNode[] {
+            treeNode11,
+            treeNode12,
+            treeNode13});
             this.minutes = new System.Windows.Forms.TextBox();
             this.pos = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -92,9 +75,9 @@ namespace Soul_Editor
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.milliseconds = new System.Windows.Forms.TextBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.posY = new System.Windows.Forms.TextBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -203,56 +186,37 @@ namespace Soul_Editor
             this.treeView1.AllowDrop = true;
             this.treeView1.Location = new System.Drawing.Point(6, 19);
             this.treeView1.Name = "treeView1";
-            treeNode24.Name = "Node5";
-            treeNode24.Text = "Dark_Thought";
-            treeNode25.Name = "Node6";
-            treeNode25.Text = "Dark_Whisper";
-            treeNode26.Name = "Node7";
-            treeNode26.Text = "Inner_Demon";
-            treeNode27.Name = "Node8";
-            treeNode27.Text = "Nightmare";
-            treeNode28.Name = "Node10";
-            treeNode28.Text = "Red_blood_vessel";
-            treeNode29.Name = "Node11";
-            treeNode29.Text = "Blue_blood_vessel";
-            treeNode30.Name = "Node12";
-            treeNode30.Text = "Purple_blood_vessel";
-            treeNode31.Name = "Node9";
-            treeNode31.Text = "Bloodvessels";
-            treeNode32.Name = "Node1";
-            treeNode32.Text = "Enemies";
-            treeNode33.Name = "Node3";
-            treeNode33.Text = "Health_Powerup";
-            treeNode34.Name = "Node4";
-            treeNode34.Text = "Weapon_Powerup";
-            treeNode35.Name = "Node2";
-            treeNode35.Text = "Powerups";
-            treeNode36.Name = "Node13";
-            treeNode36.Text = "Tinted color 1";
-            treeNode37.Name = "Node14";
-            treeNode37.Text = "Tinted color 2";
-            treeNode38.Name = "Node15";
-            treeNode38.Text = "Cliff formation 1";
-            treeNode39.Name = "Node16";
-            treeNode39.Text = "Cloud formation 1";
-            treeNode40.Name = "Node17";
-            treeNode40.Text = "Cloud formation 2";
-            treeNode41.Name = "Node19";
-            treeNode41.Text = "Large leftleaning 1";
-            treeNode42.Name = "Node20";
-            treeNode42.Text = "Large leftleaning 2";
-            treeNode43.Name = "Node21";
-            treeNode43.Text = "Small rightleaning 1";
-            treeNode44.Name = "Node22";
-            treeNode44.Text = "Large rightleaning 1";
-            treeNode45.Name = "Node18";
-            treeNode45.Text = "Pillars";
-            treeNode46.Name = "Node0";
-            treeNode46.Text = "Backgrounds";
+            treeNode1.Name = "Node5";
+            treeNode1.Text = "Dark_Thought";
+            treeNode2.Name = "Node6";
+            treeNode2.Text = "Dark_Whisper";
+            treeNode3.Name = "Node7";
+            treeNode3.Text = "Inner_Demon";
+            treeNode4.Name = "Node8";
+            treeNode4.Text = "Nightmare";
+            treeNode5.Name = "Node10";
+            treeNode5.Text = "Red_blood_vessel";
+            treeNode6.Name = "Node11";
+            treeNode6.Text = "Blue_blood_vessel";
+            treeNode7.Name = "Node12";
+            treeNode7.Text = "Purple_blood_vessel";
+            treeNode8.Name = "Node9";
+            treeNode8.Text = "Bloodvessels";
+            treeNode9.Name = "Node2";
+            treeNode9.Text = "Boss";
+            treeNode10.Name = "Node1";
+            treeNode10.Text = "Enemies";
+            treeNode11.Name = "Node3";
+            treeNode11.Text = "Health_Powerup";
+            treeNode12.Name = "Node4";
+            treeNode12.Text = "Weapon_Powerup_Spread";
+            treeNode13.Name = "Node1";
+            treeNode13.Text = "Weapon_Powerup_Rapid";
+            treeNode14.Name = "Node2";
+            treeNode14.Text = "Powerups";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode32,
-            treeNode35,
-            treeNode46});
+            treeNode10,
+            treeNode14});
             this.treeView1.Size = new System.Drawing.Size(188, 108);
             this.treeView1.TabIndex = 22;
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);
@@ -369,6 +333,19 @@ namespace Soul_Editor
             this.milliseconds.TabIndex = 15;
             this.milliseconds.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.position_KeyPress);
             // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Checked = true;
+            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox4.Enabled = false;
+            this.checkBox4.Location = new System.Drawing.Point(2, 99);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(15, 14);
+            this.checkBox4.TabIndex = 27;
+            this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(114, 10);
@@ -386,19 +363,6 @@ namespace Soul_Editor
             this.posY.Size = new System.Drawing.Size(47, 20);
             this.posY.TabIndex = 12;
             this.posY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.position_KeyPress);
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Checked = true;
-            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox4.Enabled = false;
-            this.checkBox4.Location = new System.Drawing.Point(2, 99);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(15, 14);
-            this.checkBox4.TabIndex = 27;
-            this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
             // groupBox4
             // 

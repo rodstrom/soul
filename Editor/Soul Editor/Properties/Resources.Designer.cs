@@ -81,6 +81,13 @@ namespace Soul_Editor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Boss {
+            get {
+                object obj = ResourceManager.GetObject("Boss", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap DarkThought {
             get {
                 object obj = ResourceManager.GetObject("DarkThought", resourceCulture);
@@ -123,6 +130,13 @@ namespace Soul_Editor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Rapid {
+            get {
+                object obj = ResourceManager.GetObject("Rapid", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap RedBloodvessel {
             get {
                 object obj = ResourceManager.GetObject("RedBloodvessel", resourceCulture);
@@ -130,9 +144,9 @@ namespace Soul_Editor.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap Weapon {
+        internal static System.Drawing.Bitmap Spread {
             get {
-                object obj = ResourceManager.GetObject("Weapon", resourceCulture);
+                object obj = ResourceManager.GetObject("Spread", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
