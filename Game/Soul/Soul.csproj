@@ -143,8 +143,11 @@
     <Compile Include="Code\Graphics\GlowFX.cs" />
     <Compile Include="Code\Graphics\Label.cs" />
     <Compile Include="Code\Graphics\Light\Light.cs" />
+    <Compile Include="Code\Graphics\Light\LightGenerator.cs" />
     <Compile Include="Code\Graphics\Light\PointLight.cs" />
+    <Compile Include="Code\Graphics\Light\TempLight.cs" />
     <Compile Include="Code\Graphics\MenuImage.cs" />
+    <Compile Include="Code\Graphics\PlayerHealthLight.cs" />
     <Compile Include="Code\Graphics\Selection.cs" />
     <Compile Include="Code\Graphics\Tutorial\TutorialBase.cs" />
     <Compile Include="Code\Graphics\Tutorial\TutorialSprite.cs" />
@@ -182,7 +185,6 @@
     <Compile Include="Code\Entities\Player.cs" />
     <Compile Include="Code\Debug\SpawnEnemies.cs" />
     <Compile Include="Code\Entities\WeaponPowerupRapid.cs" />
-    <Compile Include="Code\Graphics\PlayerShootAnimation.cs" />
     <Compile Include="Code\Files\SaveData.cs" />
     <Compile Include="Code\Graphics\FadeInOut.cs" />
     <Compile Include="Code\Managers\BrainMapManager.cs" />

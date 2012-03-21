@@ -16,6 +16,7 @@ namespace Soul
         private TutorialBase currentTutorial = null;
         private SpriteFont spriteFont = null;
         private InputManager inputManager = null;
+        private bool alwaysShow = false;
 
         public TutorialManager(SpriteBatch spriteBatch, Soul game, SpriteFont spriteFont, InputManager inputManager)
         {

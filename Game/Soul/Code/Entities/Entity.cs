@@ -109,7 +109,12 @@ namespace Soul
                 //IniFile ini = new IniFile("Content\\Config\\constants.ini");
                 //ini.parse();
                 health = int.Parse(game.constants.getValue(type.ToString(), "HEALTH"));
-                maxHealth = int.Parse(game.constants.getValue(type.ToString(), "HEALTH"));
+
+                if (type.ToString().Equals("PLAYER"))
+                {
+                    maxHealth = int.Parse(game.constants.getValue(type.ToString(), "MAXHEALTH"));
+                }
+                
                 if (!type.ToString().Equals("BOSS"))
                 {
                     hitRadius = int.Parse(game.constants.getValue(type.ToString(), "RADIUS"));

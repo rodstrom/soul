@@ -40,6 +40,6 @@ namespace Soul
 
         public abstract Vector2 getVelocity();
         public abstract Vector2 getPosition(Vector2 position);
-        public abstract Bullet Shoot(Vector2 position);
+        public abstract Bullet Shoot(Vector2 position, int colorValue);
     }
 }

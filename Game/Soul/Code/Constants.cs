@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
+
+
 namespace Soul
 {
     static class Constants
@@ -49,7 +51,7 @@ namespace Soul
         public const float PLAYER_WIDTH = 128.0f;
         public const float PLAYER_HEIGHT = 128.0f;
         public const float PLAYER_RADIUS = 128.0f;
-        public const float PLAYER_DEACCELERATION = 0.5f;
+        public const float PLAYER_DEACCELERATION = 1.0f;
         public const int PLAYER_NUMBER_OF_DEATH_GLOWS = 10;
         public const string PLAYER_FILENAME = "SpriteSheets\\Avata animation Sprite_Idle B";
         public const string PLAYER_SHOOT_ANIM = "SpriteSheets\\avatar_shoot_anim_A-1";

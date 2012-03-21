@@ -13,7 +13,7 @@ namespace Soul
         protected Soul game = null;
         protected Sprite frame = null;
         protected Vector2 frameOffset = Vector2.Zero;
-        protected Vector2 position = Vector2.Zero;
+        public Vector2 position = Vector2.Zero;
         protected Vector2 positionOffset = Vector2.Zero;
         protected int alpha = 0;
         protected int alphaScaler = 10;
@@ -35,6 +35,14 @@ namespace Soul
         }
 
         public virtual void Update(GameTime gameTime, Vector2 playerPosition)
+        {
+            if (fadeIn == true || fadeOut == true)
+            {
+                Fading();
+            }
+        }
+
+        public virtual void Update(GameTime gameTime)
         {
             if (fadeIn == true || fadeOut == true)
             {

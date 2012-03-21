@@ -28,6 +28,11 @@ namespace Soul
             base.Update(gameTime, playerPosition);
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
         public override void Draw()
         {
 

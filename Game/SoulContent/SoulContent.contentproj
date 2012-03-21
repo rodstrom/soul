@@ -432,9 +432,33 @@
       <Name>audiolist</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Config\constants_level01.ini">
+      <Name>constants_level01</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\constants_level02.ini">
+      <Name>constants_level02</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\constants_level03.ini">
+      <Name>constants_level03</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Config\lighting.ini">
       <Name>lighting</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\lighting_level01.ini">
+      <Name>lighting_level01</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\lighting_level02.ini">
+      <Name>lighting_level02</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\lighting_level03.ini">
+      <Name>lighting_level03</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Levels\Level01.map">
       <Name>Level01</Name>
@@ -462,7 +486,7 @@
     </None>
     <None Include="Saves\savedata.dat">
       <Name>savedata</Name>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="Shaders\DeferredCombined.fx">
       <Name>DeferredCombined</Name>

@@ -326,6 +326,8 @@ namespace Soul.Manager
                 ChangeMenuState("Quit");
             }
 
+
+
             return returnValue;
 
         }
@@ -358,6 +360,11 @@ namespace Soul.Manager
                 {
                     SwitchTutorial();
                 }
+            }
+
+            if (inputManager.Pause == true)
+            {
+                ChangeMenuState("Options");
             }
         }
 
@@ -400,6 +407,11 @@ namespace Soul.Manager
                     game.config.addModify("Audio", "MusicVolume", value.ToString());
                     game.config.save();
                 }
+            }
+            
+            if (inputManager.Pause == true)
+            {
+                ChangeMenuState("Options");
             }
         }
 
@@ -459,6 +471,11 @@ namespace Soul.Manager
                     SetNewResolution();
                 }
             }
+
+            if (inputManager.Pause == true)
+            {
+                ChangeMenuState("Options");
+            }
         }
 
         private void ControlsMenu()
@@ -508,6 +525,11 @@ namespace Soul.Manager
             else if (currentMenuManager.SelectionID() == "controls_right")
             {
                 active = 4;
+            }
+
+            if (inputManager.Pause == true && changeKey == false && wait == false)
+            {
+                ChangeMenuState("Options");
             }
         }
 

@@ -18,12 +18,23 @@ namespace Soul
             this.position = position;
             velocity.X = 1.0f;
             this.hitRadius = Constants.WEAPON_POWERUP_RAPID_RADIUS;
+
+            pointLight = new PointLight()
+            {
+                Color = new Vector4(float.Parse(game.lighting.getValue("RapidPowerUp", "ColorR")), float.Parse(game.lighting.getValue("RapidPowerUp", "ColorG")), float.Parse(game.lighting.getValue("RapidPowerUp", "ColorB")), float.Parse(game.lighting.getValue("RapidPowerUp", "ColorA"))),
+                Power = float.Parse(game.lighting.getValue("RapidPowerUp", "Power")),
+                LightDecay = int.Parse(game.lighting.getValue("RapidPowerUp", "LightDecay")),
+                Position = new Vector3(0f, 0f, float.Parse(game.lighting.getValue("RapidPowerUp", "ZPosition"))),
+                IsEnabled = true,
+                renderSpecular = bool.Parse(game.lighting.getValue("RapidPowerUp", "Specular"))
+            };
         }
 
         public override void Update(GameTime gameTime)
         {
             position += velocity;
             animation.Animate(gameTime);
+            pointLight.Position = new Vector3(position.X, position.Y, pointLight.Position.Z);
         }
 
         public override void Draw()

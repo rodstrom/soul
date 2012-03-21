@@ -14,7 +14,7 @@ namespace Soul
         private EntityManager entityManager;
         private LevelManager levelManager = null;
         private Player player;
-        private bool levelComplete = true;
+        private bool levelComplete = false;
         private string returnData = "";
 
         public PlayState(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, InputManager controls, string id) : base(spriteBatch, game, audioManager, controls, id) { }
@@ -44,8 +44,9 @@ namespace Soul
             levelManager.AddLevel(level);
 
             levelManager.setLevel(data);
-
+            levelComplete = false;
             fade = new FadeInOut(spriteBatch, game);
+            fade.Reset();
             fade.FadeIn();
             audio.playMusic("main_music");
         }
@@ -84,6 +85,9 @@ namespace Soul
             {
                 returnData = levelManager.CurrentLevelID;
             }
+
+            levelComplete = levelManager.LevelComplete;
+
 
             return changeState;
         }
