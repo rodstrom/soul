@@ -115,6 +115,8 @@ namespace Soul
             stateManager.AddState(state);
             state = new PlayState(spriteBatch, this, audioManager, controls, "PlayState");
             stateManager.AddState(state);
+            state = new WarningState(spriteBatch, this, audioManager, controls, "WarningState");
+            stateManager.AddState(state);
             stateManager.SetState(config.getValue("General", "StartState"));
         }
 

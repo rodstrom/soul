@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
+
+
 namespace Soul
 {
     static class Constants
     {
         public const int RESOLUTION_VIRTUAL_WIDTH = 1280;
         public const int RESOLUTION_VIRTUAL_HEIGHT = 720;
+
+        public const string WARNING_IMAGE_FILENAME = "Backgrounds\\warning_screen";
 
         public const int BOSS_WIDTH = 150;
         public const int BOSS_HEIGHT = 600;
@@ -50,11 +54,9 @@ namespace Soul
         public const float PLAYER_WIDTH = 128.0f;
         public const float PLAYER_HEIGHT = 128.0f;
         public const float PLAYER_RADIUS = 128.0f;
-        public const float PLAYER_DEACCELERATION = 0.5f;
+        public const float PLAYER_DEACCELERATION = 1.0f;
         public const int PLAYER_NUMBER_OF_DEATH_GLOWS = 10;
         public const string PLAYER_FILENAME = "SpriteSheets\\Avata animation Sprite_Idle B";
-        public const string PLAYER_SHOOT_ANIM = "SpriteSheets\\avatar_shoot_anim_A-1";
-        public const string PLAYER_GLOW_FILENAME = "Particles\\Heroine Glow Final_2";
         public const string PLAYER_BULLET_FILENAME = "Particles\\bullet_glow";
         public const long PLAYER_FIRE_RATE = 1200000;
         public const float PLAYER_SHOOT_DIMENSION = 128.0f;
@@ -110,7 +112,7 @@ namespace Soul
         public const float DARK_THOUGHT_HEIGHT = 128.0f;
         public const string DARK_THOUGHT_FILENAME = "SpriteSheets\\Dark-Thought-Animation";
         public const float DARK_THOUGHT_RADIUS = 128.0f;
-        public const string DARK_THOUGHT_BULLET_FILENAME = "SpriteSheets\\DarkWhisper_Spikes";
+        public const string DARK_THOUGHT_BULLET_FILENAME = "Particles\\bullet_glow_dark";
 
         public const int DARK_WHISPER_DAMAGE = 10;
         public const int DARK_WHISPER_SPIKE_DAMAGE = 5;
@@ -121,7 +123,10 @@ namespace Soul
         public const float DARK_WHISPER_HEIGHT = 128.0f;
         public const float DARK_WHISPER_SPIKE_VELOCITY = 5.0f;
         public const float DARK_WHISPER_RADIUS = 128.0f;
+        public const float DARK_WHISPER_SPIKE_WIDTH = 32f;
+        public const float DARK_WHISPER_SPIKE_HEIGHT = 64f;
         public const string DARK_WHISPER_FILENAME = "SpriteSheets\\Dark-Whisper-Death-animation";
+        public const string DARK_WHISPER_SPIKE_FILENAME = "SpriteSheets\\DarkWhisper_Spikes";
 
         public const float LESSER_DEMON_MAX_SPEED = 15.0f;
         public const float LESSER_DEMON_ACCELERATION = 0.5f;
@@ -129,7 +134,6 @@ namespace Soul
         public const float LESSER_DEMON_WIDTH = 32.0f;
         public const float LESSER_DEMON_HEIGHT = 32.0f;
         public const string LESSER_DEMON_FILENAME = "SpriteSheets\\LesserDemon1";
-        public const string LESSER_DEMON_FILENAME2 = "SpriteSheets\\LesserDemon2";
         public const float LESSER_DEMON_RADIUS = 32.0f;
         public const int INNER_DEMON_LOWEST_SPAWN_RATE = 1000;
         public const int INNER_DEMON_HIGHEST_SPAWN_RATE = 2000;
@@ -185,9 +189,9 @@ namespace Soul
         public const string LEVEL01 = "Content\\Levels\\level01.map";
         public const string LEVEL02 = "Content\\Levels\\level02.map";
         public const string LEVEL03 = "Content\\Levels\\level03.map";
-        public const string LEVEL04 = "Content\\Levels\\level04.map";
-        public const string LEVEL05 = "Content\\Levels\\level05.map";
-        public const string LEVEL06 = "Content\\Levels\\level06.map";
+        //public const string LEVEL04 = "Content\\Levels\\level04.map";
+        //public const string LEVEL05 = "Content\\Levels\\level05.map";
+        //public const string LEVEL06 = "Content\\Levels\\level06.map";
 
         public const string GUI_SLIDER = "GUI\\options_Slider";
         public const string GUI_SLIDER_MARKER = "GUI\\options_SliderMarker";
@@ -226,6 +230,9 @@ namespace Soul
         public const string GUI_NO = "GUI\\gui_no";
         public const string GUI_CLEANSE = "GUI\\gui_cleanse";
         public const string GUI_CONTINUE = "GUI\\Continue";
+        public const string GUI_GAME_PLAY = "GUI\\Game_play";
+        public const string GUI_TUTORIAL = "GUI\\Tutorial";
+        public const string GUI_LEVEL_CLEANSED = "GUI\\Level Cleard";
 
         public const string GUI_FONT = "GUI\\Extrafine";
 

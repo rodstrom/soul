@@ -34,6 +34,7 @@ namespace Soul.Manager
         private bool changeKey = false;
         private Vector2 keyChangeWarning = Vector2.Zero;
         private SpriteFont spriteFont = null;
+        public bool stopControls = false;
 
         public MenuStateManager(SpriteBatch spriteBatch, Soul game, GraphicsDeviceManager graphics, LinkedList<DisplayMode> displayModes, InputManager inputManager, AudioManager audioManager)
         {
@@ -67,6 +68,9 @@ namespace Soul.Manager
 
             // Creating options menu
             menuManager = new MenuManager(inputManager, "Options");
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 50.0f), Constants.GUI_GAME_PLAY, "gameplay");
+            button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
+            menuManager.AddButton(button);
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 100.0f), Constants.GUI_GRAPHICS, "graphics");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
@@ -96,19 +100,42 @@ namespace Soul.Manager
             menuManager.initialize();
             menu["Sound"] = menuManager;
 
+            // Creating Game Play Options Menu
+            menuManager = new MenuManager(inputManager, "GamePlay");
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_TUTORIAL, "tutorial");
+            Selection selection = new Selection(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), "tutorial_selection");
+            selection.AddSelection("On", Constants.GUI_ON);
+            selection.AddSelection("Off", Constants.GUI_OFF);
+            menuManager.AddButton(button, selection);
+            bool tut = bool.Parse(game.config.getValue("General", "Tutorial"));
+            if (tut == true)
+            {
+                selection.Selection = "On";
+            }
+            else
+            {
+                selection.Selection = "Off";
+            }
+
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), Constants.GUI_BACK, "game_play_options_back");
+            button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
+            menuManager.AddButton(button);
+            menuManager.initialize();
+            menu["GamePlay"] = menuManager;
+
             // Creating Graphics Options Menu
             menuManager = new MenuManager(inputManager, "Graphics");
             button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 100.0f), Constants.GUI_SPECULAR, "specular");
-            Selection selection = new Selection(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 100.0f), "specular_selection");
+            selection = new Selection(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 100.0f), "specular_selection");
             selection.AddSelection("High", Constants.GUI_HIGH);
             selection.AddSelection("Medium", Constants.GUI_MEDIUM);
             selection.AddSelection("Low", Constants.GUI_LOW);
             selection.AddSelection("Off", Constants.GUI_OFF);
             float specular = float.Parse(game.config.getValue("Video", "Specular"));
             selection.Selection = ParseSpecularConfig(specular);
-
             menuManager.AddButton(button, selection);
-            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_DYNAMIC_LIGHTING, "dynamic_lighting");
+
+            /*button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_DYNAMIC_LIGHTING, "dynamic_lighting");
             selection = new Selection(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), "dynamic_lighting_selection");
             selection.AddSelection("On", Constants.GUI_ON);
             selection.AddSelection("Off", Constants.GUI_OFF);
@@ -122,10 +149,10 @@ namespace Soul.Manager
                 selection.Selection = "Off";
             }
              
-            menuManager.AddButton(button, selection);
+            menuManager.AddButton(button, selection);*/
 
-            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), Constants.GUI_SCREEN_MODE, "screen_mode");
-            selection = new Selection(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), "screen_mode_selection");
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_SCREEN_MODE, "screen_mode");
+            selection = new Selection(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), "screen_mode_selection");
             selection.AddSelection("Fullscreen", Constants.GUI_FULLSCREEN);
             selection.AddSelection("Windowed", Constants.GUI_WINDOWED);
 
@@ -139,11 +166,11 @@ namespace Soul.Manager
             }
 
             menuManager.AddButton(button, selection);
-            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), Constants.GUI_RESOLUTION, "resolution");
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), Constants.GUI_RESOLUTION, "resolution");
             string output = game.Window.ClientBounds.Width + "x" + game.Window.ClientBounds.Height.ToString();
-            Label label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), "resolution_label", output);
+            Label label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), "resolution_label", output);
             menuManager.AddButton(button, label);
-            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 300.0f), Constants.GUI_BACK, "graphics_options_back");
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), Constants.GUI_BACK, "graphics_options_back");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
             menuManager.initialize();
@@ -219,9 +246,16 @@ namespace Soul.Manager
                 }
             }
 
+            if (inputManager.ShootingOnce == true && currentMenuManager.IsFadingOut() == false && stopControls == false)
+            {
+                audioManager.playSound("menu_select");
+            }
+
             currentMenuManager.Update(gameTime);
 
-            if (wait == false && changeKey == false && currentMenuManager.ID != "Quit")
+
+
+            if (wait == false && changeKey == false && currentMenuManager.ID != "Quit" && currentMenuManager.IsFadingOut() == false && stopControls == false)
             {
                 if (inputManager.MoveUpOnce == true)
                 {
@@ -255,11 +289,6 @@ namespace Soul.Manager
                     audioManager.playSound("menu_move");
                     currentMenuManager.decrement();
                 }
-
-                if (inputManager.ShootingOnce == true)
-                {
-                    audioManager.playSound("menu_select");
-                }
             }
 
             if (changeKey == true)
@@ -283,6 +312,10 @@ namespace Soul.Manager
             {
                 SoundMenu();
             }
+            else if (currentMenuManager.ID == "GamePlay")
+            {
+                GamePlayMenu();
+            }
             else if (currentMenuManager.ID == "Graphics")
             {
                 GraphicsMenu();
@@ -295,6 +328,14 @@ namespace Soul.Manager
             {
                 ChangeMenuState("Quit");
             }
+            else if (currentMenuManager.ID == "Credits" && inputManager.Pause == true)
+            {
+                ChangeMenuState("MainMenu");
+            }
+            else if (currentMenuManager.ID == "Options" && inputManager.Pause == true)
+            {
+                ChangeMenuState("MainMenu");
+            }
 
             return returnValue;
 
@@ -305,7 +346,8 @@ namespace Soul.Manager
             currentMenuManager.Draw();
             if (changeKey == true)
             {
-                spriteBatch.DrawString(spriteFont, alert, keyChangeWarning, Color.Red);
+                Vector2 keyOffset = spriteFont.MeasureString(alert) / 2;
+                spriteBatch.DrawString(spriteFont, alert, keyChangeWarning, Color.Red, 0f, keyOffset, 1f, SpriteEffects.None, 0f);
             }
         }
 
@@ -314,6 +356,26 @@ namespace Soul.Manager
             currentMenuManager.FadeOut();
             nextMenu = text;
             transition = true;
+        }
+
+        private void GamePlayMenu()
+        {
+            if (currentMenuManager.SelectionID() == "tutorial")
+            {
+                if (inputManager.MoveRightOnce == true)
+                {
+                    SwitchTutorial();
+                }
+                else if (inputManager.MoveLeftOnce == true)
+                {
+                    SwitchTutorial();
+                }
+            }
+
+            if (inputManager.Pause == true)
+            {
+                ChangeMenuState("Options");
+            }
         }
 
         private void SoundMenu()
@@ -356,6 +418,11 @@ namespace Soul.Manager
                     game.config.save();
                 }
             }
+            
+            if (inputManager.Pause == true)
+            {
+                ChangeMenuState("Options");
+            }
         }
 
         private void GraphicsMenu()
@@ -382,7 +449,7 @@ namespace Soul.Manager
                     SwitchFullscreen();
                 }
             }
-            else if (currentMenuManager.SelectionID() == "dynamic_lighting")
+            /*else if (currentMenuManager.SelectionID() == "dynamic_lighting")
             {
                 if (inputManager.MoveLeftOnce == true)
                 {
@@ -392,7 +459,7 @@ namespace Soul.Manager
                 {
                     SwitchDynamicLighting();
                 }
-            }
+            }*/
             else if (currentMenuManager.SelectionID() == "resolution")
             {
                 if (inputManager.MoveLeftOnce == true)
@@ -413,6 +480,11 @@ namespace Soul.Manager
                     }
                     SetNewResolution();
                 }
+            }
+
+            if (inputManager.Pause == true)
+            {
+                ChangeMenuState("Options");
             }
         }
 
@@ -464,6 +536,11 @@ namespace Soul.Manager
             {
                 active = 4;
             }
+
+            if (inputManager.Pause == true && changeKey == false && wait == false)
+            {
+                ChangeMenuState("Options");
+            }
         }
 
         private void OnButtonPress(ImageButton button)
@@ -475,6 +552,10 @@ namespace Soul.Manager
             else if (currentMenuManager.ID == "Options")
             {
                 OptionsControl(button);
+            }
+            else if (currentMenuManager.ID == "GamePlay")
+            {
+                GamePlayControl(button);
             }
             else if (currentMenuManager.ID == "Sound")
             {
@@ -524,6 +605,10 @@ namespace Soul.Manager
             {
                 ChangeMenuState("MainMenu");
             }
+            else if (button.ID == "gameplay")
+            {
+                ChangeMenuState("GamePlay");
+            }
             else if (button.ID == "sound")
             {
                 ChangeMenuState("Sound");
@@ -535,6 +620,14 @@ namespace Soul.Manager
             else if (button.ID == "controls")
             {
                 ChangeMenuState("Controls");
+            }
+        }
+
+        public void GamePlayControl(ImageButton button)
+        {
+            if (button.ID == "game_play_options_back")
+            {
+                ChangeMenuState("Options");
             }
         }
 
@@ -713,6 +806,22 @@ namespace Soul.Manager
             game.config.save();
             currentMenuManager.SetSelection(game.config.getValue("Video", "Width") + "x" + game.config.getValue("Video", "Height"));
             returnValue = -2;
+        }
+
+        private void SwitchTutorial()
+        {
+            bool value = bool.Parse(game.config.getValue("General", "Tutorial"));
+            value = !value;
+            if (value == true)
+            {
+                currentMenuManager.SetSelection("On");
+            }
+            else
+            {
+                currentMenuManager.SetSelection("Off");
+            }
+            game.config.addModify("General", "Tutorial", value.ToString());
+            game.config.save();
         }
 
         public void FadeInMenu()

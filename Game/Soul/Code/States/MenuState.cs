@@ -20,6 +20,7 @@ namespace Soul
         private RenderTarget2D shadowMap = null;
 
         private float ambientStrength = 1f;
+        private bool pressStartOnce = false;
         //private float ambientStrenghtScalar = 0.025f;
 
         //private float specularStrenght = 1.0f;
@@ -81,6 +82,7 @@ namespace Soul
 
         public override void initialize(string data)
         {
+            this.pressStartOnce = false;
             glowList = new List<GlowParticle>();
             nextState = "";
             bg = new Sprite(spriteBatch, game, Constants.MENU_COMBINED_BG_COLORMAP);
@@ -230,13 +232,15 @@ namespace Soul
                 fade.FadeOut();
                 quit = true;
             }
-            else if (value == 1)
+            else if (value == 1 && pressStartOnce == false)
             {
                 nextState = "WorldMapState";
                 glowFX.glowMax = .9f;
                 glowFX.glowFx = .9f;
                 glowFX.glowScalar = 0.005f;
                 fade.FadeOut();
+                menuStateManager.stopControls = true;
+                pressStartOnce = true;
             }
             else if (value == -2)
             {
@@ -458,6 +462,8 @@ namespace Soul
             colorMap = new RenderTarget2D(game.GraphicsDevice, width, height);
             normalMap = new RenderTarget2D(game.GraphicsDevice, width, height);
             shadowMap = new RenderTarget2D(game.GraphicsDevice, width, height, false, format, pp.DepthStencilFormat, pp.MultiSampleCount, RenderTargetUsage.DiscardContents);
+
+            graphics.IsFullScreen = false;
 
             graphics.ApplyChanges();
         }

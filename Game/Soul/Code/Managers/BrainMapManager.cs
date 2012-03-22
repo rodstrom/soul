@@ -13,9 +13,8 @@ namespace Soul.Manager
         private Sprite bg = null;
         private Vector2 offset = Vector2.Zero;
         private Vector2 position = Vector2.Zero;
-        private List<List<BrainMapMarker>> mapList;
-        private int _x = 0;
-        private int _y = 0;
+        private List<BrainMapMarker> mapList;
+        private int currentPosition = 0;
         private string currentLevel = "";
         private bool showMenu = false;
         private MenuManager menuManager = null;
@@ -24,19 +23,20 @@ namespace Soul.Manager
         private AudioManager audioManager = null;
         private bool changeState = false;
         private int returnValue = 0;
+        //private BrainMapMarker currentMapMarker = null;
 
         public BrainMapManager(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, InputManager controls, Vector2 position)
         {
             this.audioManager = audioManager;
             bg = new Sprite(spriteBatch, game, Constants.BRAIN_MAP_BG);
-            mapList = new List<List<BrainMapMarker>>();
+            mapList = new List<BrainMapMarker>();
 
             List<BrainMapMarker> tmpList = new List<BrainMapMarker>();
-            mapList.Add(tmpList);
+            /*mapList.Add(tmpList);
             tmpList = new List<BrainMapMarker>();
             mapList.Add(tmpList);
             tmpList = new List<BrainMapMarker>();
-            mapList.Add(tmpList);
+            mapList.Add(tmpList);*/
 
             menuManager = new MenuManager(controls);
             ImageButton button = new ImageButton(spriteBatch, game, controls, new Vector2((float)Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f - 150, (float)Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200), Constants.GUI_CLEANSE, "cleanse");
@@ -54,8 +54,8 @@ namespace Soul.Manager
 
         public void initialize()
         {
-            mapList[0][0].Focus = true;
-            mapList[0][0].alpha = 255;
+            mapList[0].Focus = true;
+            mapList[0].alpha = 255;
             changeState = false;
         }
 
@@ -66,7 +66,7 @@ namespace Soul.Manager
             {
                 showMenu = false;
                 fadeinOut.FadeIn();
-                mapList[_x][_y].Deselect();
+                mapList[currentPosition].Deselect();
                 menuManager.FadeOut();
                 menuManager.Reset();
                 audioManager.playSound("map_back");
@@ -78,23 +78,20 @@ namespace Soul.Manager
 
             fadeinOut.Update(gameTime);
 
-            if (mapList[_x][_y].Selected == false)
+            if (mapList[currentPosition].Selected == false)
             {
                 Input();
                 for (int i = 0; i < mapList.Count; i++)
                 {
-                    for (int j = 0; j < mapList[i].Count; j++)
-                    {
-                        mapList[i][j].Update(gameTime);
-                    }
+                    mapList[i].Update(gameTime);
                 }
             }
             else
             {
-                mapList[_x][_y].Update(gameTime);
+                mapList[currentPosition].Update(gameTime);
             }
 
-            if (showMenu == true && mapList[_x][_y].Scaling == false && changeState == false)
+            if (showMenu == true && mapList[currentPosition].Scaling == false && changeState == false)
             {
                 MenuInput();
                 menuManager.Update(gameTime);
@@ -108,26 +105,19 @@ namespace Soul.Manager
             fadeinOut.Draw();
             for (int i = 0; i < mapList.Count; i++)
             {
-                for (int j = 0; j < mapList[i].Count; j++)
-                {
-                    mapList[i][j].Draw();
-                }
+                mapList[i].Draw();
             }
 
-            if (showMenu == true && mapList[_x][_y].Scaling == false)
+            if (showMenu == true && mapList[currentPosition].Scaling == false)
             {
                 menuManager.Draw();
             }
         }
 
-        public void addBrainMap(BrainMapMarker brainMapMarker, int value)
+        public void addBrainMap(BrainMapMarker brainMapMarker)
         {
-            if (value >= 3)
-            {
-                return;
-            }
             brainMapMarker.onClick += new BrainMapMarker.ButtonEventHandler(OnBrainMarkerPress);
-            mapList[value].Add(brainMapMarker);
+            mapList.Add(brainMapMarker);
         }
 
         private void OnBrainMarkerPress(BrainMapMarker brainMapMarker)
@@ -152,7 +142,7 @@ namespace Soul.Manager
             {
                 showMenu = false;
                 fadeinOut.FadeIn();
-                mapList[_x][_y].Deselect();
+                mapList[currentPosition].Deselect();
                 menuManager.FadeOut();
                 menuManager.Reset();
                 audioManager.playSound("map_back");
@@ -160,74 +150,90 @@ namespace Soul.Manager
         }
 
 #region MenuMovement
-        public void increment()
+        /*public void increment()
         {
-            if (_y + 1 >= 2)
+            mapList[currentPosition].Focus = false;
+            mapList[currentPosition].Disappear();
+            if (currentPosition + 1 > mapList.Count)
             {
-                return;
+                currentPosition = 0;
             }
-            mapList[_x][_y].Focus = false;
-            mapList[_x][_y].Disappear();
-            _y++;
-            mapList[_x][_y].Focus = true;
-            mapList[_x][_y].Appear();
+            else
+            {
+                currentPosition++;
+            }
+
+            mapList[currentPosition].Focus = true;
+            mapList[currentPosition].Appear();
             audioManager.playSound("map_move");
 
         }
 
         public void decrement()
         {
-            if (_y - 1 < 0)
+            mapList[currentPosition].Focus = false;
+            mapList[currentPosition].Disappear();
+            if (currentPosition - 1 > 0)
             {
-                return;
+                currentPosition = mapList.Count;
             }
-            mapList[_x][_y].Focus = false;
-            mapList[_x][_y].Disappear();
-            _y--;
-            mapList[_x][_y].Focus = true;
-            mapList[_x][_y].Appear();
+            else
+            {
+                currentPosition--;
+            }
+
+            mapList[currentPosition].Focus = true;
+            mapList[currentPosition].Appear();
             audioManager.playSound("map_move");
-        }
+        }*/
 
         public void moveLeft()
         {
-            if (_x + 1 >= 3)
+            mapList[currentPosition].Focus = false;
+            mapList[currentPosition].Disappear();
+            if (currentPosition + 1 >= mapList.Count)
             {
-                return;
+                currentPosition = 0;
             }
-            mapList[_x][_y].Focus = false;
-            mapList[_x][_y].Disappear();
-            _x++;
-            mapList[_x][_y].Focus = true;
-            mapList[_x][_y].Appear();
+            else
+            {
+                currentPosition++;
+            }
+
+            mapList[currentPosition].Focus = true;
+            mapList[currentPosition].Appear();
             audioManager.playSound("map_move");
         }
 
         public void moveRight()
         {
-            if (_x - 1 < 0)
+            mapList[currentPosition].Focus = false;
+            mapList[currentPosition].Disappear();
+            if (currentPosition - 1 < 0)
             {
-                return;
+                currentPosition = mapList.Count - 1;
             }
-            mapList[_x][_y].Focus = false;
-            mapList[_x][_y].Disappear();
-            _x--;
-            mapList[_x][_y].Focus = true;
-            mapList[_x][_y].Appear();
+            else
+            {
+                currentPosition--;
+            }
+
+            mapList[currentPosition].Focus = true;
+            mapList[currentPosition].Appear();
             audioManager.playSound("map_move");
         }
 #endregion MenuMovement
 
         private void Input()
         {
-            if (controls.MoveDownOnce == true)
+            /*if (controls.MoveDownOnce == true)
             {
                 decrement();
             }
             else if (controls.MoveUpOnce == true)
             {
                 increment();
-            }
+            }*/
 
             if (controls.MoveLeftOnce)
             {

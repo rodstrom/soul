@@ -99,5 +99,18 @@ namespace Soul.Manager
         {
             currentLevel.brightenScreen = true;
         }
+
+        public bool LevelComplete
+        {
+            get
+            {
+                if (currentLevel != null)
+                {
+                    return currentLevel.bossDead;
+                }
+                return false;
+            }
+            
+        }
     }
 }

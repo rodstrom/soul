@@ -205,5 +205,17 @@ namespace Soul
             }
             return null;
         }
+
+        public bool AllTutorialsDone()
+        {
+            foreach (TutorialBase i in tutorialList)
+            {
+                if (i.Done() != true)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

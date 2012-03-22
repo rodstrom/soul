@@ -11,6 +11,7 @@ namespace Soul
     {
         private List<TutorialWidget> widgetList = null;
         private string id = "";
+        public bool done = false;
 
         public TutorialBase(string id)
         {
@@ -75,7 +76,7 @@ namespace Soul
         {
             foreach (TutorialWidget i in widgetList)
             {
-                if (i.IsAlphaZero != true)
+                if (i.done == false)
                 {
                     return false;
                 }

@@ -35,7 +35,7 @@ namespace Soul
 
         public override string getNextState()
         {
-            return "MenuState";
+            return "WarningState";
         }
 
         public override bool Update(GameTime gameTime)
@@ -57,7 +57,7 @@ namespace Soul
                     fade.Update(gameTime);
                 }
 
-                if (timer >= 3000 && !fade.IsFading)
+                if (timer >= 6000 && !fade.IsFading)
                 {
                     fade.FadeOut();
                 }

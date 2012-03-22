@@ -198,11 +198,11 @@ namespace Soul
                     }
                     else if (animationState == 4)
                     {
-                        animationState = 0;           //loop for debug
-                        animation.CurrentFrame = 0;
-                        animation.MaxFrames = 6;
-                        //entityManager.killAllEntities();
-                        //entityManager.cleansedLevel();
+                        //animationState = 0;           //loop for debug
+                        //animation.CurrentFrame = 0;
+                        //animation.MaxFrames = 6;
+                        entityManager.killAllEntities();
+                        entityManager.cleansedLevel();
                     }
                 } 
             }
@@ -372,7 +372,7 @@ namespace Soul
 
             for (int i = 0; i < 5; i++)
             {
-                bullet = weapon.Shoot(bulletOrigin, i);
+                bullet = weapon.ShootSpread(bulletOrigin, i);
                 if (bullet != null)
                 {
                     entityManager.addBullet(bullet);

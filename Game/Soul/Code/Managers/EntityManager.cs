@@ -29,6 +29,7 @@ namespace Soul.Manager
         private int powerupCount = 0;
         private uint timer = 0;
         private uint enemySpawnCounter = 0;
+        public bool tutorial = false;
 
         private bool powerupsDisabled = true;
 
@@ -42,6 +43,7 @@ namespace Soul.Manager
             this.levelManager = levelManager;
             this.game = game;
             this.audioManager = audioManager;
+            this.tutorial = bool.Parse(game.config.getValue("General", "Tutorial"));
         }
 
         public void AddEntityDataList(List<EntityData> queueList)
@@ -81,6 +83,12 @@ namespace Soul.Manager
             {
                 return false;
             }
+
+            if (entity.PointLight != null && entity.Type != EntityType.PLAYER)
+            {
+                lights.Add(entity.PointLight);
+            }
+
             entityList.Add(entity);
             return true;
         }
@@ -113,11 +121,11 @@ namespace Soul.Manager
 
         public void Update(GameTime gameTime)
         {
-            if (!spawningPaused)
+            if (!spawningPaused && !tutorial)
             {
                 timer += (uint)gameTime.ElapsedGameTime.Milliseconds;
             }
-            else
+            else if (!tutorial)
             {
                 spawningPaused = !allEnemiesDead();
             }
@@ -182,7 +190,7 @@ namespace Soul.Manager
                 {
                     int count = EntityCount(EntityType.BLUE_BLOOD_VESSEL);
                     BlueBloodvessel bloodvessel = new BlueBloodvessel(spriteBatch, game, audioManager, this, "bloodvessel_spawned" + count.ToString());
-                    bloodvessel.onDie += new BlueBloodvessel.PowerupReleaseHandle(ReleasePowerup);
+                    //bloodvessel.onDie += new BlueBloodvessel.PowerupReleaseHandle(ReleasePowerup);
                     bloodvessel.position.X = 0.0f;
                     float newY = random.Next(50, game.Window.ClientBounds.Bottom - 50);
                     bloodvessel.position.X = 0.0f;
@@ -299,7 +307,7 @@ namespace Soul.Manager
         public void addBullet(Bullet bullet)
         {
             bulletList.Add(bullet);
-            if (bullet.Type == EntityType.PLAYER_BULLET || bullet.Type == EntityType.DARK_THOUGHT_BULLET)
+            if (bullet.Type == EntityType.PLAYER_BULLET || bullet.Type == EntityType.DARK_THOUGHT_BULLET || bullet.Type == EntityType.BOSS_BULLET)
             {
                 lights.Add(bullet.PointLight);
             }
@@ -448,20 +456,20 @@ namespace Soul.Manager
             {
                 BlueBloodvessel bloodvessel = new BlueBloodvessel(spriteBatch, game, audioManager, this, "blue_bloodvessel" + enemySpawnCounter.ToString());
                 bloodvessel.onDie += new BlueBloodvessel.PowerupReleaseHandle(ReleasePowerup);
-                bloodvessel.position = entityData.Position;
+                //bloodvessel.position = entityData.Position;
                 addEntity(bloodvessel);
             }
             else if (entityData.Type == EntityType.RED_BLOOD_VESSEL)
             {
                 RedBloodvessel bloodvessel = new RedBloodvessel(spriteBatch, game, audioManager, this, "red_bloodvessel" + enemySpawnCounter.ToString());
-                bloodvessel.onDie += new RedBloodvessel.PowerupReleaseHandle(ReleasePowerup);
+                //bloodvessel.onDie += new RedBloodvessel.PowerupReleaseHandle(ReleasePowerup);
                 bloodvessel.position = entityData.Position;
                 addEntity(bloodvessel);
             }
             else if (entityData.Type == EntityType.PURPLE_BLOOD_VESSEL)
             {
                 PurpleBloodvessel bloodvessel = new PurpleBloodvessel(spriteBatch, game, audioManager, this, "purple_bloodvessel" + enemySpawnCounter.ToString());
-                bloodvessel.onDie += new PurpleBloodvessel.PowerupReleaseHandle(ReleasePowerup);
+                //bloodvessel.onDie += new PurpleBloodvessel.PowerupReleaseHandle(ReleasePowerup);
                 bloodvessel.position = entityData.Position;
                 addEntity(bloodvessel);
             }

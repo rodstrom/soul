@@ -112,5 +112,7 @@ namespace Soul
                 return false;
             }
         }
+
+        public bool IsFadingOut { get { return fadeOut; } }
     }
 }

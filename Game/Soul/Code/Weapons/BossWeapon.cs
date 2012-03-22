@@ -22,7 +22,7 @@ namespace Soul
             //base.Update(gameTime);
         }
 
-        public override Bullet Shoot(Vector2 position)
+        public override Bullet Shoot(Vector2 position, int colorValue = 0)
         {
             throw new NotImplementedException();
         }
@@ -63,7 +63,7 @@ namespace Soul
             return bullet;
         }
 
-        public Bullet Shoot(Vector2 position, int i)
+        public Bullet ShootSpread(Vector2 position, int i)
         {
             int spread = int.Parse(game.constants.getValue("BOSS", "SHOTGUNSPREAD"));
             velocity = getVelocity(i, spread);

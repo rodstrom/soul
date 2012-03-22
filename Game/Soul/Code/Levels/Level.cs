@@ -10,6 +10,7 @@ namespace Soul
 {
     class Level
     {
+        private bool stopRandomLights = false;
         private string id;
         private bool pause = false;
         private bool quit = false;
@@ -18,11 +19,13 @@ namespace Soul
         private bool useDynamicLights = true;
         private bool playerNightmareHit = false;
         private bool playerHit = false;
+        public bool bossDead = false; 
 
         private double wait = -1;
         private bool doWait = false;
         private bool doneOnce = false;
 
+        private LightGenerator lightGenerator = null;
 
         BackgroundManager backgroundManager_back;
         BackgroundManager backgroundManager_front;
@@ -46,7 +49,6 @@ namespace Soul
         private Sprite bg1_normal = null;
         private Sprite fog = null;
         private Sprite fog_normal = null;
-
 
         private RenderTarget2D colorMap_back;
         private RenderTarget2D normalMap_back;
@@ -103,12 +105,35 @@ namespace Soul
             this.player = player;
             font = game.Content.Load<SpriteFont>("GUI\\Extrafine");
             this.audioManager = audioManager;
-            levelAmbient = new Color(byte.Parse(game.lighting.getValue("AmbientLight", "ColorR")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorG")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorB")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorA")));
-            ambientLight = new Color(byte.Parse(game.lighting.getValue("AmbientLight", "ColorR")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorG")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorB")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorA")));
+            this.lightGenerator = new LightGenerator(game, lights);
         }
 
         public void initialize()
         {
+            if (id == "level01")
+            {
+                game.constants = new IniFile("Content\\Config\\constants_level01.ini");
+                game.constants.parse();
+                game.lighting = new IniFile("Content\\Config\\lighting_level01.ini");
+                game.lighting.parse();
+            }
+            else if (id == "level02")
+            {
+                game.constants = new IniFile("Content\\Config\\constants_level02.ini");
+                game.constants.parse();
+                game.lighting = new IniFile("Content\\Config\\lighting_level02.ini");
+                game.lighting.parse();
+            }
+            else if (id == "level03")
+            {
+                game.constants = new IniFile("Content\\Config\\constants_level03.ini");
+                game.constants.parse();
+                game.lighting = new IniFile("Content\\Config\\lighting_level03.ini");
+                game.lighting.parse();
+            }
+            this.stopRandomLights = false;
+            levelAmbient = new Color(byte.Parse(game.lighting.getValue("AmbientLight", "ColorR")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorG")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorB")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorA")));
+            ambientLight = new Color(byte.Parse(game.lighting.getValue("AmbientLight", "ColorR")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorG")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorB")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorA")));
             levelReader.Parse();
             entityManager.AddEntityDataList(levelReader.EntityDataList);
             entityManager.AddLightList(lights);
@@ -124,8 +149,6 @@ namespace Soul
             menuManager.initialize();
 
             PresentationParameters pp = game.GraphicsDevice.PresentationParameters;
-            //int width = Constants.RESOLUTION_VIRTUAL_WIDTH;
-            //int height = Constants.RESOLUTION_VIRTUAL_HEIGHT;
             int width = pp.BackBufferWidth;
             int height = pp.BackBufferHeight;
             SurfaceFormat format = pp.BackBufferFormat;
@@ -171,8 +194,6 @@ namespace Soul
             fog = new Sprite(spriteBatch, game, Constants.BACKGROUND_FOG);
             fog_normal = new Sprite(spriteBatch, game, Constants.BACKGROUND_FOG_NORMAL);
             
-
-
             player.nightmareHit += new Player.NightmareHit(DarkenScreen);
             player.hitFlash += new Player.HitFlash(PlayerHitFlash);
 
@@ -182,9 +203,9 @@ namespace Soul
             specularStrenght = float.Parse(game.config.getValue("Video", "Specular"));
             useDynamicLights = bool.Parse(game.config.getValue("Video", "DynamicLights"));
 
-            NightmareAmbientFade = new AmbientFade("NightmareAmbientFade", new Color(0, 0, 0, 255), 10, 2, 5000.0);
+            NightmareAmbientFade = new AmbientFade("NightmareAmbientFade", new Color(0, 0, 0, 255), 10, 2, float.Parse(game.constants.getValue("NIGHTMARE", "DARKNESS")));
             NightmareAmbientFade.SetCurrentColor(ambientLight);
-            PlayerHitAmbientFade = new AmbientFade("PlayerAmbientHit", new Color(255, 150, 150, 255), 15, 15);
+            PlayerHitAmbientFade = new AmbientFade("PlayerAmbientHit", new Color(byte.Parse(game.lighting.getValue("PlayerHitLight", "ColorR")), byte.Parse(game.lighting.getValue("PlayerHitLight", "ColorG")), byte.Parse(game.lighting.getValue("PlayerHitLight", "ColorB")), byte.Parse(game.lighting.getValue("PlayerHitLight", "ColorA"))), 15, 15);
             this.tutorial = bool.Parse(game.config.getValue("General", "Tutorial"));
 
             if (tutorial == true)
@@ -192,6 +213,10 @@ namespace Soul
                 tutorialManager = new TutorialManager(spriteBatch, game, font, controls);
                 tutorialManager.Initialize("movement");
             }
+            game.Content.Load<Texture2D>(Constants.BOSS_IDLE_FILENAME);
+            game.Content.Load<Texture2D>(Constants.BOSS_SHOOT_FILENAME);
+            game.Content.Load<Texture2D>(Constants.BOSS_SPAWN_FILENAME);
+            game.Content.Load<Texture2D>(Constants.BOSS_DEATH_FILENAME);
         }
 
         public void shutdown()
@@ -201,7 +226,18 @@ namespace Soul
 
         public int Update(GameTime gameTime)
         {
+            
+
             if (tutorial == true)
+            {
+                tutorialManager.Update(gameTime, player.position);
+                if (tutorialManager.AllTutorialsDone() == true)
+                {
+                    entityManager.tutorial = false;
+                    tutorial = false;
+                }
+            }
+            else if (tutorial == false && player.DisplayLesserDemonTutorial() == true)
             {
                 tutorialManager.Update(gameTime, player.position);
             }
@@ -241,6 +277,7 @@ namespace Soul
 
             if (pause == false)
             {
+                lightGenerator.Update(gameTime);
                 backgroundManager_back.Update(gameTime);
                 entityManager.Update(gameTime);
                 backgroundManager_front.Update(gameTime);
@@ -306,7 +343,7 @@ namespace Soul
             spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, Resolution.getTransformationMatrix());
             bg1_normal.Draw(Vector2.Zero, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             backgroundManager_back.DrawNormalMap();
-            fog_normal.Draw(Vector2.Zero, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            //fog_normal.Draw(Vector2.Zero, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             spriteBatch.End();
 
             game.GraphicsDevice.SetRenderTarget(null);
@@ -335,7 +372,7 @@ namespace Soul
 
             if (bool.Parse(game.config.getValue("Debug", "InfoCorner")))
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Resolution.getTransformationMatrix());
+                //spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Resolution.getTransformationMatrix());
                 double time = Math.Round((gameTime.TotalGameTime.TotalMilliseconds - timeStarted + double.Parse(game.config.getValue("Debug", "StartingTime"))) / 1000);
                 string output = time.ToString();
                 string ambientInfo = "Ambient Light: " + ambientLight.ToString();
@@ -343,13 +380,17 @@ namespace Soul
                 string specular = "Specular: " + specularStrenght.ToString();
                 string numberOfLights = "Lights: " + lights.Count.ToString();
                 string waitTimer = "WaitTimer: " + wait.ToString();
+                string playerHP = "Player HP: " + player.Health.ToString();
+                string healthLightRadius = "Health Radius: " + player.HealthLight.LightDecay.ToString();
                 spriteBatch.DrawString(font, output, new Vector2(10f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, ambientInfo, new Vector2(10f, 40f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, ambientAmplifyInfo, new Vector2(10f, 80f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, specular, new Vector2(10f, 120f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, numberOfLights, new Vector2(10f, 160f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, waitTimer, new Vector2(10f, 200f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
-                spriteBatch.End();
+                spriteBatch.DrawString(font, playerHP, new Vector2(10f, 240f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
+                spriteBatch.DrawString(font, healthLightRadius, new Vector2(10f, 280f), Color.Gray, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
+                //spriteBatch.End();
             }
 
             spriteBatch.End();
@@ -447,6 +488,10 @@ namespace Soul
             lightCombinedEffectParamNormalMap.SetValue(normalMap_back);
             lightCombinedEffect.CurrentTechnique.Passes[0].Apply();
 
+            //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Resolution.getTransformationMatrix());
+            
+            //spriteBatch.End();
+
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, lightCombinedEffect, Resolution.getTransformationMatrix());
             spriteBatch.Draw(colorMap_back, new Rectangle(0, 0, game.Window.ClientBounds.Width, game.Window.ClientBounds.Height), Color.White);
             spriteBatch.Draw(entityLayer, new Rectangle(0, 0, Constants.RESOLUTION_VIRTUAL_WIDTH, Constants.RESOLUTION_VIRTUAL_HEIGHT), Color.White);
@@ -463,8 +508,7 @@ namespace Soul
             game.GraphicsDevice.SetRenderTarget(shadowMap_back);
             game.GraphicsDevice.Clear(Color.Transparent);
 
-            if (useDynamicLights == true)
-            {
+
                 foreach (var light in lights)
                 {
                     if (!light.IsEnabled) continue;
@@ -476,9 +520,12 @@ namespace Soul
                     lightEffectParameterPosition.SetValue(light.Position);
                     lightEffectParameterLightColor.SetValue(light.Color);
                     lightEffectParameterLightDecay.SetValue(light.LightDecay);
-                    if (light.renderSpecular)
+                    if (specularStrenght > 0.0f)
                     {
-                        lightEffect.Parameters["specularStrength"].SetValue(specularStrenght);
+                        if (light.renderSpecular)
+                        {
+                            lightEffect.Parameters["specularStrength"].SetValue(specularStrenght);
+                        }
                     }
 
                     if (light.LightType == LightType.Point)
@@ -497,7 +544,7 @@ namespace Soul
 
                     game.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, Vertices, 0, 2);
                 }
-            }
+            
             game.GraphicsDevice.SetRenderTarget(null);
 
             return shadowMap_back;
@@ -525,7 +572,7 @@ namespace Soul
                 currentAmbientFade = NightmareAmbientFade;
                 currentAmbientFade.Reset();
                 currentAmbientFade.SetCurrentColor(ambientLight);
-                currentAmbientFade.SetTargetColor(new Color(255, 255, 255, 255));
+                currentAmbientFade.SetTargetColor(levelAmbient);
             }
             playerNightmareHit = true;
         }
@@ -551,6 +598,12 @@ namespace Soul
                 doneOnce = true;
             }
 
+            if (stopRandomLights == false)
+            {
+                lightGenerator.stop = true;
+                stopRandomLights = true;
+            }
+
             IncreaseLightSource();
             if (ambientLight.B > 100)
             {
@@ -567,14 +620,15 @@ namespace Soul
                 doWait = true;
             }
 
-            if (doWait)
-            {
+            //if (doWait)
+            //{
                 wait += gameTime.ElapsedGameTime.Milliseconds;
-                if (wait > 3000)
+                if (wait > 8000)
                 {
+                    bossDead = true;
                     quit = true;
                 }
-            }
+            //}
         }
 
         private void IncreaseLightSource()

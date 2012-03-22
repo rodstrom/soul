@@ -25,7 +25,7 @@ namespace Soul
             damage = Constants.PLAYER_WEAPON_DAMAGE;
         }
 
-        public override Bullet Shoot(Vector2 position)
+        public override Bullet Shoot(Vector2 position, int colorValue = 0)
         {
             /*if (timer <= shootDelay)
             {
@@ -38,12 +38,12 @@ namespace Soul
             
             velocity = getVelocity();
             position = getPosition(position);
-            Bullet bullet = new Bullet(spriteBatch, game, position, velocity, Constants.PLAYER_BULLET_FILENAME, "bullet", EntityType.PLAYER_BULLET, damage);
+            Bullet bullet = new Bullet(spriteBatch, game, position, velocity, Constants.PLAYER_BULLET_FILENAME, "bullet", EntityType.PLAYER_BULLET, damage, colorValue);
             bullet.bigBullet = bigBullet;
             return bullet;
         }
 
-        public Bullet Shoot(Vector2 position, int i)
+        public Bullet Shoot(Vector2 position, int i, int colorValue)
         {
             int spread = int.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "SPREAD"));
             velocity = getVelocity(i, spread);
@@ -73,7 +73,7 @@ namespace Soul
                     break;
             }
 
-            Bullet bullet = new Bullet(spriteBatch, game, position, velocity, Constants.PLAYER_BULLET_FILENAME, "bullet", EntityType.PLAYER_BULLET, damage);
+            Bullet bullet = new Bullet(spriteBatch, game, position, velocity, Constants.PLAYER_BULLET_FILENAME, "bullet", EntityType.PLAYER_BULLET, damage, colorValue);
             bullet.bigBullet = bigBullet;
             return bullet;
         }

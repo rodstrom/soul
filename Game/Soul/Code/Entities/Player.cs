@@ -16,36 +16,31 @@ namespace Soul
             MOVE_BACK = 0,
             MOVE_FORWARD,
             IDLE,
+            DIE
         };
 
         public delegate void NightmareHit();
         public delegate void HitFlash();
         public event NightmareHit nightmareHit = null;
         public event HitFlash hitFlash = null;
-        
 
         private List<Entity> lesserDemonList = new List<Entity>();
-        private PointLight healthLight;
         private int healthLightMaxRadius = 0;
         private int healthLightMinRadius = 0;
         private GlowFX warningGlow = null;
+        private bool rapidActive = false;
 
         private PlayerWeapon weapon;
         private InputManager controls;
         private bool waitingtoDie = false;
-        private Sprite glow = null;
-        private Sprite shootSprite = null;
         private HitFX hitFx = null;
         public bool tutorial = false;
-
-        //private float glowScale = 1.0f;
-        //private float glowScalePercentage = 0.005f;
-        //private int dynamicLightScalar = 1;
-        //private bool decrease = true;
+        private PlayerHealthLight playerHealthLight = null;
 
         private float maxDeathPower = 0.0f;
         private float deathPowerScaleUp = 0.0f;
         private float deathPowerScaleDown = 0.0f;
+        public bool lesserDemonTutorial = false;
 
         private int maxDeathLightDecay = 0;
         private int deathDecayScaleUp = 0;
@@ -55,13 +50,11 @@ namespace Soul
         private int secondExplosionLight = 0;
         private int secondExplosionLightScalar = 0;
         private int fadeOutLight = 0;
-        //private int animationMode = 0;
         private float fadeOutPower = 0;
-
+        private int healthPowerup = 0;
+        private int currentHealthRadi = 0;
         private int deathPass = 1;
 
-        //private bool movingForward = false;
-        //private bool movingBackwards = false;
         private bool lesserDemonStuck = false;
         private double timeSinceLastShot = 0;
         private bool showPlayer = true;
@@ -70,6 +63,10 @@ namespace Soul
         private double powerupTime = 0;
         private bool powerupActive = false;
         private bool spreadPowerupActive = false;
+        private float playerMaxSpeed = 0.0f;
+        private SpriteFont spriteFont = null;
+        private TutorialWidget lesserDemonTut = null;
+
 
         private EntityManager entityManager;
 
@@ -82,10 +79,8 @@ namespace Soul
             this.controls = controls;
             weapon = new PlayerWeapon(spriteBatch, game, (int)dimension.Y);
             weapon.Damage = damage;
-            acceleration = new Vector2 (Constants.PLAYER_ACCELERATION, Constants.PLAYER_ACCELERATION);
+            acceleration = new Vector2 (Constants.PLAYER_ACCELERATION);
             animationState = (int)PlayerAnimationState.IDLE;
-            this.glow = new Sprite(spriteBatch, game, Constants.PLAYER_GLOW_FILENAME);
-            this.shootSprite = new Sprite(spriteBatch, game, Constants.PLAYER_SHOOT_ANIM);
             hitFx = new HitFX(game);
             warningGlow = new GlowFX(game, Constants.FLASH_EFFECT_RED_FILENAME, 0.05f, 0.1f, 0.9f);
             this.animation.FrameRate = 30;
@@ -103,10 +98,34 @@ namespace Soul
             this.fadeOutPower = float.Parse(game.lighting.getValue("PlayerDeath", "FadeOutPowerScalar"));
             this.healthLightMaxRadius = int.Parse(game.lighting.getValue("PlayerHealthLight", "MaxRadius"));
             this.healthLightMinRadius = int.Parse(game.lighting.getValue("PlayerHealthLight", "MinRadius"));
-            //this.tutorial = bool.Parse(game.config.getValue("General", "Tutorial"));
+            this.playerMaxSpeed = float.Parse(game.constants.getValue("PLAYER", "SPEED"));
+            this.healthPowerup = int.Parse(game.constants.getValue("HEALTH_POWERUP", "HEALTH"));
+            this.tutorial = bool.Parse(game.config.getValue("General", "Tutorial"));
             this.animation.playOnce = true;
             this.animation.FrameRate = 150;
-            
+            this.currentHealthRadi = healthLightMaxRadius;
+            this.playerHealthLight = new PlayerHealthLight(game, health);
+            this.spriteFont = game.Content.Load<SpriteFont>(Constants.GUI_FONT);
+
+            string key = game.config.getValue("Controls", "Shoot");
+
+            if (key == "Space")
+            {
+                lesserDemonTut = new TutorialString(spriteBatch, game, "shoot", spriteFont, key, Constants.TUTORIAL_BUTTON_FRAME_XLLARGE, new Vector2(120.0f, 0f));
+            }
+            else if (key == "Enter")
+            {
+                lesserDemonTut = new TutorialSprite(spriteBatch, game, "shoot", Constants.TUTORIAL_BUTTON_ENTER, Constants.TUTORIAL_BUTTON_FRAME_ENTER, new Vector2(120.0f, 0f));
+            }
+            else if (key == "LeftShift" || key == "RightShift" || key == "LeftAlt" || key == "RightAlt")
+            {
+                lesserDemonTut = new TutorialSprite(spriteBatch, game, "shoot", Constants.TUTORIAL_BUTTON_SHIFT, Constants.TUTORIAL_BUTTON_FRAME_LARGE, new Vector2(120.0f, 0f));
+            }
+            else
+            {
+                lesserDemonTut = new TutorialString(spriteBatch, game, "shoot", spriteFont, key, Constants.TUTORIAL_BUTTON_FRAME, new Vector2(120.0f, 0f));
+            }
+
             pointLight = new PointLight()
             {
                 Color = new Vector4(float.Parse(game.lighting.getValue("PlayerLight", "ColorR")), float.Parse(game.lighting.getValue("PlayerLight", "ColorG")), float.Parse(game.lighting.getValue("PlayerLight", "ColorB")), float.Parse(game.lighting.getValue("PlayerLight", "ColorA"))),
@@ -115,16 +134,6 @@ namespace Soul
                 Position = new Vector3(0f, 0f, float.Parse(game.lighting.getValue("PlayerLight", "ZPosition"))),
                 IsEnabled = true,
                 renderSpecular = bool.Parse(game.lighting.getValue("PlayerLight", "Specular"))
-            };
-
-            healthLight = new PointLight()
-            {
-                Color = new Vector4(float.Parse(game.lighting.getValue("PlayerHealthLight", "ColorR")), float.Parse(game.lighting.getValue("PlayerHealthLight", "ColorG")), float.Parse(game.lighting.getValue("PlayerHealthLight", "ColorB")), float.Parse(game.lighting.getValue("PlayerHealthLight", "ColorA"))),
-                Power = float.Parse(game.lighting.getValue("PlayerHealthLight", "Power")),
-                LightDecay = int.Parse(game.lighting.getValue("PlayerHealthLight", "LightDecay")),
-                Position = new Vector3(0f, 0f, float.Parse(game.lighting.getValue("PlayerHealthLight", "ZPosition"))),
-                IsEnabled = true,
-                renderSpecular = bool.Parse(game.lighting.getValue("PlayerHealthLight", "Specular"))
             };
         }
 
@@ -143,12 +152,24 @@ namespace Soul
                     base.Draw();
                 }
             }
+
+            if (lesserDemonTutorial == true)
+            {
+                lesserDemonTut.Draw();
+            } 
         }
 
         public override void Update(GameTime gameTime)
         {
             weapon.Update(gameTime);
-
+            if (lesserDemonTutorial == true)
+            {
+                lesserDemonTut.Update(gameTime, position);
+                if (lesserDemonTut.IsAlphaZero == true)
+                {
+                    tutorial = false;
+                }
+            }
 
             if (waitingtoDie == false)
             {
@@ -157,7 +178,6 @@ namespace Soul
                     warningGlow.Update();
                 }
 
-                checkHealthStatus();
                 if (powerupActive)
                 {
                     powerupTime += gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -191,28 +211,30 @@ namespace Soul
                         if (lesserDemonList[i].KillMe == true)
                         {
                             lesserDemonList.RemoveAt(i);
-                            float total = Constants.PLAYER_MAX_SPEED - Constants.PLAYER_LOWEST_SPEED;
+                            float total = playerMaxSpeed - Constants.PLAYER_LOWEST_SPEED;
                             float currentDeacceleration = (float)lesserDemonList.Count * Constants.PLAYER_DEACCELERATION;
                             if (currentDeacceleration < total)
                             {
-                                maxVelocity.X += Constants.PLAYER_DEACCELERATION;
-                                maxVelocity.Y += Constants.PLAYER_DEACCELERATION;
+                                float percentage = maxVelocity.X * 1.5f;
+                                maxVelocity = new Vector2(percentage);
                             }
                             i--;
+                            if (lesserDemonTutorial == true)
+                                lesserDemonTut.FadeOut();
+                            
                         }
                     }
                     if (lesserDemonList.Count <= 0)
                     {
                         lesserDemonStuck = false;
-                        maxVelocity = new Vector2(Constants.PLAYER_MAX_SPEED);
+                        maxVelocity = new Vector2(playerMaxSpeed);
                     }
                 }
 
                 animation.Animate(gameTime);
                 Move(gameTime);
                 pointLight.Position = new Vector3(position.X, position.Y, pointLight.Position.Z);
-                healthLight.Position = new Vector3(position.X, position.Y, healthLight.Position.Z);
-                
+                playerHealthLight.Update(gameTime, health, position);
             }
             else
             {
@@ -286,9 +308,11 @@ namespace Soul
             }
             position += velocity;
 
-
-            HandleAnimation();
-
+            if (animationState != (int)PlayerAnimationState.DIE)
+            {
+                HandleAnimation();
+            }
+            
             restriction();
         }
 
@@ -358,7 +382,11 @@ namespace Soul
 
         public void Shoot()
         {
-            Bullet bullet = weapon.Shoot(position);
+            int colorValue = 0;
+            if (rapidActive == true)
+                colorValue = 2;
+
+            Bullet bullet = weapon.Shoot(position, colorValue);
             if (bullet != null)
             {
                 entityManager.addBullet(bullet);
@@ -373,7 +401,7 @@ namespace Soul
 
             for (int i = 0; i < 5; i++)
             {
-                bullet = weapon.Shoot(newPos, i);
+                bullet = weapon.Shoot(newPos, i, 1);
                 if (bullet != null)
                 {
                     entityManager.addBullet(bullet);
@@ -383,21 +411,32 @@ namespace Soul
             audio.playSound("player_shoot");
         }
 
+        #region Collision
+
         public override void onCollision(Entity entity)
         {
             if (entity.Type == EntityType.LESSER_DEMON)
             {
                 lesserDemonList.Add(entity);
+
+                if (tutorial == true)
+                {
+                    lesserDemonTutorial = true;
+                    lesserDemonTut.FadeIn();
+                }
+
                 if (maxVelocity.Length() >= Constants.PLAYER_LOWEST_SPEED)
                 {
-                    maxVelocity.X -= Constants.PLAYER_DEACCELERATION;
-                    maxVelocity.Y -= Constants.PLAYER_DEACCELERATION;
+                    float percentage = maxVelocity.X * 0.5f;
+
+                    maxVelocity = new Vector2(percentage);
                 }
                 lesserDemonStuck = true;
             }
 
             if (entity.Type == EntityType.DARK_THOUGHT_BULLET || entity.Type == EntityType.BLUE_BLOOD_VESSEL || entity.Type == EntityType.PURPLE_BLOOD_VESSEL || entity.Type == EntityType.RED_BLOOD_VESSEL || entity.Type == EntityType.NIGHTMARE || entity.Type == EntityType.DARK_WHISPER || entity.Type == EntityType.DARK_WHISPER_SPIKE || entity.Type == EntityType.BOSS_BULLET)
             {
+                playerHealthLight.updateHealthStatus();
                 health -= entity.getDamage();
                 if (health < healthLightMinRadius)
                     healthWarning = true;
@@ -414,7 +453,9 @@ namespace Soul
 
             if (entity.Type == EntityType.HEALTH_POWERUP)
             {
-                health += 10;
+                playerHealthLight.PowerUpHit(entity);
+                playerHealthLight.updateHealthStatus();
+                health += healthPowerup;
                 if (health > healthLightMinRadius)
                     healthWarning = false;
 
@@ -423,24 +464,30 @@ namespace Soul
                     health = maxHealth;
                 }
                 audio.playSound("player_powerup_pickup");
+                entity.PointLight.dead = true;
             }
 
             if (entity.Type == EntityType.WEAPON_POWERUP_SPREAD)
             {
+                playerHealthLight.PowerUpHit(entity);
                 clearPowerup(true);
                 weapon.powerupSpread();
                 damage = (int)(damage * float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "DAMAGEMULTIPLIER")));
                 weapon.Damage = damage;
                 fireRate /= float.Parse(game.constants.getValue("WEAPON_POWERUP_SPREAD", "RATEMULTIPLIER")); 
                 spreadPowerupActive = true;
+                entity.PointLight.dead = true;
             }
 
             if (entity.Type == EntityType.WEAPON_POWERUP_RAPID)
             {
+                playerHealthLight.PowerUpHit(entity);
                 clearPowerup(true);
                 damage = (int)(damage * float.Parse(game.constants.getValue("WEAPON_POWERUP_RAPID", "DAMAGEMULTIPLIER")));
                 weapon.Damage = damage;
                 fireRate /= float.Parse(game.constants.getValue("WEAPON_POWERUP_RAPID", "RATEMULTIPLIER"));
+                entity.PointLight.dead = true;
+                rapidActive = true;
             }
 
             if (waitingtoDie == false && health <= 0)
@@ -448,8 +495,14 @@ namespace Soul
                 pointLight.Color = new Vector4(float.Parse(game.lighting.getValue("PlayerDeath", "ColorR")), float.Parse(game.lighting.getValue("PlayerDeath", "ColorG")), float.Parse(game.lighting.getValue("PlayerDeath", "ColorB")), float.Parse(game.lighting.getValue("PlayerDeath", "ColorA")));
                 waitingtoDie = true;
                 audio.playSound("player_die");
+                animationState = (int)PlayerAnimationState.DIE;
+                animation.playOnce = true;
+                animation.CurrentFrame = 0;
+                ghost = true;
             }
         }
+
+        #endregion Collision
 
         private void clearPowerup(bool setNew)
         {
@@ -465,6 +518,8 @@ namespace Soul
             {
                 audio.playSound("player_powerup_pickup");
             }
+            if (rapidActive == true)
+                rapidActive = false;
         }
 
         public override int getDamage()
@@ -474,26 +529,15 @@ namespace Soul
 
         public override void takeDamage(int value)
         {
-            health -= value;
-            if (health < healthLightMinRadius)
+            /*health -= value;
+            if (health < healthLightMinRadius - 20)
                 healthWarning = true;
             if (health <= 0)
             {
                 waitingtoDie = true;
-            }
+            }*/
         }
 
-        private void checkHealthStatus()
-        {
-            float percentage = (float)health / (float)maxHealth;
-
-            float newLightRadius = (float)healthLightMaxRadius * percentage;
-            if (newLightRadius <= healthLightMinRadius)
-                newLightRadius = healthLightMinRadius;
-
-            healthLight.LightDecay = (int)newLightRadius;
-
-        }
 
         private void SpawnDeathGlow()
         {
@@ -559,7 +603,7 @@ namespace Soul
             }
         }
 
-        public PointLight HealthLight { get { return healthLight; } }
+        public PointLight HealthLight { get { return playerHealthLight.PointLight; } }
 
         #region DeathExplosion
 
@@ -620,5 +664,17 @@ namespace Soul
         }
 
         #endregion DeathExplosion
+
+        public bool DisplayLesserDemonTutorial()
+        {
+            if (lesserDemonList.Count > 0 && lesserDemonTutorial == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+
     }
 }

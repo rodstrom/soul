@@ -20,7 +20,7 @@ namespace Soul
 
         public bool pulsate = true;
 
-        public Bullet(SpriteBatch spriteBatch, Soul game, Vector2 position, Vector2 velocity, string filename, string alias, EntityType type, int damage)
+        public Bullet(SpriteBatch spriteBatch, Soul game, Vector2 position, Vector2 velocity, string filename, string alias, EntityType type, int damage, int colorType = 0)
             : base(spriteBatch, game, filename, new Vector2(20.0f, 20.0f), alias, type)
         {
             this.position = position;
@@ -38,6 +38,14 @@ namespace Soul
                     IsEnabled = true,
                     renderSpecular = bool.Parse(game.lighting.getValue("PlayerBullet", "Specular"))
                 };
+                if (colorType == 1)
+                {
+                    pointLight.Color = new Vector4(float.Parse(game.lighting.getValue("SpreadPowerUp", "ColorR")), float.Parse(game.lighting.getValue("SpreadPowerUp", "ColorG")), float.Parse(game.lighting.getValue("SpreadPowerUp", "ColorB")), float.Parse(game.lighting.getValue("SpreadPowerUp", "ColorA")));
+                }
+                else if (colorType == 2)
+                {
+                    pointLight.Color = new Vector4(float.Parse(game.lighting.getValue("RapidPowerUp", "ColorR")), float.Parse(game.lighting.getValue("RapidPowerUp", "ColorG")), float.Parse(game.lighting.getValue("RapidPowerUp", "ColorB")), float.Parse(game.lighting.getValue("RapidPowerUp", "ColorA")));
+                }
             }
             else if (type == EntityType.DARK_THOUGHT_BULLET)
             {
@@ -48,13 +56,27 @@ namespace Soul
                     LightDecay = int.Parse(game.lighting.getValue("DarkThoughtBullet", "LightDecay")),
                     Position = new Vector3(0f, 0f, float.Parse(game.lighting.getValue("DarkThoughtBullet", "ZPosition"))),
                     IsEnabled = true,
-                    renderSpecular = false
+                    renderSpecular = bool.Parse(game.lighting.getValue("DarkThoughtBullet", "Specular"))
                 };
             }
+            else if (type == EntityType.BOSS_BULLET)
+            {
+                pointLight = new PointLight()
+                {
+                    Color = new Vector4(float.Parse(game.lighting.getValue("BossBullet", "ColorR")), float.Parse(game.lighting.getValue("BossBullet", "ColorG")), float.Parse(game.lighting.getValue("BossBullet", "ColorB")), float.Parse(game.lighting.getValue("BossBullet", "ColorA"))),
+                    Power = float.Parse(game.lighting.getValue("BossBullet", "Power")),
+                    LightDecay = int.Parse(game.lighting.getValue("BossBullet", "LightDecay")),
+                    Position = new Vector3(0f, 0f, float.Parse(game.lighting.getValue("BossBullet", "ZPosition"))),
+                    IsEnabled = true,
+                    renderSpecular = bool.Parse(game.lighting.getValue("BossBullet", "Specular"))
+                };
+            }
+
+
         }
 
         public Bullet(Random r, int range, SpriteBatch spriteBatch, Soul game, Vector2 position, Vector2 velocity, string filename, string alias, EntityType type, int damage)
-            : base(spriteBatch, game, filename, new Vector2(8f, 32f), alias, type)
+            : base(spriteBatch, game, filename, new Vector2(Constants.DARK_WHISPER_SPIKE_WIDTH, Constants.DARK_WHISPER_SPIKE_HEIGHT), alias, type)
         {
             spikeRange = range;
             useRange = true;
@@ -68,7 +90,7 @@ namespace Soul
             this.velocity = velocity;
             this.damage = damage;
             this.hitRadius = Constants.BULLET_RADIUS;
-            if (type == EntityType.PLAYER_BULLET)
+            /*if (type == EntityType.PLAYER_BULLET)
             {
                 pointLight = new PointLight()
                 {
@@ -78,7 +100,7 @@ namespace Soul
                     Position = new Vector3(0f, 0f, 70f),
                     IsEnabled = true
                 };
-            }
+            }*/
         }
 
         public override void Draw()

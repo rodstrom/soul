@@ -163,6 +163,20 @@ namespace Soul.Manager
             }
         }
 
+        public bool IsFading()
+        {
+            if (buttons[currentPosition].Key.IsAlphaMax == true)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool IsFadingOut()
+        {
+            return buttons[currentPosition].Key.IsFadingOut;
+        }
+
         public string ID { get { return id; } }
 
     }

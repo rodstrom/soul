@@ -13,7 +13,7 @@ namespace Soul
         protected Soul game = null;
         protected Sprite frame = null;
         protected Vector2 frameOffset = Vector2.Zero;
-        protected Vector2 position = Vector2.Zero;
+        public Vector2 position = Vector2.Zero;
         protected Vector2 positionOffset = Vector2.Zero;
         protected int alpha = 0;
         protected int alphaScaler = 10;
@@ -21,6 +21,7 @@ namespace Soul
         protected bool fadeIn = false;
         protected bool fadeOut = false;
         protected GlowFX glow = null;
+        public bool done = false;
 
         public TutorialWidget(SpriteBatch spriteBatch, Soul game, string id, string filename, Vector2 positionOffset)
         {
@@ -34,6 +35,14 @@ namespace Soul
         }
 
         public virtual void Update(GameTime gameTime, Vector2 playerPosition)
+        {
+            if (fadeIn == true || fadeOut == true)
+            {
+                Fading();
+            }
+        }
+
+        public virtual void Update(GameTime gameTime)
         {
             if (fadeIn == true || fadeOut == true)
             {
@@ -64,6 +73,7 @@ namespace Soul
                     fadeOut = false;
                     alpha = 0;
                     glow.stop = true;
+                    done = true;
                 }
             }
         }
