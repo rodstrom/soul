@@ -76,6 +76,7 @@ namespace Soul_Editor
             picture.BringToFront();
             picture.MouseDown += new MouseEventHandler(entity_MouseDown);
             picture.MouseUp += new MouseEventHandler(entity_MouseUp);
+
             if (isPath)
             {
                 path.AddFirst(new Point(1280, pos.Y * 2));
@@ -131,6 +132,10 @@ namespace Soul_Editor
                 picture.Image = global::Soul_Editor.Properties.Resources.Rapid;
             }
             else if (type.Equals("BOSS"))
+            {
+                picture.Image = global::Soul_Editor.Properties.Resources.Boss;
+            }
+            else if (type.Equals("CHECKPOINT"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.Boss;
             }

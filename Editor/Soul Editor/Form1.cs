@@ -24,7 +24,7 @@ namespace Soul_Editor
             this.backgrounds = new PictureBox[1000];
             this.addBackground();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 32; i++)
             {
                 this.addBackground();
             }
@@ -35,7 +35,7 @@ namespace Soul_Editor
         private void Form1_Load(object sender, EventArgs e)
         {
             this.textBox6.Text = Directory.GetCurrentDirectory() + "\\Level01.map";
-            this.textBox6.Text = @"C:\git\soul\Game\Soul\bin\x86\Debug\Content\Levels\Level01.map";
+            this.textBox6.Text = @"C:\Users\Herman\Random\Level01.map";
         }
 
         public void addEntity(String entity, Point pos)
@@ -58,6 +58,7 @@ namespace Soul_Editor
             //listBox2.DataSource = _items;
             updatePosition(e.id);
             //listBox2.Update();
+            panel2.SendToBack();
         }
 
         private void addBackground()
