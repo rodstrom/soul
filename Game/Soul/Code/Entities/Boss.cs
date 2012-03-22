@@ -184,7 +184,7 @@ namespace Soul
                 pointLight.Power = pointLight.Power - 0.0012f;
                 
                 fireTimer += gameTime.ElapsedGameTime.Milliseconds;
-                if (fireTimer > 3000)
+                if (fireTimer > 5000)
                 {
                     entityManager.killAllEntities();
                     entityManager.cleansedLevel();
