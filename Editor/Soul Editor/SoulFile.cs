@@ -174,24 +174,20 @@ END
                 lineCounter++;
                 line = file.ReadLine();
 
-                if (line == "")
+                if (line == null)
                 {
-                    line = file.ReadLine();
-                    lineCounter++;
+                    file.Close();
+                    return;
+                }
+
+                if (line == "" || line == "END")
+                {
                     continue;   // skip if the line is empty
                 }
 
                 if (line[0] == '/')
                 {
-                    line = file.ReadLine();
-                    lineCounter++;
                     continue;   // skip reading the line if it is marked as a comment
-                }
-
-                if (line == "END")
-                {
-                    file.Close();
-                    return;
                 }
 
                 string[] keys = line.Split(new char[] { '|' });
@@ -205,7 +201,6 @@ END
                 {
                     y = int.Parse(posY[1]);
                 }
-
                 form.addEntity(name, ms, y);
             }
 

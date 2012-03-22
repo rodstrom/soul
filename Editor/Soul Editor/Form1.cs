@@ -24,7 +24,7 @@ namespace Soul_Editor
             this.backgrounds = new PictureBox[1000];
             this.addBackground();
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 17; i++)
             {
                 this.addBackground();
             }
@@ -132,7 +132,7 @@ namespace Soul_Editor
                     minutes.Text = "0";
                 }
                 int ms = int.Parse(minutes.Text.ToString()) * 60000 + int.Parse(milliseconds.Text.ToString());
-                int x = panel2.Width - ((ms - startTime) / 5);
+                int x = panel2.Width - ((ms - startTime) / 8);
                 _items.ElementAt(listBox2.SelectedIndex).Move(x, int.Parse(posY.Text.ToString()) / 2);
             }
         }
@@ -206,7 +206,7 @@ namespace Soul_Editor
 
         private void updateLevelTimeLabel()
         {
-            this.label5.Text = startTime + " - " + (this.panel2.Width / 200 + startTime).ToString() + " seconds";
+            this.label5.Text = startTime + " - " + (this.panel2.Width / 125 + startTime).ToString() + " seconds";
         }
 
         private void path_KeyPress(object sender, KeyPressEventArgs e)

@@ -169,7 +169,7 @@ namespace Soul_Editor
 
         public void calculateTime()
         {
-            int milliSeconds = (form.panel2.Width - pos.X) * 5 + form.startTime * 1000;
+            int milliSeconds = (form.panel2.Width - pos.X) * 8 + form.startTime * 1000;
             int minutes = milliSeconds / 60000;
             milliSeconds = milliSeconds % 60000;
             levelTime = new Point(minutes, milliSeconds);
@@ -182,7 +182,7 @@ namespace Soul_Editor
             int milliseconds = ms % 60000;
             levelTime = new Point(minutes, milliseconds);
 
-            pos.X = form.panel2.Width - (ms / 5);
+            pos.X = form.panel2.Width - (ms / 8);
         }
 
         private void entity_MouseDown(object sender, MouseEventArgs e)
