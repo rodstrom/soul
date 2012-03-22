@@ -83,21 +83,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\background__0002s_0002_Layer-7.png">
-      <Name>background__0002s_0002_Layer-7</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\background__0002s_0003_Layer-6.png">
-      <Name>background__0002s_0003_Layer-6</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\background__0002s_0004_Layer-5.png">
-      <Name>background__0002s_0004_Layer-5</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Backgrounds\background__0002s_0005_Layer-4.png">
       <Name>background__0002s_0005_Layer-4</Name>
       <Importer>TextureImporter</Importer>
@@ -110,11 +95,6 @@
     </Compile>
     <Compile Include="Backgrounds\background__0002s_0006_Layer-3.png">
       <Name>background__0002s_0006_Layer-3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\background__0002s_0007_Layer-2.png">
-      <Name>background__0002s_0007_Layer-2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -145,21 +125,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="BrainMap\level04.png">
-      <Name>level04</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BrainMap\level05.png">
-      <Name>level05</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BrainMap\level06.png">
-      <Name>level06</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="GUI\menu_Credits.png">
       <Name>menu_Credits</Name>
       <Importer>TextureImporter</Importer>
@@ -180,38 +145,13 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="SpriteSheets\Bloodvessel1_fixed.png">
-      <Name>Bloodvessel1_fixed</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="SpriteSheets\Dark-Whisper-Death-animation.png">
       <Name>Dark-Whisper-Death-animation</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="SpriteSheets\InnerDemon1.png">
-      <Name>InnerDemon1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\InnerDemon2.png">
-      <Name>InnerDemon2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="SpriteSheets\LesserDemon1.png">
       <Name>LesserDemon1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\LesserDemon2.png">
-      <Name>LesserDemon2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\LesserDemon3.png">
-      <Name>LesserDemon3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -259,13 +199,6 @@
   <ItemGroup>
     <Compile Include="Backgrounds\menubg.png">
       <Name>menubg</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Particles\Heroine Glow Final_2.png">
-      <Name>Heroine Glow Final_2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -356,77 +289,73 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Audio\attack.xnb">
+      <Name>attack</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Audio\blood_hit.xnb">
       <Name>blood_hit</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\calm2.xnb">
       <Name>calm2</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Audio\comic010.xnb">
-      <Name>comic010</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Audio\Deathsound.xnb">
+      <Name>Deathsound</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\explosion_underwater_distant.xnb">
       <Name>explosion_underwater_distant</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\gui_move2.xnb">
       <Name>gui_move2</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\gui_select2.xnb">
       <Name>gui_select2</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\HeadPop.xnb">
       <Name>HeadPop</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\heart_beating_at_normal_speed.xnb">
       <Name>heart_beating_at_normal_speed</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Audio\iron-man.xnb">
-      <Name>iron-man</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\map_zoom_in.xnb">
       <Name>map_zoom_in</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\map_zoom_out.xnb">
       <Name>map_zoom_out</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Audio\player_die.xnb">
-      <Name>player_die</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Audio\Shoot-bak1.xnb">
-      <Name>Shoot-bak1</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\short_hard_squish.xnb">
       <Name>short_hard_squish</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\soul_start2.xnb">
       <Name>soul_start2</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\soul_title.xnb">
       <Name>soul_title</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\wierd heart.xnb">
       <Name>wierd heart</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Audio\world_map2.xnb">
       <Name>world_map2</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\you%27re worthless.xnb">
+      <Name>you%27re worthless</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Config\audiolist.ini">
       <Name>audiolist</Name>
@@ -472,18 +401,6 @@
       <Name>Level03</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Levels\Level04.map">
-      <Name>Level04</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Levels\Level05.map">
-      <Name>Level05</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Levels\Level06.map">
-      <Name>Level06</Name>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Saves\savedata.dat">
       <Name>savedata</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -525,18 +442,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Backgrounds\background__0002s_0001_Layer-8_depth.png">
-      <Name>background__0002s_0001_Layer-8_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Backgrounds\background__0002s_0006_Layer-3_depth.png">
       <Name>background__0002s_0006_Layer-3_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\background__0002s_0008_Layer-1_depth.png">
-      <Name>background__0002s_0008_Layer-1_depth</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -641,23 +548,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteSheets\avatar_shoot_anim_A-1.PNG">
-      <Name>avatar_shoot_anim_A-1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\Bloodvessel2.png">
-      <Name>Bloodvessel2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\Bloodvessel3.png">
-      <Name>Bloodvessel3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="BrainMap\cleansed.png">
       <Name>cleansed</Name>
       <Importer>TextureImporter</Importer>
@@ -716,45 +606,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backgrounds\background__0002s_0002_Layer-7_depth.png">
-      <Name>background__0002s_0002_Layer-7_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\background__0002s_0003_Layer-6_depth.png">
-      <Name>background__0002s_0003_Layer-6_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\background__0002s_0004_Layer-5_depth.png">
-      <Name>background__0002s_0004_Layer-5_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\background__0002s_0007_Layer-2_depth.png">
-      <Name>background__0002s_0007_Layer-2_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Backgrounds\background__0002s_0001_Layer-8_fixed.png">
-      <Name>background__0002s_0001_Layer-8_fixed</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Backgrounds\background__0002s_0001_Layer-8_fixed_depth.png">
       <Name>background__0002s_0001_Layer-8_fixed_depth</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\background__0002s_0008_Layer-1_fixed.png">
-      <Name>background__0002s_0008_Layer-1_fixed</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Backgrounds\background__0002s_0008_Layer-1_fixed_depth.png">
-      <Name>background__0002s_0008_Layer-1_fixed_depth</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -893,18 +746,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteSheets\Blood-Vessel-death-Anim-1.png">
-      <Name>Blood-Vessel-death-Anim-1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\Bloodvessel1_fixed_2.png">
-      <Name>Bloodvessel1_fixed_2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Backgrounds\bg2_color_map.png">
       <Name>bg2_color_map</Name>
       <Importer>TextureImporter</Importer>
@@ -1018,34 +859,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\soul_title.wma">
-      <Name>soul_title</Name>
-      <Importer>WmaImporter</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Audio\world_map2.wma">
-      <Name>world_map2</Name>
-      <Importer>WmaImporter</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Audio\calm2.wma">
-      <Name>calm2</Name>
-      <Importer>WmaImporter</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Audio\iron-man.wma">
-      <Name>iron-man</Name>
-      <Importer>WmaImporter</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="SpriteSheets\Powerup_Health.png">
       <Name>Powerup_Health</Name>
       <Importer>TextureImporter</Importer>
@@ -1137,11 +950,75 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SpriteSheets\Boss_Death.png">
+      <Name>Boss_Death</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Backgrounds\warning_screen.png">
       <Name>warning_screen</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GUI\Level Cleard.png">
+      <Name>Level Cleard</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Audio\blood_hit.mp3">
+      <Name>blood_hit</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\calm2.wma">
+      <Name>calm2</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\explosion_underwater_distant.mp3">
+      <Name>explosion_underwater_distant</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\HeadPop.wma">
+      <Name>HeadPop</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\heart_beating_at_normal_speed.mp3">
+      <Name>heart_beating_at_normal_speed</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\short_hard_squish.mp3">
+      <Name>short_hard_squish</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\soul_title.wma">
+      <Name>soul_title</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Audio\world_map2.wma">
+      <Name>world_map2</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SongProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 

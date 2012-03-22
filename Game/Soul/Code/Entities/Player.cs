@@ -16,6 +16,7 @@ namespace Soul
             MOVE_BACK = 0,
             MOVE_FORWARD,
             IDLE,
+            DIE
         };
 
         public delegate void NightmareHit();
@@ -32,8 +33,6 @@ namespace Soul
         private PlayerWeapon weapon;
         private InputManager controls;
         private bool waitingtoDie = false;
-        private Sprite glow = null;
-        private Sprite shootSprite = null;
         private HitFX hitFx = null;
         public bool tutorial = false;
         private PlayerHealthLight playerHealthLight = null;
@@ -80,10 +79,8 @@ namespace Soul
             this.controls = controls;
             weapon = new PlayerWeapon(spriteBatch, game, (int)dimension.Y);
             weapon.Damage = damage;
-            acceleration = new Vector2 (Constants.PLAYER_ACCELERATION, Constants.PLAYER_ACCELERATION);
+            acceleration = new Vector2 (Constants.PLAYER_ACCELERATION);
             animationState = (int)PlayerAnimationState.IDLE;
-            this.glow = new Sprite(spriteBatch, game, Constants.PLAYER_GLOW_FILENAME);
-            this.shootSprite = new Sprite(spriteBatch, game, Constants.PLAYER_SHOOT_ANIM);
             hitFx = new HitFX(game);
             warningGlow = new GlowFX(game, Constants.FLASH_EFFECT_RED_FILENAME, 0.05f, 0.1f, 0.9f);
             this.animation.FrameRate = 30;
@@ -310,7 +307,12 @@ namespace Soul
                 StopMovingY();
             }
             position += velocity;
-            HandleAnimation();
+
+            if (animationState != (int)PlayerAnimationState.DIE)
+            {
+                HandleAnimation();
+            }
+            
             restriction();
         }
 
@@ -493,6 +495,10 @@ namespace Soul
                 pointLight.Color = new Vector4(float.Parse(game.lighting.getValue("PlayerDeath", "ColorR")), float.Parse(game.lighting.getValue("PlayerDeath", "ColorG")), float.Parse(game.lighting.getValue("PlayerDeath", "ColorB")), float.Parse(game.lighting.getValue("PlayerDeath", "ColorA")));
                 waitingtoDie = true;
                 audio.playSound("player_die");
+                animationState = (int)PlayerAnimationState.DIE;
+                animation.playOnce = true;
+                animation.CurrentFrame = 0;
+                ghost = true;
             }
         }
 
@@ -523,13 +529,13 @@ namespace Soul
 
         public override void takeDamage(int value)
         {
-            health -= value;
+            /*health -= value;
             if (health < healthLightMinRadius - 20)
                 healthWarning = true;
             if (health <= 0)
             {
                 waitingtoDie = true;
-            }
+            }*/
         }
 
 

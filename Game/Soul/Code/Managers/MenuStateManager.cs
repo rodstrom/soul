@@ -133,9 +133,9 @@ namespace Soul.Manager
             selection.AddSelection("Off", Constants.GUI_OFF);
             float specular = float.Parse(game.config.getValue("Video", "Specular"));
             selection.Selection = ParseSpecularConfig(specular);
-
             menuManager.AddButton(button, selection);
-            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_DYNAMIC_LIGHTING, "dynamic_lighting");
+
+            /*button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_DYNAMIC_LIGHTING, "dynamic_lighting");
             selection = new Selection(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), "dynamic_lighting_selection");
             selection.AddSelection("On", Constants.GUI_ON);
             selection.AddSelection("Off", Constants.GUI_OFF);
@@ -149,10 +149,10 @@ namespace Soul.Manager
                 selection.Selection = "Off";
             }
              
-            menuManager.AddButton(button, selection);
+            menuManager.AddButton(button, selection);*/
 
-            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), Constants.GUI_SCREEN_MODE, "screen_mode");
-            selection = new Selection(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), "screen_mode_selection");
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), Constants.GUI_SCREEN_MODE, "screen_mode");
+            selection = new Selection(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 150.0f), "screen_mode_selection");
             selection.AddSelection("Fullscreen", Constants.GUI_FULLSCREEN);
             selection.AddSelection("Windowed", Constants.GUI_WINDOWED);
 
@@ -166,11 +166,11 @@ namespace Soul.Manager
             }
 
             menuManager.AddButton(button, selection);
-            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), Constants.GUI_RESOLUTION, "resolution");
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), Constants.GUI_RESOLUTION, "resolution");
             string output = game.Window.ClientBounds.Width + "x" + game.Window.ClientBounds.Height.ToString();
-            Label label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), "resolution_label", output);
+            Label label = new Label(spriteBatch, game, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f + 300f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 200.0f), "resolution_label", output);
             menuManager.AddButton(button, label);
-            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 300.0f), Constants.GUI_BACK, "graphics_options_back");
+            button = new ImageButton(spriteBatch, game, inputManager, new Vector2(Constants.RESOLUTION_VIRTUAL_WIDTH * 0.5f, Constants.RESOLUTION_VIRTUAL_HEIGHT * 0.5f + 250.0f), Constants.GUI_BACK, "graphics_options_back");
             button.onClick += new ImageButton.ButtonEventHandler(OnButtonPress);
             menuManager.AddButton(button);
             menuManager.initialize();
@@ -246,7 +246,14 @@ namespace Soul.Manager
                 }
             }
 
+            if (inputManager.ShootingOnce == true && currentMenuManager.IsFadingOut() == false && stopControls == false)
+            {
+                audioManager.playSound("menu_select");
+            }
+
             currentMenuManager.Update(gameTime);
+
+
 
             if (wait == false && changeKey == false && currentMenuManager.ID != "Quit" && currentMenuManager.IsFadingOut() == false && stopControls == false)
             {
@@ -281,11 +288,6 @@ namespace Soul.Manager
                 {
                     audioManager.playSound("menu_move");
                     currentMenuManager.decrement();
-                }
-
-                if (inputManager.ShootingOnce == true)
-                {
-                    audioManager.playSound("menu_select");
                 }
             }
 
@@ -447,7 +449,7 @@ namespace Soul.Manager
                     SwitchFullscreen();
                 }
             }
-            else if (currentMenuManager.SelectionID() == "dynamic_lighting")
+            /*else if (currentMenuManager.SelectionID() == "dynamic_lighting")
             {
                 if (inputManager.MoveLeftOnce == true)
                 {
@@ -457,7 +459,7 @@ namespace Soul.Manager
                 {
                     SwitchDynamicLighting();
                 }
-            }
+            }*/
             else if (currentMenuManager.SelectionID() == "resolution")
             {
                 if (inputManager.MoveLeftOnce == true)

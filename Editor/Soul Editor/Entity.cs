@@ -34,8 +34,8 @@ namespace Soul_Editor
             this.id = id;
             name = form.maxEntityCount++ + "_" + type;
             picture = new TransparentControl(name);
-            setUniqueData();
             this.type = this.type.ToUpper();
+            setUniqueData();
             //picture.Image = global::Soul_Editor.Properties.Resources.RedBloodvessel;
             picture.Size = new Size((int)picture.Image.PhysicalDimension.Width / 2, (int)picture.Image.PhysicalDimension.Height / 2);
             Move(x, y);
@@ -47,8 +47,39 @@ namespace Soul_Editor
             picture.MouseUp += new MouseEventHandler(entity_MouseUp);
             if (isPath)
             {
-                path.AddFirst(new Point(1280, pos.Y));
-                path.AddFirst(new Point(0, pos.Y));
+                path.AddFirst(new Point(1280, pos.Y * 2));
+                path.AddFirst(new Point(0, pos.Y * 2));
+                updatePathText();
+            }
+            //picture.MouseMove += new MouseEventHandler(entity_MouseMove);
+        }
+
+        public Entity(Form1 form, String type, int ms, int y)
+        {
+            this.type = type;
+            this.form = form;
+            this.id = 0;
+            name = form.maxEntityCount++ + "_" + type;
+            picture = new TransparentControl(name);
+            this.type = this.type.ToUpper();
+            setUniqueData();
+            //picture.Image = global::Soul_Editor.Properties.Resources.RedBloodvessel;
+            picture.Size = new Size((int)picture.Image.PhysicalDimension.Width / 2, (int)picture.Image.PhysicalDimension.Height / 2);
+
+            calculatePosition(ms);
+            pos.Y = y / 2;
+            Move(pos.X, pos.Y);
+
+            //picture.Location = new Point(pos.X, pos.Y);
+            picture.Bounds = new Rectangle(picture.Location, picture.Size);
+            form.panel2.Controls.Add(picture);
+            picture.BringToFront();
+            picture.MouseDown += new MouseEventHandler(entity_MouseDown);
+            picture.MouseUp += new MouseEventHandler(entity_MouseUp);
+            if (isPath)
+            {
+                path.AddFirst(new Point(1280, pos.Y * 2));
+                path.AddFirst(new Point(0, pos.Y * 2));
                 updatePathText();
             }
             //picture.MouseMove += new MouseEventHandler(entity_MouseMove);
@@ -56,48 +87,52 @@ namespace Soul_Editor
 
         private void setUniqueData()
         {
-            if (type.Equals("Blue_blood_vessel"))
+            if (type.Equals("BLUE_BLOOD_VESSEL"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.BlueBloodvessel;
             }
-            else if (type.Equals("Red_blood_vessel"))
+            else if (type.Equals("RED_BLOOD_VESSEL"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.RedBloodvessel;
             }
-            else if (type.Equals("Purple_blood_vessel"))
+            else if (type.Equals("PURPLE_BLOOD_VESSEL"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.PurpleBloodvessel;
             }
-            else if (type.Equals("Dark_Thought"))
+            else if (type.Equals("DARK_THOUGHT"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.DarkThought;
                 isPath = true;
             }
-            else if (type.Equals("Dark_Whisper"))
+            else if (type.Equals("DARK_WHISPER"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.DarkWhisper;
                 isPath = true;
             }
-            else if (type.Equals("Nightmare"))
+            else if (type.Equals("NIGHTMARE"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.Nightmare;
             }
-            else if (type.Equals("Inner_Demon"))
+            else if (type.Equals("INNER_DEMON"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.InnerDemon;
                 isPath = true;
             }
-            else if (type.Equals("Health_Powerup"))
+            else if (type.Equals("HEALTH_POWERUP"))
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.Health;
             }
-            else if (type.Equals("Weapon_Powerup"))
+            else if (type.Equals("WEAPON_POWERUP_SPREAD"))
             {
-                picture.Image = global::Soul_Editor.Properties.Resources.Weapon;
+                picture.Image = global::Soul_Editor.Properties.Resources.Spread;
             }
-            else
+            else if (type.Equals("WEAPON_POWERUP_RAPID"))
             {
-                picture.Image = global::Soul_Editor.Properties.Resources.RedBloodvessel;
+                picture.Image = global::Soul_Editor.Properties.Resources.Rapid;
+            }
+            else if (type.Equals("BOSS"))
+            {
+                picture.Image = global::Soul_Editor.Properties.Resources.Boss;
             }
         }
 
@@ -121,10 +156,20 @@ namespace Soul_Editor
 
         public void calculateTime()
         {
-            int milliSeconds = (form.panel2.Width - pos.X) * 2 + form.startTime * 1000;
+            int milliSeconds = (form.panel2.Width - pos.X) * 4 + form.startTime * 1000;
             int minutes = milliSeconds / 60000;
             milliSeconds = milliSeconds % 60000;
             levelTime = new Point(minutes, milliSeconds);
+        }
+
+        public void calculatePosition(int ms)
+        {
+            ms += form.startTime * 1000;
+            int minutes = ms / 60000;
+            int milliseconds = ms % 60000;
+            levelTime = new Point(minutes, milliseconds);
+
+            pos.X = form.panel2.Width - (ms / 4);
         }
 
         private void entity_MouseDown(object sender, MouseEventArgs e)

@@ -23,7 +23,7 @@ namespace Soul.Manager
         private AudioManager audioManager = null;
         private bool changeState = false;
         private int returnValue = 0;
-        private BrainMapMarker currentMapMarker = null;
+        //private BrainMapMarker currentMapMarker = null;
 
         public BrainMapManager(SpriteBatch spriteBatch, Soul game, AudioManager audioManager, InputManager controls, Vector2 position)
         {

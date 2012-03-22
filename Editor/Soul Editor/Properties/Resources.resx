@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Nightmare" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Nightmare.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="background__0002s_0008_Layer-1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\background__0002s_0008_Layer-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -136,19 +133,28 @@
   <data name="DarkThought" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DarkThought.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DarkWhisper" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DarkWhisper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Nightmare" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Nightmare.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="InnerDemon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\InnerDemon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DarkWhisper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DarkWhisper.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PurpleBloodvessel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PurpleBloodvessel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Health" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bullet_glow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Health.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Weapon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\weapon_powerup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Rapid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rapid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Spread" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Spread.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Boss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Boss.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -19,7 +19,7 @@ namespace Soul
         public const int BOSS_HEIGHT = 600;
         public const int BOSS_DEATH_WIDTH = 720;
         public const int BOSS_DEATH_HEIGHT = 720;
-        public const int BOSS_DEATH_OFFSET = 58;
+        public const int BOSS_DEATH_OFFSET = 50;
         public const int BOSS_MAX_HEALTH = 200;
         public const int BOSS_DAMAGE = 20;
         public const string BOSS_IDLE_FILENAME = "SpriteSheets\\Boss";
@@ -57,8 +57,6 @@ namespace Soul
         public const float PLAYER_DEACCELERATION = 1.0f;
         public const int PLAYER_NUMBER_OF_DEATH_GLOWS = 10;
         public const string PLAYER_FILENAME = "SpriteSheets\\Avata animation Sprite_Idle B";
-        public const string PLAYER_SHOOT_ANIM = "SpriteSheets\\avatar_shoot_anim_A-1";
-        public const string PLAYER_GLOW_FILENAME = "Particles\\Heroine Glow Final_2";
         public const string PLAYER_BULLET_FILENAME = "Particles\\bullet_glow";
         public const long PLAYER_FIRE_RATE = 1200000;
         public const float PLAYER_SHOOT_DIMENSION = 128.0f;
@@ -136,7 +134,6 @@ namespace Soul
         public const float LESSER_DEMON_WIDTH = 32.0f;
         public const float LESSER_DEMON_HEIGHT = 32.0f;
         public const string LESSER_DEMON_FILENAME = "SpriteSheets\\LesserDemon1";
-        public const string LESSER_DEMON_FILENAME2 = "SpriteSheets\\LesserDemon2";
         public const float LESSER_DEMON_RADIUS = 32.0f;
         public const int INNER_DEMON_LOWEST_SPAWN_RATE = 1000;
         public const int INNER_DEMON_HIGHEST_SPAWN_RATE = 2000;
@@ -192,9 +189,9 @@ namespace Soul
         public const string LEVEL01 = "Content\\Levels\\level01.map";
         public const string LEVEL02 = "Content\\Levels\\level02.map";
         public const string LEVEL03 = "Content\\Levels\\level03.map";
-        public const string LEVEL04 = "Content\\Levels\\level04.map";
-        public const string LEVEL05 = "Content\\Levels\\level05.map";
-        public const string LEVEL06 = "Content\\Levels\\level06.map";
+        //public const string LEVEL04 = "Content\\Levels\\level04.map";
+        //public const string LEVEL05 = "Content\\Levels\\level05.map";
+        //public const string LEVEL06 = "Content\\Levels\\level06.map";
 
         public const string GUI_SLIDER = "GUI\\options_Slider";
         public const string GUI_SLIDER_MARKER = "GUI\\options_SliderMarker";
@@ -235,6 +232,7 @@ namespace Soul
         public const string GUI_CONTINUE = "GUI\\Continue";
         public const string GUI_GAME_PLAY = "GUI\\Game_play";
         public const string GUI_TUTORIAL = "GUI\\Tutorial";
+        public const string GUI_LEVEL_CLEANSED = "GUI\\Level Cleard";
 
         public const string GUI_FONT = "GUI\\Extrafine";
 

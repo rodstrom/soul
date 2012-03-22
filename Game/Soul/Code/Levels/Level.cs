@@ -10,6 +10,7 @@ namespace Soul
 {
     class Level
     {
+        private bool stopRandomLights = false;
         private string id;
         private bool pause = false;
         private bool quit = false;
@@ -99,6 +100,16 @@ namespace Soul
             this.game = game;
             this.entityManager = entityManager;
             this.id = id;
+            this.controls = controls;
+            levelReader = new LevelReader(filename, game);
+            this.player = player;
+            font = game.Content.Load<SpriteFont>("GUI\\Extrafine");
+            this.audioManager = audioManager;
+            this.lightGenerator = new LightGenerator(game, lights);
+        }
+
+        public void initialize()
+        {
             if (id == "level01")
             {
                 game.constants = new IniFile("Content\\Config\\constants_level01.ini");
@@ -120,21 +131,9 @@ namespace Soul
                 game.lighting = new IniFile("Content\\Config\\lighting_level03.ini");
                 game.lighting.parse();
             }
-
-
-
-            this.controls = controls;
-            levelReader = new LevelReader(filename, game);
-            this.player = player;
-            font = game.Content.Load<SpriteFont>("GUI\\Extrafine");
-            this.audioManager = audioManager;
+            this.stopRandomLights = false;
             levelAmbient = new Color(byte.Parse(game.lighting.getValue("AmbientLight", "ColorR")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorG")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorB")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorA")));
             ambientLight = new Color(byte.Parse(game.lighting.getValue("AmbientLight", "ColorR")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorG")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorB")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorA")));
-            this.lightGenerator = new LightGenerator(game, lights);
-        }
-
-        public void initialize()
-        {
             levelReader.Parse();
             entityManager.AddEntityDataList(levelReader.EntityDataList);
             entityManager.AddLightList(lights);
@@ -214,6 +213,10 @@ namespace Soul
                 tutorialManager = new TutorialManager(spriteBatch, game, font, controls);
                 tutorialManager.Initialize("movement");
             }
+            game.Content.Load<Texture2D>(Constants.BOSS_IDLE_FILENAME);
+            game.Content.Load<Texture2D>(Constants.BOSS_SHOOT_FILENAME);
+            game.Content.Load<Texture2D>(Constants.BOSS_SPAWN_FILENAME);
+            game.Content.Load<Texture2D>(Constants.BOSS_DEATH_FILENAME);
         }
 
         public void shutdown()
@@ -505,8 +508,7 @@ namespace Soul
             game.GraphicsDevice.SetRenderTarget(shadowMap_back);
             game.GraphicsDevice.Clear(Color.Transparent);
 
-            if (useDynamicLights == true)
-            {
+
                 foreach (var light in lights)
                 {
                     if (!light.IsEnabled) continue;
@@ -518,9 +520,12 @@ namespace Soul
                     lightEffectParameterPosition.SetValue(light.Position);
                     lightEffectParameterLightColor.SetValue(light.Color);
                     lightEffectParameterLightDecay.SetValue(light.LightDecay);
-                    if (light.renderSpecular)
+                    if (specularStrenght > 0.0f)
                     {
-                        lightEffect.Parameters["specularStrength"].SetValue(specularStrenght);
+                        if (light.renderSpecular)
+                        {
+                            lightEffect.Parameters["specularStrength"].SetValue(specularStrenght);
+                        }
                     }
 
                     if (light.LightType == LightType.Point)
@@ -539,7 +544,7 @@ namespace Soul
 
                     game.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, Vertices, 0, 2);
                 }
-            }
+            
             game.GraphicsDevice.SetRenderTarget(null);
 
             return shadowMap_back;
@@ -567,7 +572,6 @@ namespace Soul
                 currentAmbientFade = NightmareAmbientFade;
                 currentAmbientFade.Reset();
                 currentAmbientFade.SetCurrentColor(ambientLight);
-                //currentAmbientFade.SetTargetColor(new Color(255, 255, 255, 255));
                 currentAmbientFade.SetTargetColor(levelAmbient);
             }
             playerNightmareHit = true;
@@ -592,6 +596,12 @@ namespace Soul
             {
                 resetLights();
                 doneOnce = true;
+            }
+
+            if (stopRandomLights == false)
+            {
+                lightGenerator.stop = true;
+                stopRandomLights = true;
             }
 
             IncreaseLightSource();

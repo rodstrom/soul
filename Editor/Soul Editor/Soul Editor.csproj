@@ -156,10 +156,12 @@
     <None Include="Resources\Nightmare.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\bullet_glow.png" />
+    <None Include="Resources\Boss.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\weapon_powerup.png" />
+    <Content Include="Resources\Health.png" />
+    <Content Include="Resources\Rapid.png" />
+    <Content Include="Resources\Spread.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -25,6 +25,7 @@ namespace Soul
         private int lightDecay = 0;
         private bool specular = false;
         private float maxPower, minPower = 0f;
+        public bool stop = false;
 
         public LightGenerator(Soul game, List<Light> lights)
         {
@@ -60,12 +61,15 @@ namespace Soul
                 }
             }
 
-            timer += gameTime.ElapsedGameTime.Milliseconds;
-            if (timer >= spawnTime)
+            if (stop == false)
             {
-                tempLights.Add(SpawnLight());
-                timer = 0.0;
-                spawnTime = (double)random.Next(lowestSpawnTime, highestSpawnTime);
+                timer += gameTime.ElapsedGameTime.Milliseconds;
+                if (timer >= spawnTime)
+                {
+                    tempLights.Add(SpawnLight());
+                    timer = 0.0;
+                    spawnTime = (double)random.Next(lowestSpawnTime, highestSpawnTime);
+                }
             }
         }
 

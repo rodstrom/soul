@@ -15,7 +15,7 @@ namespace Soul
         private bool fadeInDone = false;
         private bool fadeOut = false;
         private bool fadeOutDone = false;
-        private int alphaValue = 1;
+        public int alphaValue = 1;
         private int fadeIncrement = 3;
         private int maxAlpha = 0;
 
