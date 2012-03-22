@@ -182,29 +182,36 @@ namespace Soul
             {
                 pointLight.LightDecay = pointLight.LightDecay + 10;
                 pointLight.Power = pointLight.Power - 0.0012f;
-
-                if (animation.CurrentFrame >= animation.MaxFrames)
+                
+                fireTimer += gameTime.ElapsedGameTime.Milliseconds;
+                if (fireTimer > 3000)
                 {
-                    if (animationState <= 2)
-                    {
-                        animationState++;
-                        animation.CurrentFrame = 0;
-                    }
-                    else if (animationState == 3)
-                    {
-                        animationState++;
-                        animation.CurrentFrame = 0;
-                        animation.MaxFrames = 2;
-                    }
-                    else if (animationState == 4)
-                    {
-                        //animationState = 0;           //loop for debug
-                        //animation.CurrentFrame = 0;
-                        //animation.MaxFrames = 6;
-                        entityManager.killAllEntities();
-                        entityManager.cleansedLevel();
-                    }
-                } 
+                    entityManager.killAllEntities();
+                    entityManager.cleansedLevel();
+                }
+
+                //if (animation.CurrentFrame >= animation.MaxFrames)
+                //{
+                //    if (animationState <= 2)
+                //    {
+                //        animationState++;
+                //        animation.CurrentFrame = 0;
+                //    }
+                //    else if (animationState == 3)
+                //    {
+                //        animationState++;
+                //        animation.CurrentFrame = 0;
+                //        animation.MaxFrames = 2;
+                //    }
+                //    else if (animationState == 4)
+                //    {
+                //        //animationState = 0;           //loop for debug
+                //        //animation.CurrentFrame = 0;
+                //        //animation.MaxFrames = 6;
+                //        entityManager.killAllEntities();
+                //        entityManager.cleansedLevel();
+                //    }
+                //} 
             }
 
             if (spawning)
@@ -331,11 +338,13 @@ namespace Soul
             //animation.MaxFrames = 5;
             //animation.CurrentFrame = 0;
             //animationState = 0;
+            //position.Y -= Constants.BOSS_DEATH_OFFSET;
             shooting = false;
             spawning = false;
             entityManager.ghostAll();
             entityManager.brightenScreen();
-            //position.Y -= Constants.BOSS_DEATH_OFFSET;
+
+            fireTimer = 0;
 
             pointLight = new PointLight()
             {
