@@ -135,6 +135,10 @@ namespace Soul_Editor
             {
                 picture.Image = global::Soul_Editor.Properties.Resources.Boss;
             }
+            else if (type.Equals("CHECKPOINT"))
+            {
+                picture.Image = global::Soul_Editor.Properties.Resources.Boss;
+            }
         }
 
         public void Move(int x, int y)

@@ -55,6 +55,7 @@ namespace Soul_Editor
             treeNode11,
             treeNode12,
             treeNode13});
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Checkpoint");
             this.minutes = new System.Windows.Forms.TextBox();
             this.pos = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -214,9 +215,12 @@ namespace Soul_Editor
             treeNode13.Text = "Weapon_Powerup_Rapid";
             treeNode14.Name = "Node2";
             treeNode14.Text = "Powerups";
+            treeNode15.Name = "Node0";
+            treeNode15.Text = "Checkpoint";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode10,
-            treeNode14});
+            treeNode14,
+            treeNode15});
             this.treeView1.Size = new System.Drawing.Size(188, 108);
             this.treeView1.TabIndex = 22;
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);

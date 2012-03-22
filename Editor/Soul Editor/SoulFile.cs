@@ -188,25 +188,25 @@ END
                     continue;   // skip reading the line if it is marked as a comment
                 }
 
+                if (line == "END")
+                {
+                    file.Close();
+                    return;
+                }
+
                 string[] keys = line.Split(new char[] { '|' });
                 string[] time = keys[0].Split(new char[] { ':' });
                 string[] posY = keys[2].Split(new char[] { ',' });
                 int ms =  (((int.Parse(time[0]) * 60000) + int.Parse(time[1])));
                 string name = keys[1];
                 //Point pos = new Point(-x, int.Parse(posY[1]));
-
-                form.addEntity(name, ms, int.Parse(posY[1]));
-
-                if (line == "[END]")
+                int y = 180;
+                if (name != "CHECKPOINT")
                 {
-                    file.Close();
-                    return;
+                    y = int.Parse(posY[1]);
                 }
-                if (lineCounter > 275)
-                {
-                    file.Close();
-                    return;
-                }
+
+                form.addEntity(name, ms, y);
             }
 
             file.Close();
