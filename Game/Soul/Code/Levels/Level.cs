@@ -105,7 +105,7 @@ namespace Soul
             this.player = player;
             font = game.Content.Load<SpriteFont>("GUI\\Extrafine");
             this.audioManager = audioManager;
-            this.lightGenerator = new LightGenerator(game, lights);
+            
         }
 
         public void initialize()
@@ -131,6 +131,7 @@ namespace Soul
                 game.lighting = new IniFile("Content\\Config\\lighting_level03.ini");
                 game.lighting.parse();
             }
+            this.lightGenerator = new LightGenerator(game, lights);
             this.stopRandomLights = false;
             levelAmbient = new Color(byte.Parse(game.lighting.getValue("AmbientLight", "ColorR")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorG")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorB")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorA")));
             ambientLight = new Color(byte.Parse(game.lighting.getValue("AmbientLight", "ColorR")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorG")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorB")), byte.Parse(game.lighting.getValue("AmbientLight", "ColorA")));

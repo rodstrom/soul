@@ -182,9 +182,9 @@ namespace Soul
             {
                 pointLight.LightDecay = pointLight.LightDecay + 10;
                 pointLight.Power = pointLight.Power - 0.0012f;
-                
+
                 fireTimer += gameTime.ElapsedGameTime.Milliseconds;
-                if (fireTimer > 5000)
+                if (fireTimer > 2000)
                 {
                     entityManager.killAllEntities();
                     entityManager.cleansedLevel();
@@ -335,15 +335,16 @@ namespace Soul
             //dimension.Y = Constants.BOSS_DEATH_HEIGHT;
             //dimension.X = Constants.BOSS_DEATH_WIDTH;
             //sprite = spriteDeath;
-            //animation.MaxFrames = 5;
-            //animation.CurrentFrame = 0;
-            //animationState = 0;
-            //position.Y -= Constants.BOSS_DEATH_OFFSET;
+            animation.MaxFrames = 0;
+            animation.CurrentFrame = 0;
+            animation2.MaxFrames = 0;
+            animation2.CurrentFrame = 0;
+            animationState = 0;
             shooting = false;
             spawning = false;
             entityManager.ghostAll();
             entityManager.brightenScreen();
-
+            //position.Y -= Constants.BOSS_DEATH_OFFSET;
             fireTimer = 0;
 
             pointLight = new PointLight()
