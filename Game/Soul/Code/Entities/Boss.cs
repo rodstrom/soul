@@ -325,17 +325,17 @@ namespace Soul
         private void die()
         {
             waitingToDie = true;
-            dimension.Y = Constants.BOSS_DEATH_HEIGHT;
-            dimension.X = Constants.BOSS_DEATH_WIDTH;
-            sprite = spriteDeath;
-            animation.MaxFrames = 5;
-            animation.CurrentFrame = 0;
-            animationState = 0;
+            //dimension.Y = Constants.BOSS_DEATH_HEIGHT;
+            //dimension.X = Constants.BOSS_DEATH_WIDTH;
+            //sprite = spriteDeath;
+            //animation.MaxFrames = 5;
+            //animation.CurrentFrame = 0;
+            //animationState = 0;
             shooting = false;
             spawning = false;
             entityManager.ghostAll();
             entityManager.brightenScreen();
-            position.Y -= Constants.BOSS_DEATH_OFFSET;
+            //position.Y -= Constants.BOSS_DEATH_OFFSET;
 
             pointLight = new PointLight()
             {
